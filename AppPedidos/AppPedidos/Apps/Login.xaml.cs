@@ -23,46 +23,53 @@ namespace AppPedidos.Apps
             InitializeComponent();
             cmdIniciarSesion.Clicked += CmdIniciarSesion_Clicked;
         }
-
         private async void CmdIniciarSesion_Clicked(object sender, EventArgs e)
         {
-            Usuario um = new Usuario();
-            um.UsuarioSistema = txtUsuario.Text;
-            um.Password = txtPassword.Text;
-            if (um.UsuarioSistema != "" && um.Password != "")
+            try
             {
-                if (Metodos.HayConexion())
+                Usuario um = new Usuario();
+                um.UsuarioSistema = txtUsuario.Text;
+                um.Password = txtPassword.Text;
+                if (um.UsuarioSistema != "" && um.Password != "")
                 {
-                    MetodosApi api = new MetodosApi();
-                    var resultado = JObject.Parse(api.ValidarAcceso(um));
-                    if (resultado["respuesta"].ToString() == "S")
+                    if (Metodos.HayConexion())
                     {
-                        um = CompletarInformacion(resultado, um);
-                        if (!BD.ExisteUsuario(um.ID.ToString()))
-                            BD.AgregarUsuario(um);
-                        else
-                            BD.ActualizarUsuario(um);
+                        MetodosApi api = new MetodosApi();
+                        var resultado = JObject.Parse(api.ValidarAcceso(um));
+                        if (resultado["respuesta"].ToString() == "S")
+                        {
+                            um = CompletarInformacion(resultado, um);
+                            if (!BD.ExisteUsuario(um.ID.ToString()))
+                                BD.AgregarUsuario(um);
+                            else
+                                BD.ActualizarUsuario(um);
 
-                        await Navigation.PushModalAsync(new PaginaMaestra("Login"));
+                            await Navigation.PushModalAsync(new PaginaMaestra("Login"));
+                        }
+                        else
+                            await DisplayAlert("Alerta", resultado["mensaje"].ToString(), "OK");
                     }
                     else
-                        await DisplayAlert("Alerta", resultado["mensaje"].ToString(), "OK");
+                    {
+                        um = BD.ValidarUsuario(um.UsuarioSistema, um.Password);
+                        if (um.ID != "")
+                        {
+                            Application.Current.Properties["id_usuario"] = um.ID;
+                            Application.Current.Properties["nombre"] = um.Nombre;
+                            await Navigation.PushModalAsync(new PaginaMaestra("Login"));
+                        }
+                        else
+                            await DisplayAlert("Alerta", "Sin conexion, no se encuentra el usuario en telefono", "OK");
+                    }
                 }
                 else
-                {
-                    um = BD.ValidarUsuario(um.UsuarioSistema, um.Password);
-                    if (um.ID != "")
-                    {
-                        Application.Current.Properties["id_usuario"] = um.ID;
-                        Application.Current.Properties["nombre"] = um.Nombre;
-                        await Navigation.PushModalAsync(new PaginaMaestra("Login"));
-                    }
-                    else
-                        await DisplayAlert("Alerta", "Sin conexion, no se encuentra el usuario en telefono", "OK");
-                }
+                    await DisplayAlert("Alerta", "Ingrese Usuario y Contraseña", "OK");
             }
-            else
-                await DisplayAlert("Alerta", "Ingrese Usuario y Contraseña", "OK");
+            catch (Exception e)
+            {
+               
+              
+            }
         }
         private Usuario CompletarInformacion(JObject resultado, Usuario u)
         {

@@ -4,7 +4,9 @@ using System.Text;
 
 namespace AppPedidos.Apps.Model
 {
-    class Customer
+    public class Customer
     {
+        public string IDCliente { get; set; }
+        public string NombreCliente { get; set; }
     }
 }

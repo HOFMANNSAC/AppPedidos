@@ -4,7 +4,11 @@ using System.Text;
 
 namespace AppPedidos.Apps.Model
 {
-    class Archivo
+    public class Archivo
     {
+        public string NombreArchivo { get; set; }
+        public byte[] ByteArchivo { get; set; }
+        public string NroPedido { get; set; }
     }
+}
 }

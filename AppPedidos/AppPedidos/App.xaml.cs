@@ -1,6 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
+using AppPedidos.Apps;
 using Xamarin.Forms.Xaml;
+
 
 namespace AppPedidos
 {
@@ -10,7 +12,7 @@ namespace AppPedidos
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new Login();
         }
 
         protected override void OnStart()
