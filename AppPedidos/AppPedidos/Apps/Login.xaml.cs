@@ -65,10 +65,9 @@ namespace AppPedidos.Apps
                 else
                     await DisplayAlert("Alerta", "Ingrese Usuario y Contraseña", "OK");
             }
-            catch (Exception e)
+            catch (Exception )
             {
-               
-              
+                throw;
             }
         }
         private Usuario CompletarInformacion(JObject resultado, Usuario u)

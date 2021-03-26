@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:controls="clr-namespace:AppPedidos.Apps.Custom"
              x:Class="AppPedidos.Apps.Views.Admin.Pedidos">
     <ContentPage.Content>
         <StackLayout>
@@ -9,4 +12,115 @@
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
+    <ScrollView>
+        <StackLayout>
+            <StackLayout Margin="20,0" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
+                <Frame HasShadow="False" CornerRadius="5" BorderColor="{StaticResource BorderColor}" BackgroundColor="#F7F7F7">
+
+                    <StackLayout>
+                        <Label Style="{StaticResource LableStyle}" Text="Cliente " />
+                        <combobox:SfComboBox HeightRequest="40" x:Name="cboClientes"/>
+                        <Label Style="{StaticResource LableStyle}" Text="Clase Precio"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtClasePrecio" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Label Style="{StaticResource LableStyle}" Text="Estado Cliente"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtEstadoCliente" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Label Style="{StaticResource LableStyle}" Text="Estado Credito"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtEstadoCredito" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Label Style="{StaticResource LableStyle}" Text="Dirección de Despacho"></Label>
+                        <StackLayout>
+                            <RadioButton Text="Retiro Drogueria" />
+                        </StackLayout>
+                        <Label Style="{StaticResource LableStyle}" Text="Direccion de Despacho " />
+                        <combobox:SfComboBox HeightRequest="40"  x:Name="cboDirecDespacho"/>
+                        <Label Style="{StaticResource LableStyle}" Text="Tipo Pedido"></Label>
+                        <combobox:SfComboBox HeightRequest="40" x:Name="cboTipoPedido">
+                            <combobox:SfComboBox.ComboBoxSource >
+                                <ListCollection:List x:TypeArguments="x:String">
+                                    <x:String>Orden Compra</x:String>
+                                    <x:String>Nota Venta</x:String>
+                                </ListCollection:List>
+                            </combobox:SfComboBox.ComboBoxSource>
+                        </combobox:SfComboBox>
+                        <Label Style="{StaticResource LableStyle}" Text="Nro OC"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtNroOC" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Label Style="{StaticResource LableStyle}" Text="Correo Electronico"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtCorreo" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Label Style="{StaticResource LableStyle}" Text="Telefono"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtTelefono" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Label Style="{StaticResource LableStyle}" Text="Obs. General"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtObsGeneral" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Label Style="{StaticResource LableStyle}" Text="Requiere Descuento"></Label>
+                        <StackLayout>
+                            <RadioButton Text="Requiere Descuento" x:Name="chkReqDescuento" />
+                        </StackLayout>
+                        <Label Style="{StaticResource LableStyle}" Text="Quien Aprueba?"></Label>
+                        <combobox:SfComboBox HeightRequest="40" x:Name="cboQuienAprueba">
+                            <combobox:SfComboBox.ComboBoxSource >
+                                <ListCollection:List x:TypeArguments="x:String">
+                                    <x:String>Gianfranco Solari</x:String>
+                                    <x:String>Antonella Constanzi</x:String>
+                                    <x:String>Angeles Riera</x:String>
+                                    <x:String>Luciana Tieppo</x:String>
+                                    <x:String>Pablo Droguett</x:String>
+                                </ListCollection:List>
+                            </combobox:SfComboBox.ComboBoxSource>
+                        </combobox:SfComboBox>
+                        <Label Style="{StaticResource LableStyle}" Text="Obs Descuento"></Label>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <controls:CustomEntry x:Name="txtObsDescuento" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        </Frame>
+                        <Button Clicked="Button_Clicked" Text="SELECCIONAR ARCHIVO" ContentLayout="Left,5" Image="plus" BackgroundColor="#2196F3" Margin="10,0,10,0" FontSize="Large" TextColor="White" />
+                        <Grid HeightRequest="200" Margin="20" x:Name="ContenedorImagenes">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="camara.png" Grid.Row="0" Grid.Column="0">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Button_Clicked" NumberOfTapsRequired="1" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Grid Grid.Row="0" Grid.Column="1">
+                                <CollectionView x:Name="listPhotos" Margin="0">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid HeightRequest="70" WidthRequest="35">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Image Grid.Row="0" Source="{Binding Source}" Aspect="AspectFill"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Grid>
+                        </Grid>
+                        <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdGuardar" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Guardar"></Button>
+                        <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdSalir" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Volver"></Button>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
