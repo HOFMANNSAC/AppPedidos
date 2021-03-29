@@ -4,6 +4,7 @@
              xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:controls="clr-namespace:AppPedidos.Apps.Custom"
+             xmlns:admin="clr-namespace:AppPedidos.Apps.Views.Admin"
              x:Class="AppPedidos.Apps.Views.Admin.Pedidos">
     <ContentPage.Content>
         <StackLayout>
@@ -15,30 +16,42 @@
     <ScrollView>
         <StackLayout>
             <StackLayout Margin="20,0" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
-                <Frame HasShadow="False" CornerRadius="5" BorderColor="{StaticResource BorderColor}" BackgroundColor="#F7F7F7">
+                <Frame HasShadow="False" CornerRadius="5" BackgroundColor="#F7F7F7">
 
                     <StackLayout>
-                        <Label Style="{StaticResource LableStyle}" Text="Cliente " />
+                        <Label Text="Cliente " />
                         <combobox:SfComboBox HeightRequest="40" x:Name="cboClientes"/>
-                        <Label Style="{StaticResource LableStyle}" Text="Clase Precio"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtClasePrecio" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Clase Precio"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtClasePrecio"></controls:CustomEntry>
                         </Frame>
-                        <Label Style="{StaticResource LableStyle}" Text="Estado Cliente"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtEstadoCliente" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Estado Cliente"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtEstadoCliente" ></controls:CustomEntry>
                         </Frame>
-                        <Label Style="{StaticResource LableStyle}" Text="Estado Credito"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtEstadoCredito" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Estado Credito"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtEstadoCredito" ></controls:CustomEntry>
                         </Frame>
-                        <Label Style="{StaticResource LableStyle}" Text="Dirección de Despacho"></Label>
+                        <Label Text="Dirección de Despacho"></Label>
+                       
                         <StackLayout>
-                            <RadioButton Text="Retiro Drogueria" />
+                            <Grid ColumnDefinitions="120"
+                                  Margin="10"
+                                  HorizontalOptions="Center">
+                                <RadioButton GroupName="Group2">
+                                <RadioButton.Content>
+                                        <StackLayout Orientation="Vertical" Spacing="0">
+                                            <Image Source=""/>
+                                        <Label Text="Retiro en Drogueria" HorizontalTextAlignment="Center" />
+                                    </StackLayout>                                        
+                                </RadioButton.Content>
+                                </RadioButton>
+                            </Grid>                            
                         </StackLayout>
-                        <Label Style="{StaticResource LableStyle}" Text="Direccion de Despacho " />
+                        <Label Text="Direccion de Despacho " />
                         <combobox:SfComboBox HeightRequest="40"  x:Name="cboDirecDespacho"/>
-                        <Label Style="{StaticResource LableStyle}" Text="Tipo Pedido"></Label>
+                        <Label Text="Tipo Pedido"></Label>
                         <combobox:SfComboBox HeightRequest="40" x:Name="cboTipoPedido">
                             <combobox:SfComboBox.ComboBoxSource >
                                 <ListCollection:List x:TypeArguments="x:String">
@@ -47,27 +60,37 @@
                                 </ListCollection:List>
                             </combobox:SfComboBox.ComboBoxSource>
                         </combobox:SfComboBox>
-                        <Label Style="{StaticResource LableStyle}" Text="Nro OC"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtNroOC" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Nro OC"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtNroOC"></controls:CustomEntry>
                         </Frame>
-                        <Label Style="{StaticResource LableStyle}" Text="Correo Electronico"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtCorreo" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Correo Electronico"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtCorreo" ></controls:CustomEntry>
                         </Frame>
-                        <Label Style="{StaticResource LableStyle}" Text="Telefono"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtTelefono" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Telefono"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtTelefono"></controls:CustomEntry>
                         </Frame>
-                        <Label Style="{StaticResource LableStyle}" Text="Obs. General"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtObsGeneral" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Obs. General"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtObsGeneral"></controls:CustomEntry>
                         </Frame>
-                        <Label Style="{StaticResource LableStyle}" Text="Requiere Descuento"></Label>
                         <StackLayout>
-                            <RadioButton Text="Requiere Descuento" x:Name="chkReqDescuento" />
+                            <Grid ColumnDefinitions="120"
+                                  Margin="10"
+                                  HorizontalOptions="Center">
+                                <RadioButton GroupName="Group1" x:Name="chkReqDescuento">
+                                <RadioButton.Content>
+                                        <StackLayout Orientation="Vertical" Spacing="0">
+                                            <Image Source=""/>
+                                        <Label Text="ReqDescuento" HorizontalTextAlignment="Center" />
+                                    </StackLayout>                                        
+                                </RadioButton.Content>
+                                </RadioButton>
+                            </Grid>                            
                         </StackLayout>
-                        <Label Style="{StaticResource LableStyle}" Text="Quien Aprueba?"></Label>
+                        <Label Text="Quien Aprueba?"></Label>
                         <combobox:SfComboBox HeightRequest="40" x:Name="cboQuienAprueba">
                             <combobox:SfComboBox.ComboBoxSource >
                                 <ListCollection:List x:TypeArguments="x:String">
@@ -79,9 +102,9 @@
                                 </ListCollection:List>
                             </combobox:SfComboBox.ComboBoxSource>
                         </combobox:SfComboBox>
-                        <Label Style="{StaticResource LableStyle}" Text="Obs Descuento"></Label>
-                        <Frame Style="{StaticResource FrameStyle}">
-                            <controls:CustomEntry x:Name="txtObsDescuento" Style="{StaticResource EntryStyle}" ></controls:CustomEntry>
+                        <Label Text="Obs Descuento"></Label>
+                        <Frame>
+                            <controls:CustomEntry x:Name="txtObsDescuento"></controls:CustomEntry>
                         </Frame>
                         <Button Clicked="Button_Clicked" Text="SELECCIONAR ARCHIVO" ContentLayout="Left,5" Image="plus" BackgroundColor="#2196F3" Margin="10,0,10,0" FontSize="Large" TextColor="White" />
                         <Grid HeightRequest="200" Margin="20" x:Name="ContenedorImagenes">
@@ -115,8 +138,8 @@
                                 </CollectionView>
                             </Grid>
                         </Grid>
-                        <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdGuardar" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Guardar"></Button>
-                        <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdSalir" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Volver"></Button>
+                        <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdGuardar" TextColor="White" Text="Guardar"></Button>
+                        <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdSalir" TextColor="White" Text="Volver"></Button>
                     </StackLayout>
                 </Frame>
             </StackLayout>

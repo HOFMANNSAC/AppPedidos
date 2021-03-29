@@ -2,8 +2,8 @@
 using System.Net;
 using System.Text;
 using AppPedidos.Apps.Model;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace AppPedidos.Apps.Helpers
 {
@@ -34,7 +34,7 @@ namespace AppPedidos.Apps.Helpers
             string respuestaString = "";
             try
             {
-                Uri uri = new Uri("https://sellout.drogueriahofmann.cl/Pedidos/InsertarPedidos");
+                Uri uri = new Uri("https://localhost:44370/Pedidos/InsertarPedidos");
                 NameValueCollection parametros = new NameValueCollection
                     {
                         { "ID", pe.ID },

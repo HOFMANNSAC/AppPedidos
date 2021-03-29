@@ -20,6 +20,9 @@ namespace AppPedidos.Apps
         public static BDLocal BD;
         public Login()
         {
+            string db = "bd_local.db3";
+            string ruta = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), db);
+            BD = new BDLocal(ruta);
             InitializeComponent();
             cmdIniciarSesion.Clicked += CmdIniciarSesion_Clicked;
         }
@@ -44,7 +47,7 @@ namespace AppPedidos.Apps
                             else
                                 BD.ActualizarUsuario(um);
 
-                            await Navigation.PushModalAsync(new PaginaMaestra("Login"));
+                            await Navigation.PushModalAsync(new PaginaMaestra("Pedidos"));
                         }
                         else
                             await DisplayAlert("Alerta", resultado["mensaje"].ToString(), "OK");
@@ -65,7 +68,7 @@ namespace AppPedidos.Apps
                 else
                     await DisplayAlert("Alerta", "Ingrese Usuario y Contraseña", "OK");
             }
-            catch (Exception )
+            catch (Exception ex)
             {
                 throw;
             }

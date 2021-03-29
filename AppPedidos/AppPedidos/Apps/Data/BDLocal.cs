@@ -11,7 +11,7 @@ namespace AppPedidos.Apps.Data
     {
         public BDLocal(string path) : base(path)
         {
-
+            CrearTablas();
         }
         void CrearTablas()
         {
