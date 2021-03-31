@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
-             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:controls="clr-namespace:AppPedidos.Apps.Custom"
              xmlns:admin="clr-namespace:AppPedidos.Apps.Views.Admin"
              x:Class="AppPedidos.Apps.Views.Admin.Pedidos">
@@ -19,8 +18,11 @@
                 <Frame HasShadow="False" CornerRadius="5" BackgroundColor="#F7F7F7">
 
                     <StackLayout>
-                        <Label Text="Cliente " />
-                        <combobox:SfComboBox HeightRequest="40" x:Name="cboClientes"/>
+                        <StackLayout>
+                            <Label Text="Clientes"></Label>
+                            <Picker x:Name="clientes"></Picker>
+                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboClientes"></BoxView>
+                        </StackLayout>
                         <Label Text="Clase Precio"></Label>
                         <Frame>
                             <controls:CustomEntry x:Name="txtClasePrecio"></controls:CustomEntry>
@@ -33,33 +35,30 @@
                         <Frame>
                             <controls:CustomEntry x:Name="txtEstadoCredito" ></controls:CustomEntry>
                         </Frame>
-                        <Label Text="Dirección de Despacho"></Label>
-                       
                         <StackLayout>
                             <Grid ColumnDefinitions="120"
                                   Margin="10"
-                                  HorizontalOptions="Center">
+                                  HorizontalOptions="Start">
                                 <RadioButton GroupName="Group2">
-                                <RadioButton.Content>
+                                    <RadioButton.Content>
                                         <StackLayout Orientation="Vertical" Spacing="0">
                                             <Image Source=""/>
-                                        <Label Text="Retiro en Drogueria" HorizontalTextAlignment="Center" />
-                                    </StackLayout>                                        
-                                </RadioButton.Content>
+                                            <Label Text="Retiro en Drogueria" HorizontalTextAlignment="Center" />
+                                        </StackLayout>
+                                    </RadioButton.Content>
                                 </RadioButton>
-                            </Grid>                            
+                            </Grid>
                         </StackLayout>
-                        <Label Text="Direccion de Despacho " />
-                        <combobox:SfComboBox HeightRequest="40"  x:Name="cboDirecDespacho"/>
-                        <Label Text="Tipo Pedido"></Label>
-                        <combobox:SfComboBox HeightRequest="40" x:Name="cboTipoPedido">
-                            <combobox:SfComboBox.ComboBoxSource >
-                                <ListCollection:List x:TypeArguments="x:String">
-                                    <x:String>Orden Compra</x:String>
-                                    <x:String>Nota Venta</x:String>
-                                </ListCollection:List>
-                            </combobox:SfComboBox.ComboBoxSource>
-                        </combobox:SfComboBox>
+                        <StackLayout>
+                            <Label Text="Dirección de Despacho"></Label>
+                            <Picker x:Name="DirDespacho" SelectedIndexChanged="DirDespacho_SelectedIndexChanged"></Picker>
+                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboDirecDespacho"></BoxView>
+                        </StackLayout>
+                        <StackLayout>
+                            <Label Text="Tipo Pedido"></Label>
+                            <Picker x:Name="tipoPedido"></Picker>
+                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboTipoPedido"></BoxView>
+                        </StackLayout>
                         <Label Text="Nro OC"></Label>
                         <Frame>
                             <controls:CustomEntry x:Name="txtNroOC"></controls:CustomEntry>
@@ -90,18 +89,11 @@
                                 </RadioButton>
                             </Grid>                            
                         </StackLayout>
-                        <Label Text="Quien Aprueba?"></Label>
-                        <combobox:SfComboBox HeightRequest="40" x:Name="cboQuienAprueba">
-                            <combobox:SfComboBox.ComboBoxSource >
-                                <ListCollection:List x:TypeArguments="x:String">
-                                    <x:String>Gianfranco Solari</x:String>
-                                    <x:String>Antonella Constanzi</x:String>
-                                    <x:String>Angeles Riera</x:String>
-                                    <x:String>Luciana Tieppo</x:String>
-                                    <x:String>Pablo Droguett</x:String>
-                                </ListCollection:List>
-                            </combobox:SfComboBox.ComboBoxSource>
-                        </combobox:SfComboBox>
+                        <StackLayout>
+                            <Label Text="¿Quien Aprueba?"></Label>
+                            <Picker x:Name="quienaprueba"></Picker>
+                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboQuienAprueba"></BoxView>
+                        </StackLayout>
                         <Label Text="Obs Descuento"></Label>
                         <Frame>
                             <controls:CustomEntry x:Name="txtObsDescuento"></controls:CustomEntry>

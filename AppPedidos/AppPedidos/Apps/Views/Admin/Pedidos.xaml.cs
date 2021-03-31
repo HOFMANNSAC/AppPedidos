@@ -22,30 +22,34 @@ namespace AppPedidos.Apps.Views.Admin
     public partial class Pedidos : ContentPage
     {
         ObservableCollection<MediaModel> Photos = new ObservableCollection<MediaModel>();
+        public string Name { get; set; }
+
+        List<Pedidos> pedidos;
         public Pedidos()
         {
             InitializeComponent();
+            //cargarBoxDirDespacho();
             cmdGuardar.Clicked += CmdGuardar_Clicked;
             //CargarClientes();
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
         {
-                string resultado = "";
-                Pedido pe = new Pedido();
-                MetodosApi api = new MetodosApi();
-                Usuario u = new Usuario();
-                Archivo a = new Archivo();
+            string resultado = "";
+            Pedido pe = new Pedido();
+            MetodosApi api = new MetodosApi();
+            Usuario u = new Usuario();
+            Archivo a = new Archivo();
 
             try
             {
-                pe.CustID = (string)cboClientes.SelectedItem;
-                pe.SHipToId = (string)cboDirecDespacho.SelectedItem;
+                pe.CustID = cboClientes.ToString();
+                pe.SHipToId = cboDirecDespacho.ToString(); ;
                 pe.CustOrdNbr = txtNroOC.Text;
                 pe.UsuarioCrea = u.UsuarioSistema;
-                pe.TipoPedido = (string)cboTipoPedido.SelectedItem;
+                pe.TipoPedido = cboTipoPedido.ToString();
                 pe.ObsGeneral = txtObsGeneral.Text;
                 pe.ReqDescuento = chkReqDescuento.ToString();
-                pe.QuienAprueba = (string)cboQuienAprueba.SelectedItem;
+                pe.QuienAprueba = cboQuienAprueba.ToString();
                 pe.ObsDescuento = txtObsDescuento.Text;
                 pe.TotalOrden = "";
                 pe.NroProductos = "";
@@ -82,7 +86,7 @@ namespace AppPedidos.Apps.Views.Admin
                 MetodosApi api = new MetodosApi();
                 Customer c = new Customer();
                 string resultado = string.Empty;
-                c.NombreCliente = (string)cboClientes.SelectedItem;
+                c.NombreCliente = cboClientes.ToString();
                 resultado = "S";
                 if (resultado == "S")
                     api.CargarCLientes(c);
@@ -127,6 +131,35 @@ namespace AppPedidos.Apps.Views.Admin
                 photo.Dispose();
             }
             listPhotos.ItemsSource = Photos;
+        }
+        public void cargarBoxDirDespacho()
+        {
+            try
+            {
+                string resultado = "";
+
+                pedidos = new List<Pedidos>
+                {
+                    new Pedidos { Name= "Orden De Compra" },
+                    new Pedidos { Name = "Nota Venta" }
+                };
+                foreach (var Name in pedidos)
+                {
+                    DirDespacho.Items.Add(Name.Name);
+
+                }
+                resultado = "S";
+            }
+            catch (Exception ex)
+            {
+
+                return;
+            }
+        }
+
+        private void DirDespacho_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarBoxDirDespacho();
         }
     }
 }
