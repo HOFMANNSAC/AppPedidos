@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using AppPedidos.Apps.Views.Admin;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,7 +25,7 @@ namespace AppPedidos.Apps.Views
             {
                 Title = "VerPedidos",
                 IconSource = "",
-                TargetType = typeof(MainPage)
+                TargetType = typeof(Pedidos)
             });
             Listado.ItemTemplate = new DataTemplate(() =>
             {

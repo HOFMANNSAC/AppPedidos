@@ -22,15 +22,12 @@ namespace AppPedidos.Apps.Views.Admin
     public partial class Pedidos : ContentPage
     {
         ObservableCollection<MediaModel> Photos = new ObservableCollection<MediaModel>();
-        public string Name { get; set; }
-
-        List<Pedidos> pedidos;
         public Pedidos()
         {
             InitializeComponent();
-            //cargarBoxDirDespacho();
+            cargarBoxquienAprueba();
             cmdGuardar.Clicked += CmdGuardar_Clicked;
-            //CargarClientes();
+            cargarBoxTipoPedido();
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
         {
@@ -42,7 +39,7 @@ namespace AppPedidos.Apps.Views.Admin
 
             try
             {
-                pe.CustID = cboClientes.ToString();
+                pe.CustID = "";
                 pe.SHipToId = cboDirecDespacho.ToString(); ;
                 pe.CustOrdNbr = txtNroOC.Text;
                 pe.UsuarioCrea = u.UsuarioSistema;
@@ -86,7 +83,7 @@ namespace AppPedidos.Apps.Views.Admin
                 MetodosApi api = new MetodosApi();
                 Customer c = new Customer();
                 string resultado = string.Empty;
-                c.NombreCliente = cboClientes.ToString();
+                c.NombreCliente = "";
                 resultado = "S";
                 if (resultado == "S")
                     api.CargarCLientes(c);
@@ -132,34 +129,60 @@ namespace AppPedidos.Apps.Views.Admin
             }
             listPhotos.ItemsSource = Photos;
         }
-        public void cargarBoxDirDespacho()
+        public void cargarBoxTipoPedido()
         {
+            string resultado = string.Empty;
             try
             {
-                string resultado = "";
-
-                pedidos = new List<Pedidos>
+                List<TipoPedido> tipoPedidos = new List<TipoPedido>();
                 {
-                    new Pedidos { Name= "Orden De Compra" },
-                    new Pedidos { Name = "Nota Venta" }
+                    tipoPedidos.Add(new TipoPedido() { ID = 1, Name = "Orden Compra" });
+                    tipoPedidos.Add(new TipoPedido() { ID = 2, Name = "Nota Venta" });
                 };
-                foreach (var Name in pedidos)
+                foreach (var Name in tipoPedidos)
                 {
-                    DirDespacho.Items.Add(Name.Name);
+                    tipoPedido.Items.Add(Name.Name);
 
                 }
                 resultado = "S";
             }
             catch (Exception ex)
             {
-
-                return;
+                resultado = "N";
             }
         }
 
-        private void DirDespacho_SelectedIndexChanged(object sender, EventArgs e)
+        public void cargarBoxquienAprueba()
         {
-            cargarBoxDirDespacho();
+            string resultado = string.Empty;
+            try
+            {
+                List<QuienAprueba> quienApruebas = new List<QuienAprueba>();
+                {
+                    quienApruebas.Add(new QuienAprueba() { ID = 1, Name = "Gianfranco Solari" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 2, Name = "Antonella Constanzi" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 3, Name = "Angela Riera" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 4, Name = "Luciana Tieppo" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 5, Name = "Pablo Droguett" });
+                };
+                foreach (var name in quienApruebas)
+                {
+                    quienAprueba.Items.Add(name.Name);
+                }
+                resultado = "S";
+            }
+            catch (Exception)
+            {
+                resultado = "N";
+            }
+        }
+        private void tipoPedido_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void quienaprueba_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

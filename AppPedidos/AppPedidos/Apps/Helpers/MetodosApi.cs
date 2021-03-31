@@ -98,5 +98,24 @@ namespace AppPedidos.Apps.Helpers
             }
             return respuestaString;
         }
+        public string ObtenerDireccionCliente(Pedido p)
+        {
+            string respuestaString = string.Empty;
+            try
+            {
+                Uri uri = new Uri("http://localhost:54297/api/ObtenerDireccionCliente");
+                NameValueCollection parametros = new NameValueCollection
+                {
+                    {"CustId", p.CustID }
+                };
+                byte[] respuestaByte = new WebClient().UploadValues(uri,"POST",parametros);
+                respuestaString = Encoding.UTF8.GetString(respuestaByte);
+            }
+            catch (Exception)
+            {
+                respuestaString= "[\"N\",\"Error al Enviar la petición.\"]";
+            }
+            return respuestaString;
+        }
     }
 }
