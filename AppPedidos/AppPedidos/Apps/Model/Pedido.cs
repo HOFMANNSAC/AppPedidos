@@ -13,11 +13,11 @@ namespace AppPedidos.Apps.Model
         public string UsuarioCrea { get; set; }
         public string TipoPedido { get; set; }
         public string ObsGeneral { get; set; }
-        public string ReqDescuento { get; set; }
+        public bool ReqDescuento { get; set; }
         public string QuienAprueba { get; set; }
         public string ObsDescuento { get; set; }
         public string TotalOrden { get; set; }
         public string NroProductos { get; set; }
-        public string RetiroDrogueria { get; set; }
+        public bool RetiroDrogueria { get; set; }
     }
 }

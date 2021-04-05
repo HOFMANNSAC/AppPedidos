@@ -36,21 +36,30 @@ namespace AppPedidos.Apps.Views.Admin
             MetodosApi api = new MetodosApi();
             Usuario u = new Usuario();
             Archivo a = new Archivo();
-
+            bool chekReqDescuento = false;
+            bool chekRetiroDrogueria = false;
+            if (chkReqDescuento.IsChecked)
+            {
+                chekReqDescuento = true;
+            }
+            if (chkRetiroDrogueria.IsChecked)
+            {
+                chekRetiroDrogueria = true;
+            }
             try
             {
                 pe.CustID = "";
-                pe.SHipToId = cboDirecDespacho.ToString(); ;
+                pe.SHipToId = cboDirecDespacho.ToString();
                 pe.CustOrdNbr = txtNroOC.Text;
                 pe.UsuarioCrea = u.UsuarioSistema;
                 pe.TipoPedido = cboTipoPedido.ToString();
                 pe.ObsGeneral = txtObsGeneral.Text;
-                pe.ReqDescuento = chkReqDescuento.ToString();
+                pe.ReqDescuento = chekReqDescuento;
                 pe.QuienAprueba = cboQuienAprueba.ToString();
                 pe.ObsDescuento = txtObsDescuento.Text;
                 pe.TotalOrden = "";
                 pe.NroProductos = "";
-                pe.RetiroDrogueria = "";
+                pe.RetiroDrogueria = chekRetiroDrogueria;
                 var array = new ArrayList();
                 foreach (var item in Photos)
                 {
@@ -60,7 +69,10 @@ namespace AppPedidos.Apps.Views.Admin
                     a.ByteArchivo = Convert;
                     a.NroPedido = a.NroPedido;
                 }
-                var respuesta = JArray.Parse(api.InsertarArchivos(a));
+                if (Photos.Count>0)
+                {
+                    var respuesta = JArray.Parse(api.InsertarArchivos(a));
+                }
                 resultado = "S";
                 if (resultado == "S")
                 {
@@ -142,7 +154,6 @@ namespace AppPedidos.Apps.Views.Admin
                 foreach (var Name in tipoPedidos)
                 {
                     tipoPedido.Items.Add(Name.Name);
-
                 }
                 resultado = "S";
             }

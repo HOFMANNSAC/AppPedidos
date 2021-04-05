@@ -43,12 +43,12 @@ namespace AppPedidos.Apps.Helpers
                         { "UsuarioCrea", pe.UsuarioCrea },
                         { "TipoPedido", pe.TipoPedido },
                         { "ObsGeneral", pe.ObsGeneral },
-                        { "ReqDescuento", pe.ReqDescuento },
+                        { "ReqDescuento", pe.ReqDescuento.ToString()},
                         { "QuienAprueba", pe.QuienAprueba },
                         { "ObsDescuento", pe.ObsDescuento },
                         { "TotalOrden", pe.TotalOrden },
                         { "NroProductos", pe.NroProductos },
-                        { "RetiroDrogueria", pe.RetiroDrogueria },
+                        { "RetiroDrogueria", pe.RetiroDrogueria.ToString()},
                     };
                 byte[] respuestaByte = new WebClient().UploadValues(uri, "POST", parametros);
                 respuestaString = Encoding.UTF8.GetString(respuestaByte);
