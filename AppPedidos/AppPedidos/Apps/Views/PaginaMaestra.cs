@@ -19,7 +19,7 @@ namespace AppPedidos.Apps.Views
                 {
                     case "Login":
                     case "Pedidos":
-                        Detail = new NavigationPage(new Pedidos());
+                        Detail = new NavigationPage(new RealizarPedidos());
                         break;
                     default:
                         break;

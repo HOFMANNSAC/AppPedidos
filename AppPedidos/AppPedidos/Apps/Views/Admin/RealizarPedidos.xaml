@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppPedidos.Apps.Views.Admin.RealizarPedidos">
+    <NavigationPage.TitleView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <Image Source="pedido" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+            <Label x:Name="txtTitulo" Text="Pedidos" TextColor="White" FontSize="Medium" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
+        </Grid>
+    </NavigationPage.TitleView>
+    <ScrollView>
+        <StackLayout BackgroundColor="White" Margin="10,10,10,10">
+            <Button BackgroundColor="Green" TextColor="White" Text="Agregar" x:Name="cmdAgregar"></Button>
+            <Label Text="PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Codigo" Grid.Column="0" Grid.Row="0"></Label>
+                <Label Text="Cantidad" Grid.Column="1" Grid.Row="0"></Label>
+                <Label Text="Total" Grid.Column="2" Grid.Row="0"></Label>
+                <Label Text="Quitar" Grid.Column="3" Grid.Row="0"></Label>
+                <Label Text="Sumar" Grid.Column="4" Grid.Row="0"></Label>
+                
+                <ListView  x:Name="listProductos" HeightRequest="300" Grid.Row="1" Grid.ColumnSpan="5" ItemsSource="{Binding ProductosList, Mode=TwoWay}"   >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid VerticalOptions="CenterAndExpand" BackgroundColor="White" ColumnSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Codigo}" Grid.Column="0" Grid.Row="0" FontSize="Large"/>
+                                <Label Text="{Binding Cantidad}" Grid.Column="1" Grid.Row="0"/>
+                                <Label Text="{Binding Total}" Grid.Column="2" Grid.Row="0"/>
+
+                                <Image x:Name="btnQuitar" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0" Source="restar.png" HeightRequest="20" WidthRequest="20">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Image x:Name="btnSumar" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0" Source="sumar.png" HeightRequest="20" WidthRequest="20">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

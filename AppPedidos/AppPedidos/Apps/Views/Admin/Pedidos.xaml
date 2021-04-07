@@ -22,107 +22,167 @@
     </NavigationPage.TitleView>
     <ScrollView>
         <StackLayout>
-            <StackLayout Margin="20,0" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
-                <Frame HasShadow="False" CornerRadius="5" BackgroundColor="#F7F7F7">
+            <Frame HasShadow="False" CornerRadius="5" BackgroundColor="#F7F7F7">
                     <StackLayout>
-                        <StackLayout>
-                            <Label Text="Buscar Cliente"></Label>
-                            <SearchBar x:Name="CountriesSearchBar"                                         
-                                       BackgroundColor="White"/>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Clase Precio"></Label>
-                            <Entry x:Name="txtClasePrecio"></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Estado Cliente"></Label>
-                            <Entry x:Name="txtEstadoCliente"></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Estado Credito"></Label>
-                            <Entry x:Name="txtEstadoCredito"></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label  Text="Retiro en Drogueria" VerticalOptions="Center" />
-                            <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkRetiroDrogueria" VerticalOptions="CenterAndExpand" />
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Dirección de Despacho"></Label>
-                            <Picker x:Name="DirDespacho" Title="Selecciona Direccion Despacho" ></Picker>
-                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboDirecDespacho"></BoxView>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Tipo Pedido"></Label>
-                            <Picker x:Name="tipoPedido" Title="Selecciona Tipo Pedido" SelectedIndexChanged="tipoPedido_SelectedIndexChanged"></Picker>
-                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboTipoPedido"></BoxView>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Nro OC"></Label>
-                            <Entry x:Name="txtNroOC" ></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Correo Electronico"></Label>
-                            <Entry x:Name="txtCorreo"></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Telefono"></Label>
-                            <Entry x:Name="txtTelefono"></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Obs. General"></Label>
-                            <Entry x:Name="txtObsGeneral"></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label  Text="Requiere Descuento" VerticalOptions="Center" />
-                            <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkReqDescuento" VerticalOptions="CenterAndExpand" />
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="¿Quien Aprueba?"></Label>
-                            <Picker x:Name="quienAprueba" Title="Selecciona Quien Aprueba" SelectedIndexChanged="quienaprueba_SelectedIndexChanged"></Picker>
-                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboQuienAprueba"></BoxView>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Obs Descuento"></Label>
-                            <Entry x:Name="txtObsDescuento"></Entry>
-                        </StackLayout>
-                        <StackLayout>
-                            <Button Clicked="Button_Clicked" Text="SELECCIONAR ARCHIVO" ContentLayout="Left,5" Image="plus" BackgroundColor="green" Margin="10,0,10,0" FontSize="Large" TextColor="White" />
-                            <Grid HeightRequest="200" Margin="20" x:Name="ContenedorImagenes">
+                        <Button BackgroundColor="Green" TextColor="White" Text="Agregar"></Button>
+                        <Label Text="PRODUCTOS" TextColor="Black" Margin="10,5,1,1" FontAttributes="Bold" FontSize="Small" />
+                        <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
+                        <StackLayout Grid.Row="0 ">
+                            <Grid Grid.Row="2" VerticalOptions="CenterAndExpand" Margin="10" Padding="10">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Source="camara.png" Grid.Row="0" Grid.Column="0">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="Button_Clicked" NumberOfTapsRequired="1" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                                <Grid Grid.Row="0" Grid.Column="1">
-                                    <CollectionView x:Name="listPhotos" Margin="0">
-                                        <CollectionView.ItemsLayout>
-                                            <GridItemsLayout Orientation="Vertical" Span="3"/>
-                                        </CollectionView.ItemsLayout>
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid HeightRequest="70" WidthRequest="35">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <Image Grid.Row="0" Source="{Binding Source}" Aspect="AspectFill"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-                                </Grid>
+                                <Label Text="Codigo" Grid.Column="0" Grid.Row="0"></Label>
+                                <Label Text="Cantidad" Grid.Column="1" Grid.Row="0"></Label>
+                                <Label Text="Total" Grid.Column="2" Grid.Row="0"></Label>
+                                <Label Text="Quitar" Grid.Column="3" Grid.Row="0"></Label>
+                                <Label Text="Sumar" Grid.Column="4" Grid.Row="0"></Label>
+                                <ListView  x:Name="listProductos" Grid.Row="4" ItemsSource="{Binding ProductosList}" Margin="4" BackgroundColor="Blue" >
+                                    <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid VerticalOptions="CenterAndExpand" BackgroundColor="White" ColumnSpacing="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="40"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding Codigo}" Grid.Column="0" Grid.Row="0" FontSize="Large"/>
+                                                <Label Text="{Binding Cantidad}" Grid.Column="1" Grid.Row="0"/>
+                                                <Label Text="{Binding TotalWay}" Grid.Column="2" Grid.Row="0"/>
+
+                                                <Image x:Name="btnQuitar" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0" Source="restar.png" HeightRequest="20" WidthRequest="20">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <Image x:Name="btnSumar" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0" Source="sumar.png" HeightRequest="20" WidthRequest="20">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </Grid>
+                                    </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </Grid>
                         </StackLayout>
-                        <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdGuardar" BackgroundColor="Blue" TextColor="White" Text="Guardar"></Button>
+                        <Label Text="INGRESAR PEDIDO" TextColor="Black" Margin="10,5,1,1" FontAttributes="Bold" FontSize="Small" />
+                        <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
+                        <StackLayout Margin="10,5,5,5">
+                            <FlexLayout Direction="Column">
+                                <Label Text="" TextColor="Black" FontSize="Medium" x:Name="txt" />
+                            </FlexLayout>
+                            <StackLayout>
+                                <Label Text="Buscar Cliente"></Label>
+                                <SearchBar x:Name="CountriesSearchBar"                                         
+                                       BackgroundColor="White"/>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Clase Precio"></Label>
+                                <Entry x:Name="txtClasePrecio"></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Estado Cliente"></Label>
+                                <Entry x:Name="txtEstadoCliente"></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Estado Credito"></Label>
+                                <Entry x:Name="txtEstadoCredito"></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label  Text="Retiro en Drogueria" VerticalOptions="Center" />
+                                <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkRetiroDrogueria" VerticalOptions="CenterAndExpand" />
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Dirección de Despacho"></Label>
+                                <Picker x:Name="DirDespacho" Title="Selecciona Direccion Despacho" ></Picker>
+                                <BoxView VerticalOptions="CenterAndExpand" x:Name="cboDirecDespacho"></BoxView>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Tipo Pedido"></Label>
+                                <Picker x:Name="tipoPedido" Title="Selecciona Tipo Pedido" SelectedIndexChanged="tipoPedido_SelectedIndexChanged"></Picker>
+                                <BoxView VerticalOptions="CenterAndExpand" x:Name="cboTipoPedido"></BoxView>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Nro OC"></Label>
+                                <Entry x:Name="txtNroOC" ></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Correo Electronico"></Label>
+                                <Entry x:Name="txtCorreo"></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Telefono"></Label>
+                                <Entry x:Name="txtTelefono"></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Obs. General"></Label>
+                                <Entry x:Name="txtObsGeneral"></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label  Text="Requiere Descuento" VerticalOptions="Center" />
+                                <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkReqDescuento" VerticalOptions="CenterAndExpand" />
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="¿Quien Aprueba?"></Label>
+                                <Picker x:Name="quienAprueba" Title="Selecciona Quien Aprueba" SelectedIndexChanged="quienaprueba_SelectedIndexChanged"></Picker>
+                                <BoxView VerticalOptions="CenterAndExpand" x:Name="cboQuienAprueba"></BoxView>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Obs Descuento"></Label>
+                                <Entry x:Name="txtObsDescuento"></Entry>
+                            </StackLayout>
+                            <StackLayout>
+                                <Button Clicked="Button_Clicked" Text="SELECCIONAR ARCHIVO" ContentLayout="Left,5" ImageSource="pedido.png" BackgroundColor="green" Margin="10,0,10,0" FontSize="Large" TextColor="White" />
+                                <Grid HeightRequest="200" Margin="20" x:Name="ContenedorImagenes">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="camara.png" Grid.Row="0" Grid.Column="0">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="Button_Clicked" NumberOfTapsRequired="1" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Grid Grid.Row="0" Grid.Column="1">
+                                        <CollectionView x:Name="listPhotos" Margin="0">
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout Orientation="Vertical" Span="3"/>
+                                            </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid HeightRequest="70" WidthRequest="35">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0" Source="{Binding Source}" Aspect="AspectFill"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </Grid>
+                                </Grid>
+                            </StackLayout>
+                            <Button BackgroundColor="Green" Text="Guardar" x:Name="cmdGuardar"  TextColor="White" Grid.Row="0"/>
+                            <Button BackgroundColor="Gray" Text="Borrar"  TextColor="White" Grid.Row="0" Grid.Column="1" />
+                        </StackLayout>
                     </StackLayout>
                 </Frame>
             </StackLayout>
-        </StackLayout>
     </ScrollView>
 </ContentPage>

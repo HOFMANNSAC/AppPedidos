@@ -22,12 +22,15 @@ namespace AppPedidos.Apps.Views.Admin
     public partial class Pedidos : ContentPage
     {
         ObservableCollection<MediaModel> Photos = new ObservableCollection<MediaModel>();
+        public IList<Productos> ProductosList { get; set; }
         public Pedidos()
         {
             InitializeComponent();
             cargarBoxquienAprueba();
             cmdGuardar.Clicked += CmdGuardar_Clicked;
             cargarBoxTipoPedido();
+            cargarListaProductos();
+            BindingContext = this;
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
         {
@@ -157,12 +160,11 @@ namespace AppPedidos.Apps.Views.Admin
                 }
                 resultado = "S";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 resultado = "N";
             }
         }
-
         public void cargarBoxquienAprueba()
         {
             string resultado = string.Empty;
@@ -193,6 +195,21 @@ namespace AppPedidos.Apps.Views.Admin
         }
         private void quienaprueba_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void cargarListaProductos()
+        {
+            string resultado = string.Empty;
+            try
+            {
+                List<Productos> ProductosList = new List<Productos>();
+                ProductosList.Add(new Productos() { Codigo = "ANEANE010", Cantidad = 3, Total = 10000 });           
+            }
+            catch (Exception)
+            {
+                resultado = "N";
+            }
 
         }
     }
