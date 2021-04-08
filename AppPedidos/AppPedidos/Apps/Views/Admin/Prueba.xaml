@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppPedidos.Apps.Views.Admin.Prueba">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button BackgroundColor="Green" TextColor="White" Text="Agregar" x:Name="cmdAgregar" Clicked="cmdAgregar_Clicked"></Button>
+            <ListView ItemsSource="{Binding ListaProductos,Mode=TwoWay}"  HasUnevenRows="True" x:Name="Lista" HeightRequest="500" BackgroundColor="blue" IsPullToRefreshEnabled = "true" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" BackgroundColor="White">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Row="0" Grid.Column="1">
+                                    <Label Text="{Binding Codigo,Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Cantidad,Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

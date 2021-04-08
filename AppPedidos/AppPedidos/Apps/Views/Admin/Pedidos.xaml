@@ -30,7 +30,7 @@
                         <StackLayout Grid.Row="0 ">
                             <Grid Grid.Row="2" VerticalOptions="CenterAndExpand" Margin="10" Padding="10">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
