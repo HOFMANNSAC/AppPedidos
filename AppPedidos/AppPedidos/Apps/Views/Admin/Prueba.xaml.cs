@@ -26,9 +26,7 @@ namespace AppPedidos.Apps.Views.Admin
         }
 
         private void cmdAgregar_Clicked(object sender, EventArgs e)
-        {
-            Productos p = new Productos() { Codigo = "TEXBAB01", Cantidad = 1, Total = 500 };
-            ListaProductos.Add(p);
+        { 
         }
     }
 }

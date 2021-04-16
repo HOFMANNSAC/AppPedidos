@@ -29,7 +29,6 @@ namespace AppPedidos.Apps.Views.Admin
             cargarBoxquienAprueba();
             cmdGuardar.Clicked += CmdGuardar_Clicked;
             cargarBoxTipoPedido();
-            cargarListaProductos();
             BindingContext = this;
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
@@ -198,19 +197,6 @@ namespace AppPedidos.Apps.Views.Admin
 
         }
 
-        private void cargarListaProductos()
-        {
-            string resultado = string.Empty;
-            try
-            {
-                List<Productos> ProductosList = new List<Productos>();
-                ProductosList.Add(new Productos() { Codigo = "ANEANE010", Cantidad = 3, Total = 10000 });           
-            }
-            catch (Exception)
-            {
-                resultado = "N";
-            }
 
-        }
     }
 }
