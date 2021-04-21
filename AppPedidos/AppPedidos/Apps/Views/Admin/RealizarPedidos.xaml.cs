@@ -22,6 +22,7 @@ namespace AppPedidos.Apps.Views.Admin
     public partial class RealizarPedidos : ContentPage
     {
         public ObservableCollection<Productos> ListaProductos { get; set; }
+        ObservableCollection<MediaModel> Photos = new ObservableCollection<MediaModel>();
         public Command<Productos> RemoveCommand {
             get
             {
@@ -43,7 +44,68 @@ namespace AppPedidos.Apps.Views.Admin
             Productos p = new Productos() { Codigo = "TEXBAB01", Cantidad = 1, Total = 500 };
             ListaProductos.Add(p);
             BindingContext = this;
-
+            cmdGuardar.Clicked += CmdGuardar_Clicked;
+            cargarBoxquienAprueba();
+            cargarBoxTipoPedido();
+        }
+        private void CmdGuardar_Clicked(object sender, EventArgs e)
+        {
+            string resultado = "";
+            Pedido pe = new Pedido();
+            MetodosApi api = new MetodosApi();
+            Usuario u = new Usuario();
+            Archivo a = new Archivo();
+            bool chekReqDescuento = false;
+            bool chekRetiroDrogueria = false;
+            if (chkReqDescuento.IsChecked)
+            {
+                chekReqDescuento = true;
+            }
+            if (chkRetiroDrogueria.IsChecked)
+            {
+                chekRetiroDrogueria = true;
+            }
+            try
+            {
+                pe.CustID = "";
+                pe.SHipToId = cboDirecDespacho.ToString();
+                pe.CustOrdNbr = txtNroOC.Text;
+                pe.UsuarioCrea = u.UsuarioSistema;
+                pe.TipoPedido = cboTipoPedido.ToString();
+                pe.ObsGeneral = txtObsGeneral.Text;
+                pe.ReqDescuento = chekReqDescuento;
+                pe.QuienAprueba = cboQuienAprueba.ToString();
+                pe.ObsDescuento = txtObsDescuento.Text;
+                pe.TotalOrden = "";
+                pe.NroProductos = "";
+                pe.RetiroDrogueria = chekRetiroDrogueria;
+                var array = new ArrayList();
+                foreach (var item in Photos)
+                {
+                    string imagen = item.Path;
+                    byte[] Convert = File.ReadAllBytes(item.Path);
+                    a.NombreArchivo = imagen;
+                    a.ByteArchivo = Convert;
+                    a.NroPedido = a.NroPedido;
+                }
+                if (Photos.Count > 0)
+                {
+                    var respuesta = JArray.Parse(api.InsertarArchivos(a));
+                }
+                resultado = "S";
+                if (resultado == "S")
+                {
+                    api.InsertarPedidos(pe);
+                }
+                else
+                {
+                    resultado = "N";
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
         private void cmdAgregar_Clicked_1(object sender, EventArgs e)
         {
@@ -56,13 +118,12 @@ namespace AppPedidos.Apps.Views.Admin
             btnGuardarProd.IsVisible = true;
             btnSumarProd.IsVisible = false;
             btnRestarProd.IsVisible = false;
+            cargarDropProdocutos();
         }
-
         private void tipoPedido_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
         private void quienAprueba_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -115,7 +176,7 @@ namespace AppPedidos.Apps.Views.Admin
                 if (cantidad > cantidadPrduc)
                 {
                     Productos productosSelec = new Productos() { Codigo = codigoPrduc, Cantidad = cantidadPrduc, Total = totalPrduc };
-                    ListaProductos.Clear();
+                    ListaProductos.Remove(productosSelec);
 
                     Productos addproductos = new Productos() { Codigo = codigoPrduc, Cantidad = Convert.ToInt32(txtCantidad.Text), Total = totalPrduc };
 
@@ -152,11 +213,7 @@ namespace AppPedidos.Apps.Views.Admin
                     {
                         Productos addproductos = new Productos() { Codigo = codigoPrduc, Cantidad = Convert.ToInt32(txtCantidad.Text), Total = totalPrduc };
 
-                        ListaProductos.Add(addproductos);
-
-
-
-
+                        ListaProductos.Add(addproductos);                           
                         DisplayAlert("Mensaje", "Edito", "Aceptar");
                         modalAgregar.IsVisible = false;
                     }
@@ -179,6 +236,116 @@ namespace AppPedidos.Apps.Views.Admin
             var producto = imagen?.BindingContext as Productos;
             var vm = BindingContext as RealizarPedidos;
             vm?.RemoveCommand.Execute(producto);
+        }
+
+        public void cargarBoxTipoPedido()
+        {
+            string resultado = string.Empty;
+            try
+            {
+                List<TipoPedido> tipoPedidos = new List<TipoPedido>();
+                {
+                    tipoPedidos.Add(new TipoPedido() { ID = 1, Name = "Orden Compra" });
+                    tipoPedidos.Add(new TipoPedido() { ID = 2, Name = "Nota Venta" });
+                };
+                foreach (var Name in tipoPedidos)
+                {
+                    tipoPedido.Items.Add(Name.Name);
+                }
+                resultado = "S";
+            }
+            catch (Exception)
+            {
+                resultado = "N";
+            }
+        }
+        public void cargarBoxquienAprueba()
+        {
+            string resultado = string.Empty;
+            try
+            {
+                List<QuienAprueba> quienApruebas = new List<QuienAprueba>();
+                {
+                    quienApruebas.Add(new QuienAprueba() { ID = 1, Name = "Gianfranco Solari" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 2, Name = "Antonella Constanzi" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 3, Name = "Angela Riera" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 4, Name = "Luciana Tieppo" });
+                    quienApruebas.Add(new QuienAprueba() { ID = 5, Name = "Pablo Droguett" });
+                };
+                foreach (var name in quienApruebas)
+                {
+                    quienAprueba.Items.Add(name.Name);
+                }
+                resultado = "S";
+            }
+            catch (Exception)
+            {
+                resultado = "N";
+            }
+        }
+        private void cargarDropProdocutos()
+        {            
+            MetodosApi api = new MetodosApi();
+            var respuesta = JArray.Parse(api.obtenerProductos());
+            if (respuesta[0].ToString() == "S")
+            {
+                JArray jsonString = JArray.Parse(respuesta[1].ToString());
+
+                foreach (JObject item in jsonString.OfType<JObject>())
+                {
+                    //Si no esta agregada la ruta lo incluimos
+                    Productos p = CompletarInformacion(item);
+                    agregarProducto.Items.Add(p.Codigo);
+                }
+            }
+            else
+                DisplayAlert("Error", "No existen productos ", "OK");
+        }
+        private Productos CompletarInformacion(JObject item) => new Productos
+        {
+         Codigo = item.GetValue("Codigo").ToString(),
+         Cantidad = Convert.ToInt32(item.GetValue("Cantidad").ToString()),
+         Total = Convert.ToInt32(item.GetValue("Total").ToString())
+        };
+        private async void selecArchivo_Clicked(object sender, EventArgs e)
+        {
+            var isInitialize = await CrossMedia.Current.Initialize();
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported || !CrossMedia.IsSupported || !isInitialize)
+            {
+                await DisplayAlert("Error", "No cuenta con permisos para seleccionar una foto", "OK");
+                return;
+            }
+            var newPhotoID = Guid.NewGuid();
+            using (var photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions()
+            {
+                Name = newPhotoID.ToString(),
+                SaveToAlbum = true,
+                DefaultCamera = CameraDevice.Front,
+                Directory = "Camera",
+                CustomPhotoSize = 50,
+                PhotoSize = PhotoSize.Small,
+                CompressionQuality = 50
+            }))
+            {
+                if (string.IsNullOrWhiteSpace(photo?.Path))
+                {
+                    return;
+                }
+                var newPhotoMedia = new MediaModel()
+                {
+                    MediaID = newPhotoID,
+                    Path = photo.Path,
+                    LocalDateTime = DateTime.Now
+                };
+                Photos.Add(newPhotoMedia);
+                photo.Dispose();
+            }
+            listPhotos.ItemsSource = Photos;
+        }
+
+        private void agregarProducto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

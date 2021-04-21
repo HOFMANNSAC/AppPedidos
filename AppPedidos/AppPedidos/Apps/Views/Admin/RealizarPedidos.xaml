@@ -139,7 +139,7 @@
                     <Entry x:Name="txtObsDescuento"></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Button Text="SELECCIONAR ARCHIVO" ContentLayout="Left,5" ImageSource="pedido.png" BackgroundColor="green" Margin="10,0,10,0" FontSize="Large" TextColor="White" />
+                    <Button x:Name="selecArchivo" Clicked="selecArchivo_Clicked" Text="SELECCIONAR ARCHIVO" ContentLayout="Left,5" ImageSource="pedido.png" BackgroundColor="green" Margin="10,0,10,0" FontSize="Large" TextColor="White" />
                     <Grid HeightRequest="200" Margin="20" x:Name="ContenedorImagenes">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -178,6 +178,11 @@
             <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <ContentView x:Name="modalAgregar" Padding="10,0" HorizontalOptions="Center"  HeightRequest="240">
                     <StackLayout Orientation="Vertical" WidthRequest="300" BackgroundColor="White">
+                        <StackLayout>
+                            <Label Text="Producto"></Label>
+                            <Picker x:Name="agregarProducto" Title="Selecciona Producto" SelectedIndexChanged="agregarProducto_SelectedIndexChanged"></Picker>
+                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboProductos"></BoxView>
+                        </StackLayout>
                         <Entry x:Name="txtCodigo"></Entry>
                         <Entry x:Name="txtCantidad"></Entry>
                         <Entry x:Name="txtTotal"></Entry>

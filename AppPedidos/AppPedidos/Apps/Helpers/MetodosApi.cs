@@ -117,5 +117,24 @@ namespace AppPedidos.Apps.Helpers
             }
             return respuestaString;
         }
+        public string obtenerProductos()
+        {
+            string respuestaString = string.Empty;
+            try
+            {
+                Uri uri = new Uri("http://localhost:44370/api/obtenerProductos");
+                NameValueCollection parametros = new NameValueCollection
+                {
+                    
+                };
+                byte[] respuestaByte = new WebClient().UploadValues(uri, "POST",parametros);
+                respuestaString = Encoding.UTF8.GetString(respuestaByte);
+            }
+            catch (Exception)
+            {
+                respuestaString = "[\"N\",\"Error al Enviar la petición.\"]";
+            }
+            return respuestaString;
+        }
     }
 }
