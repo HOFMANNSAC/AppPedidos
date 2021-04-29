@@ -59,15 +59,15 @@ namespace AppPedidos.Apps.Helpers
             }
             return respuestaString;
         }
-        public string CargarCLientes(Customer c)
+        public string CargarCLientes()
         {
             string respuestaString = "";
             try
             {
-                Uri uri = new Uri("http://localhost:54297/api/ObtenerClientes");
+                Uri uri = new Uri("https://localhost:44370//ObtenerClientes");
                 NameValueCollection parametros = new NameValueCollection
                 {
-                    {"NombreCLiente", c.NombreCliente },
+                   
                 };
                 byte[] respuestaByte = new WebClient().UploadValues(uri, "POST", parametros);
                 respuestaString = Encoding.UTF8.GetString(respuestaByte);
@@ -122,10 +122,10 @@ namespace AppPedidos.Apps.Helpers
             string respuestaString = string.Empty;
             try
             {
-                Uri uri = new Uri("http://localhost:44370/api/obtenerProductos");
+                Uri uri = new Uri("https://200.54.212.140/api/Product");
                 NameValueCollection parametros = new NameValueCollection
                 {
-                    
+                   
                 };
                 byte[] respuestaByte = new WebClient().UploadValues(uri, "POST",parametros);
                 respuestaString = Encoding.UTF8.GetString(respuestaByte);

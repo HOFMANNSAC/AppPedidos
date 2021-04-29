@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppPedidos.Apps.Views.Admin.RealizarProductos">
+    <NavigationPage.TitleView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <Image Source="pedido" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+            <Label x:Name="txtTitulo" Text="Productos" TextColor="White" FontSize="Medium" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
+        </Grid>
+    </NavigationPage.TitleView>
+
+    <ScrollView>
+        <StackLayout>
+            <Label Text="PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
+            <Grid WidthRequest="150" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Codigo" Grid.Column="0" Grid.Row="0"></Label>
+                <Label Text="Cantidad" Grid.Column="1" Grid.Row="0"></Label>
+                <Label Text="Total" Grid.Column="2" Grid.Row="0"></Label>
+                <Label Text="Accion" Grid.Column="3" Grid.Row="0"></Label>
+                <Label Text="Eliminar" Grid.Column="4" Grid.Row="0"></Label>
+                <ListView ItemsSource="{Binding ListaProductos,Mode=TwoWay}" ItemSelected="Lista_ItemSelected" Grid.Row="1" Grid.ColumnSpan="5"  HasUnevenRows="True" x:Name="Lista" HeightRequest="150" IsPullToRefreshEnabled = "true" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10" BackgroundColor="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                        <RowDefinition Height="3*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="{Binding Codigo,Mode=TwoWay}" Grid.Column="0" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Cantidad,Mode=TwoWay}" Grid.Column="1" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Total,Mode=TwoWay}"  Grid.Column="2" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Text="{Binding PrecioUnitario,Mode=TwoWay}" IsVisible="false" Grid.Column="3" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Stock,Mode=TwoWay}" IsVisible="false" Grid.Column="4" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                    <Image x:Name="btnQuitar" Source="editar.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0"  WidthRequest="40">
+                                    </Image>
+                                    <Image x:Name="btnEliminar" Source="delete.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0"  WidthRequest="40">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1" x:Name="Eliminar" Tapped="Eliminar_Tapped" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Button WidthRequest="80" HeightRequest ="80" CornerRadius ="100" VerticalOptions ="Center" x:Name="btnAgregarProducto" Clicked="btnAgregarProducto_Clicked" HorizontalOptions ="Start" BackgroundColor ="#98a72e" ImageSource="edit.png" />
+            <Button WidthRequest="80" HeightRequest ="80" CornerRadius ="40" VerticalOptions ="Center" HorizontalOptions ="End" BackgroundColor ="#41bbbb"  ImageSource="back.png" />
+            <StackLayout x:Name="modalAgregar">
+                <Label Text="AGREGAR PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
+                <StackLayout>
+                    <Label Text="Producto" TextColor="Black"></Label>
+                    <Picker x:Name="PCKproducto" Title="Selecciona Producto" SelectedIndexChanged="PCKproducto_SelectedIndexChanged"></Picker>
+                    <BoxView VerticalOptions="CenterAndExpand" x:Name="cboProducto"></BoxView>
+                </StackLayout>
+                <Entry x:Name="txtCodigo"></Entry>
+                <Label Text="Cantidad" TextColor="Black"></Label>
+                <Entry x:Name="txtCantidad" ></Entry>
+                <Label Text="Total" TextColor="Black"></Label>
+                <Entry x:Name="txtTotal" ></Entry>
+                <Label Text="Precio Uni." TextColor="Black"></Label>
+                <Entry x:Name="txtPrecioUnitario" ></Entry>
+                <Label Text="Stock" TextColor="Black"></Label>
+                <Entry x:Name="txtStock" ></Entry>
+                <Button BackgroundColor="Green" Text="Guardar" x:Name="btnGuardarProd" Clicked="btnGuardarProd_Clicked"  TextColor="White"/>
+                <Button BackgroundColor="green" Text="Sumar"  IsVisible="false" x:Name="btnSumarProd" Clicked="btnSumarProd_Clicked_1" TextColor="White" />
+                <Button BackgroundColor="Blue"  Text="Restar" IsVisible="false" x:Name="btnRestarProd" Clicked="btnRestarProd_Clicked" TextColor="White" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
+    

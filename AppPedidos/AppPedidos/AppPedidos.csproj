@@ -12,6 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Apps\Views\Admin\Prueba.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Apps\Views\Admin\Prueba.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.0-beta" />
     <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="18.4.0.49" />
@@ -28,10 +36,10 @@
     <EmbeddedResource Update="Apps\Views\Admin\Pedidos.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Apps\Views\Admin\Prueba.xaml">
+    <EmbeddedResource Update="Apps\Views\Admin\RealizarPedidos.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Apps\Views\Admin\RealizarPedidos.xaml">
+    <EmbeddedResource Update="Apps\Views\Admin\RealizarProductos.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Apps\Views\MasterPage.xaml">

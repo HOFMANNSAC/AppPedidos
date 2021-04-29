@@ -17,61 +17,11 @@
             <Label x:Name="txtTitulo" Text="Pedidos" TextColor="White" FontSize="Medium" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
         </Grid>
     </NavigationPage.TitleView>
-
     <ScrollView>
         <StackLayout BackgroundColor="White" Margin="10,10,10,10">
                 <Label Text="AGREGAR PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
             <Button BackgroundColor="Green" TextColor="White" Text="Agregar" x:Name="cmdAgregar" Clicked="cmdAgregar_Clicked_1"></Button>
-            <Label Text="PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
-            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="3*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Codigo" Grid.Column="0" Grid.Row="0"></Label>
-                <Label Text="Cantidad" Grid.Column="1" Grid.Row="0"></Label>
-                <Label Text="Total" Grid.Column="2" Grid.Row="0"></Label>
-                <Label Text="Accion" Grid.Column="3" Grid.Row="0"></Label>
-                <Label Text="Eliminar" Grid.Column="4" Grid.Row="0"></Label>
-                <ListView ItemsSource="{Binding ListaProductos,Mode=TwoWay}" ItemSelected="Lista_ItemSelected" Grid.Row="1" Grid.ColumnSpan="5"  HasUnevenRows="True" x:Name="Lista" HeightRequest="150" IsPullToRefreshEnabled = "true" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Padding="10" BackgroundColor="White">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="50" />
-                                        <RowDefinition Height="3*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Text="{Binding Codigo,Mode=TwoWay}" Grid.Column="0" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Cantidad,Mode=TwoWay}" Grid.Column="1" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Total,Mode=TwoWay}"  Grid.Column="2" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Image x:Name="btnQuitar" Source="accion.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0"  WidthRequest="40">
-                                    </Image>
-                                    <Image x:Name="btnEliminar" Source="eliminar.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0"  WidthRequest="40">
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" x:Name="Eliminar" Tapped="Eliminar_Tapped" />
-                                        </Image.GestureRecognizers>
-                                    </Image>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
             <Label Text="INGRESAR PEDIDO" TextColor="Black" Margin="10,10,10,10" FontAttributes="Bold" FontSize="Small" />
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
             <StackLayout Margin="10,5,5,5">
@@ -79,119 +29,68 @@
                     <Label Text="" TextColor="Black" FontSize="Medium" x:Name="txt" />
                 </FlexLayout>
                 <StackLayout>
-                    <Label Text="Buscar Cliente"></Label>
-                    <SearchBar x:Name="CountriesSearchBar"                                         
-                                       BackgroundColor="White"/>
+                    <Label Text="Cliente" TextColor="Black"></Label>
+                    <Picker x:Name="agregarCliente" Title="Selecciona Cliente" SelectedIndexChanged="agregarCliente_SelectedIndexChanged"></Picker>
+                    <BoxView VerticalOptions="CenterAndExpand" x:Name="cboCliente"></BoxView>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Clase Precio"></Label>
+                    <Label Text="Clase Precio" TextColor="Black"></Label>
                     <Entry x:Name="txtClasePrecio"></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Estado Cliente"></Label>
+                    <Label Text="Estado Cliente" TextColor="Black"></Label>
                     <Entry x:Name="txtEstadoCliente"></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Estado Credito"></Label>
+                    <Label Text="Estado Credito" TextColor="Black"></Label>
                     <Entry x:Name="txtEstadoCredito"></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Label  Text="Retiro en Drogueria" VerticalOptions="Center" />
+                    <Label  Text="Retiro en Drogueria" VerticalOptions="Center" TextColor="Black" />
                     <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkRetiroDrogueria" VerticalOptions="CenterAndExpand" />
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Dirección de Despacho"></Label>
+                    <Label Text="Dirección de Despacho" TextColor="Black"></Label>
                     <Picker x:Name="DirDespacho" Title="Selecciona Direccion Despacho" ></Picker>
                     <BoxView VerticalOptions="CenterAndExpand" x:Name="cboDirecDespacho"></BoxView>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Tipo Pedido"></Label>
+                    <Label Text="Tipo Pedido" TextColor="Black"></Label>
                     <Picker x:Name="tipoPedido" Title="Selecciona Tipo Pedido" SelectedIndexChanged="tipoPedido_SelectedIndexChanged"></Picker>
                     <BoxView VerticalOptions="CenterAndExpand" x:Name="cboTipoPedido"></BoxView>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Nro OC"></Label>
+                    <Label Text="Nro OC" TextColor="Black"></Label>
                     <Entry x:Name="txtNroOC" ></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Correo Electronico"></Label>
+                    <Label Text="Correo Electronico" TextColor="Black"></Label>
                     <Entry x:Name="txtCorreo"></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Telefono"></Label>
+                    <Label Text="Telefono" TextColor="Black"></Label>
                     <Entry x:Name="txtTelefono"></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Obs. General"></Label>
+                    <Label Text="Obs. General" TextColor="Black"></Label>
                     <Entry x:Name="txtObsGeneral"></Entry>
                 </StackLayout>
                 <StackLayout>
-                    <Label  Text="Requiere Descuento" VerticalOptions="Center" />
+                    <Label  Text="Requiere Descuento" VerticalOptions="Center" TextColor="Black" />
                     <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkReqDescuento" VerticalOptions="CenterAndExpand" />
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="¿Quien Aprueba?"></Label>
+                    <Label Text="¿Quien Aprueba?" TextColor="Black"></Label>
                     <Picker x:Name="quienAprueba" Title="Selecciona Quien Aprueba" SelectedIndexChanged="quienAprueba_SelectedIndexChanged"></Picker>
                     <BoxView VerticalOptions="CenterAndExpand" x:Name="cboQuienAprueba"></BoxView>
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Obs Descuento"></Label>
+                    <Label Text="Obs Descuento" TextColor="Black"></Label>
                     <Entry x:Name="txtObsDescuento"></Entry>
-                </StackLayout>
-                <StackLayout>
-                    <Button x:Name="selecArchivo" Clicked="selecArchivo_Clicked" Text="SELECCIONAR ARCHIVO" ContentLayout="Left,5" ImageSource="pedido.png" BackgroundColor="green" Margin="10,0,10,0" FontSize="Large" TextColor="White" />
-                    <Grid HeightRequest="200" Margin="20" x:Name="ContenedorImagenes">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image Source="camara.png" Grid.Row="0" Grid.Column="0">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer  NumberOfTapsRequired="1" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                        <Grid Grid.Row="0" Grid.Column="1">
-                            <CollectionView x:Name="listPhotos" Margin="0">
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" Span="3"/>
-                                </CollectionView.ItemsLayout>
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid HeightRequest="70" WidthRequest="35">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
-                                            </Grid.RowDefinitions>
-                                            <Image Grid.Row="0" Source="{Binding Source}" Aspect="AspectFill"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </Grid>
-                    </Grid>
                 </StackLayout>
                 <Button BackgroundColor="Green" Text="Guardar" x:Name="cmdGuardar"  TextColor="White" Grid.Row="0"/>
                 <Button BackgroundColor="Gray" Text="Borrar"  TextColor="White" Grid.Row="0" Grid.Column="1" />
             </StackLayout>
-            <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <ContentView x:Name="modalAgregar" Padding="10,0" HorizontalOptions="Center"  HeightRequest="240">
-                    <StackLayout Orientation="Vertical" WidthRequest="300" BackgroundColor="White">
-                        <StackLayout>
-                            <Label Text="Producto"></Label>
-                            <Picker x:Name="agregarProducto" Title="Selecciona Producto" SelectedIndexChanged="agregarProducto_SelectedIndexChanged"></Picker>
-                            <BoxView VerticalOptions="CenterAndExpand" x:Name="cboProductos"></BoxView>
-                        </StackLayout>
-                        <Entry x:Name="txtCodigo"></Entry>
-                        <Entry x:Name="txtCantidad"></Entry>
-                        <Entry x:Name="txtTotal"></Entry>
-                        <Button BackgroundColor="Green" Text="Guardar" x:Name="btnGuardarProd" Clicked="btnGuardarProd_Clicked"  TextColor="White" Grid.Row="0"/>
-                        <Button BackgroundColor="green" Text="Sumar"  IsVisible="false" x:Name="btnSumarProd" Clicked="btnSumarProd_Clicked"  TextColor="White" Grid.Row="0"/>
-                        <Button BackgroundColor="Blue"  Text="Restar" IsVisible="false" x:Name="btnRestarProd" Clicked="btnRestarProd_Clicked"  TextColor="White" Grid.Row="0"/>
-                    </StackLayout>
-                </ContentView>
-            </AbsoluteLayout>
         </StackLayout>
     </ScrollView>
 </ContentPage>

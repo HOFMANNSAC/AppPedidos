@@ -100,7 +100,7 @@ namespace AppPedidos.Apps.Views.Admin
                 c.NombreCliente = "";
                 resultado = "S";
                 if (resultado == "S")
-                    api.CargarCLientes(c);
+                    api.CargarCLientes();
                 resultado = "N";
             }
             catch (Exception)
