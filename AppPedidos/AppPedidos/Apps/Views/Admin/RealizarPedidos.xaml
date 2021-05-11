@@ -21,7 +21,7 @@
         <StackLayout BackgroundColor="White" Margin="10,10,10,10">
                 <Label Text="AGREGAR PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
-            <Button BackgroundColor="Green" TextColor="White" Text="Agregar" x:Name="cmdAgregar" Clicked="cmdAgregar_Clicked_1"></Button>
+            <Button WidthRequest="100" HeightRequest ="100" CornerRadius ="100" VerticalOptions ="Center" x:Name="cmdAgregar" Clicked="cmdAgregar_Clicked_1" HorizontalOptions ="StartAndExpand"  ImageSource="https://img.icons8.com/fluent/384/000000/add.png" />
             <Label Text="INGRESAR PEDIDO" TextColor="Black" Margin="10,10,10,10" FontAttributes="Bold" FontSize="Small" />
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
             <StackLayout Margin="10,5,5,5">
@@ -88,8 +88,8 @@
                     <Label Text="Obs Descuento" TextColor="Black"></Label>
                     <Entry x:Name="txtObsDescuento"></Entry>
                 </StackLayout>
-                <Button BackgroundColor="Green" Text="Guardar" x:Name="cmdGuardar"  TextColor="White" Grid.Row="0"/>
-                <Button BackgroundColor="Gray" Text="Borrar"  TextColor="White" Grid.Row="0" Grid.Column="1" />
+                <Button Margin="100,20" BorderRadius="6" BackgroundColor="Green" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" Text="Guardar" x:Name="cmdGuardar"  TextColor="White" Grid.Row="0"/>
+                <Button Margin="100,20" BorderRadius="6" BackgroundColor="red" ImageSource="https://img.icons8.com/dusk/64/000000/eraser.png" Text="Borrar"  TextColor="White" Grid.Row="0" Grid.Column="1" />
             </StackLayout>
         </StackLayout>
     </ScrollView>

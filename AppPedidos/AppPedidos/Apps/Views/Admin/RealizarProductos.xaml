@@ -12,13 +12,13 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
-            <Image Source="pedido" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+            <Image Source="https://img.icons8.com/dusk/64/000000/grocery-shelf.png" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
             <Label x:Name="txtTitulo" Text="Productos" TextColor="White" FontSize="Medium" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
         </Grid>
     </NavigationPage.TitleView>
 
     <ScrollView>
-        <StackLayout>
+        <StackLayout Margin="10,10,10,10">
             <Label Text="PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
             <Grid WidthRequest="150" >
@@ -52,14 +52,14 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Text="{Binding Codigo,Mode=TwoWay}" Grid.Column="0" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Text="{Binding ID,Mode=TwoWay}" Grid.Column="0" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
                                     <Label Text="{Binding Cantidad,Mode=TwoWay}" Grid.Column="1" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
                                     <Label Text="{Binding Total,Mode=TwoWay}"  Grid.Column="2" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
                                     <Label Text="{Binding PrecioUnitario,Mode=TwoWay}" IsVisible="false" Grid.Column="3" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
                                     <Label Text="{Binding Stock,Mode=TwoWay}" IsVisible="false" Grid.Column="4" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Image x:Name="btnQuitar" Source="editar.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0"  WidthRequest="40">
+                                    <Image x:Name="btnQuitar" Source="https://img.icons8.com/dusk/48/000000/edit-link.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0"  WidthRequest="40">
                                     </Image>
-                                    <Image x:Name="btnEliminar" Source="delete.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0"  WidthRequest="40">
+                                    <Image x:Name="btnEliminar" Source="https://img.icons8.com/fluent/48/000000/delete-forever.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0"  WidthRequest="40">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer NumberOfTapsRequired="1" x:Name="Eliminar" Tapped="Eliminar_Tapped" />
                                         </Image.GestureRecognizers>
@@ -70,17 +70,47 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-            <Button WidthRequest="80" HeightRequest ="80" CornerRadius ="100" VerticalOptions ="Center" x:Name="btnAgregarProducto" Clicked="btnAgregarProducto_Clicked" HorizontalOptions ="Start" BackgroundColor ="#98a72e" ImageSource="edit.png" />
-            <Button WidthRequest="80" HeightRequest ="80" CornerRadius ="40" VerticalOptions ="Center" HorizontalOptions ="End" BackgroundColor ="#41bbbb"  ImageSource="back.png" />
-            <StackLayout x:Name="modalAgregar">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button WidthRequest="100" HeightRequest ="100" CornerRadius ="100" VerticalOptions ="Center" x:Name="btnAgregarProducto" Clicked="btnAgregarProducto_Clicked" HorizontalOptions ="StartAndExpand"  ImageSource="https://img.icons8.com/flat-round/256/000000/plus.png" />
+                <Button WidthRequest="100" HeightRequest ="100" CornerRadius ="100" VerticalOptions ="Center" x:Name="btnBack" HorizontalOptions ="EndAndExpand" Clicked="Button_Clicked"  ImageSource="https://img.icons8.com/flat-round/256/000000/circled-left.png" />
+            </Grid>
+            <StackLayout x:Name="modalAgregar" Margin="5,5,5,5" BackgroundColor="LightGray">
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
                 <Label Text="AGREGAR PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
-                <StackLayout>
-                    <Label Text="Producto" TextColor="Black"></Label>
-                    <Picker x:Name="PCKproducto" Title="Selecciona Producto" SelectedIndexChanged="PCKproducto_SelectedIndexChanged"></Picker>
-                    <BoxView VerticalOptions="CenterAndExpand" x:Name="cboProducto"></BoxView>
-                </StackLayout>
-                <Entry x:Name="txtCodigo"></Entry>
+                <Label Text="Codigo" TextColor="Black"></Label>
+                <Entry x:Name="bscProducto" ></Entry>
+                <Button WidthRequest="100" HeightRequest="100" CornerRadius="100" VerticalOptions="EndAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" HorizontalOptions="End" ImageSource="https://img.icons8.com/cotton/64/000000/search--v2.png"></Button>
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
+                <ListView ItemsSource="{Binding ListadoProductos,Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd" HeightRequest="100">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10" BackgroundColor="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Row="0" Grid.Column="1">
+                                        <Label Text="{Binding INVTID, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                        <Label Text="{Binding DESCRIPCION, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
+                <Entry x:Name="txtCodigo" IsVisible="false"></Entry>
                 <Label Text="Cantidad" TextColor="Black"></Label>
                 <Entry x:Name="txtCantidad" ></Entry>
                 <Label Text="Total" TextColor="Black"></Label>
@@ -89,9 +119,10 @@
                 <Entry x:Name="txtPrecioUnitario" ></Entry>
                 <Label Text="Stock" TextColor="Black"></Label>
                 <Entry x:Name="txtStock" ></Entry>
-                <Button BackgroundColor="Green" Text="Guardar" x:Name="btnGuardarProd" Clicked="btnGuardarProd_Clicked"  TextColor="White"/>
-                <Button BackgroundColor="green" Text="Sumar"  IsVisible="false" x:Name="btnSumarProd" Clicked="btnSumarProd_Clicked_1" TextColor="White" />
-                <Button BackgroundColor="Blue"  Text="Restar" IsVisible="false" x:Name="btnRestarProd" Clicked="btnRestarProd_Clicked" TextColor="White" />
+                <Button Margin="100,20" BorderRadius="6" BackgroundColor="Green" Text="Guardar" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" x:Name="btnGuardarProd" Clicked="btnGuardarProd_Clicked"  TextColor="White"/>
+                <Button Margin="100,20" BorderRadius="6" BackgroundColor="green" Text="Sumar" ImageSource="https://img.icons8.com/fluent/64/000000/add.png" IsVisible="false" x:Name="btnSumarProd" Clicked="btnSumarProd_Clicked_1" TextColor="White" />
+                <Button Margin="100,20" BorderRadius="6" BackgroundColor="red"  Text="Restar" ImageSource="https://img.icons8.com/flat-round/64/000000/minus.png" IsVisible="false" x:Name="btnRestarProd" Clicked="btnRestarProd_Clicked" TextColor="White" />
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
             </StackLayout>
         </StackLayout>
     </ScrollView>

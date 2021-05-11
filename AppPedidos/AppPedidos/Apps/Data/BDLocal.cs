@@ -50,5 +50,30 @@ namespace AppPedidos.Apps.Data
         {
             this.Update(usuario);
         }
+        public ObservableCollection<Productos> obtenerProductos(string Codigo)
+        {
+            return new ObservableCollection<Productos>(this.Table<Productos>().Where(t => t.ID == Codigo).ToList());
+        }
+        public Boolean ExisteProducto(string id)
+        {
+            try
+            {
+                Productos rm = Table<Productos>().Where(t => t.ID == id).FirstOrDefault();
+                return rm != null;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public void AgregarProd(Productos productos)
+        {
+            this.Insert(productos);
+        }
+        public void ActualizarProd(Productos productos)
+        {
+            this.Update(productos);
+        }
+
     }
 }
