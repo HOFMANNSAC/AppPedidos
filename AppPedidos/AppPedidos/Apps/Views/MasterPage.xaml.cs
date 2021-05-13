@@ -25,7 +25,7 @@ namespace AppPedidos.Apps.Views
             {
                 Title = "VerPedidos",
                 IconSource = "",
-                TargetType = typeof(Pedidos)
+                TargetType = typeof(RealizarPedidos)
             });
             Listado.ItemTemplate = new DataTemplate(() =>
             {

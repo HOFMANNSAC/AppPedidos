@@ -8,6 +8,7 @@ namespace AppPedidos.Apps.Model
     {
         public string ID { get; set; }
         public string CustID { get; set; }
+        public string  Name { get; set; }
         public string SHipToId { get; set; }
         public string CustOrdNbr { get; set; }
         public string UsuarioCrea { get; set; }

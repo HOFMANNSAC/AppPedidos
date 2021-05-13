@@ -59,15 +59,15 @@ namespace AppPedidos.Apps.Helpers
             }
             return respuestaString;
         }
-        public string CargarCLientes()
+        public string CargarCLientes(string name)
         {
             string respuestaString = "";
             try
             {
-                Uri uri = new Uri("https://localhost:44370//ObtenerClientes");
+                Uri uri = new Uri("https://sellout.drogueriahofmann.cl/App/ObtenerCliente");
                 NameValueCollection parametros = new NameValueCollection
                 {
-                   
+                    {"Id", name  }
                 };
                 byte[] respuestaByte = new WebClient().UploadValues(uri, "POST", parametros);
                 respuestaString = Encoding.UTF8.GetString(respuestaByte);

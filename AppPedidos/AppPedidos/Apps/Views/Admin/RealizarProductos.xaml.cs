@@ -239,9 +239,9 @@ namespace AppPedidos.Apps.Views.Admin
             }
             catch (Exception ex)
             {
+                
                 throw;
             }
-
         }
         private ProductosAPI CompletarInformacion(JObject item) => new ProductosAPI
         {
@@ -267,8 +267,8 @@ namespace AppPedidos.Apps.Views.Admin
         private void lstProd_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
 
-            var item = (Productos)e.SelectedItem;
-            var invtID = item.ID;
+            var item = (ProductosAPI)e.SelectedItem;
+            var invtID = item.INVTID;
             cargarDatosProductos(invtID);
         }
 

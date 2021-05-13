@@ -22,8 +22,8 @@ namespace AppPedidos.Apps.Views.Admin
     public partial class RealizarPedidos : ContentPage
     {     
         ObservableCollection<MediaModel> Photos = new ObservableCollection<MediaModel>();
-
-        
+        public IList<Pedido> ListadoClientes { get; private set; }
+        int contador = 0;
 
         public RealizarPedidos()
         {
@@ -31,7 +31,7 @@ namespace AppPedidos.Apps.Views.Admin
             cmdGuardar.Clicked += CmdGuardar_Clicked;
             cargarBoxquienAprueba();
             cargarBoxTipoPedido();
-            cargarDropCliente();
+            ListadoClientes = new List<Pedido>();
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
         {
@@ -150,24 +150,40 @@ namespace AppPedidos.Apps.Views.Admin
                 resultado = "N";
             }
         }
-        private void cargarDropCliente()
+        public void cargarClientes(string name)
         {
-            MetodosApi api = new MetodosApi();
-            var respuesta = JArray.Parse(api.CargarCLientes());
-            if (respuesta[0].ToString()=="S")
+            try
             {
-                JArray jsonString = JArray.Parse(respuesta[1].ToString());
-                foreach (JObject item in jsonString.OfType<JObject>())
+                contador = 0;
+                MetodosApi api = new MetodosApi();
+                var respuesta = JArray.Parse(api.CargarCLientes(name));
+                if (respuesta[0].ToString() == "S")
                 {
-                    Usuario u = CompletarInformacionUsu(item);
-                    agregarCliente.Items.Add(u.UsuarioSistema);
+                    JArray jsonString = JArray.Parse(respuesta[1].ToString());
+
+                    foreach (JObject item in jsonString.OfType<JObject>())
+                    {
+                        Pedido p = CompletarInformacion(item);
+                        CompletarDatosListas(p);
+                    }
                 }
+                else
+                    DisplayAlert("Error", "No existen productos asociadas", "OK");
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
-        private Usuario CompletarInformacionUsu(JObject item) => new Usuario
+        private Pedido CompletarInformacion(JObject item) => new Pedido
         {
-            UsuarioSistema= item.GetValue("UsuarioSistema").ToString()
+            CustID = item.GetValue("custid").ToString(),
+            Name = item.GetValue("name").ToString()
         };
+        private void CompletarDatosListas(Pedido p)
+        {
+            ListadoClientes.Add(p);
+        }
         private void agregarProducto_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -175,6 +191,15 @@ namespace AppPedidos.Apps.Views.Admin
         private void agregarCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+        private void lstCLiente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+
+        private void bsrCliente_Clicked(object sender, EventArgs e)
+        {
+            cargarClientes(agregarCliente.Text);
         }
     }
 }
