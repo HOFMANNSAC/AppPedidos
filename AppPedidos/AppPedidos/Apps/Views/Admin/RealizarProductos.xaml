@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:cardView="clr-namespace:CardView;assembly=CardView"
              x:Class="AppPedidos.Apps.Views.Admin.RealizarProductos">
     <NavigationPage.TitleView>
         <Grid>
@@ -38,37 +39,37 @@
                 <Label Text="Accion" Grid.Column="3" Grid.Row="0"></Label>
                 <Label Text="Eliminar" Grid.Column="4" Grid.Row="0"></Label>
                 <ListView ItemsSource="{Binding ListaProductos,Mode=TwoWay}" ItemSelected="Lista_ItemSelected" Grid.Row="1" Grid.ColumnSpan="5"  HasUnevenRows="True" x:Name="Lista" HeightRequest="150" IsPullToRefreshEnabled = "true" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Padding="10" BackgroundColor="White">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="50" />
-                                        <RowDefinition Height="3*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Text="{Binding ID,Mode=TwoWay}" Grid.Column="0" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Cantidad,Mode=TwoWay}" Grid.Column="1" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Total,Mode=TwoWay}"  Grid.Column="2" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Label Text="{Binding PrecioUnitario,Mode=TwoWay}" IsVisible="false" Grid.Column="3" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Stock,Mode=TwoWay}" IsVisible="false" Grid.Column="4" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
-                                    <Image x:Name="btnQuitar" Source="https://img.icons8.com/dusk/48/000000/edit-link.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0"  WidthRequest="40">
-                                    </Image>
-                                    <Image x:Name="btnEliminar" Source="https://img.icons8.com/fluent/48/000000/delete-forever.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0"  WidthRequest="40">
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" x:Name="Eliminar" Tapped="Eliminar_Tapped" />
-                                        </Image.GestureRecognizers>
-                                    </Image>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" BackgroundColor="White">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50" />
+                                            <RowDefinition Height="3*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding ID,Mode=TwoWay}" Grid.Column="0" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Cantidad,Mode=TwoWay}" Grid.Column="1" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Total,Mode=TwoWay}"  Grid.Column="2" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                        <Label Text="{Binding PrecioUnitario,Mode=TwoWay}" IsVisible="false" Grid.Column="3" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Stock,Mode=TwoWay}" IsVisible="false" Grid.Column="4" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                        <Image x:Name="btnQuitar" Source="https://img.icons8.com/dusk/48/000000/edit-link.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0"  WidthRequest="40">
+                                        </Image>
+                                        <Image x:Name="btnEliminar" Source="https://img.icons8.com/fluent/48/000000/delete-forever.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0"  WidthRequest="40">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="1" x:Name="Eliminar" Tapped="Eliminar_Tapped" />
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
             </Grid>
             <Grid>
                 <Grid.RowDefinitions>
@@ -86,29 +87,31 @@
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
                 <Label Text="Codigo" TextColor="Black"></Label>
                 <Entry x:Name="bscProducto" ></Entry>
-                <Button WidthRequest="100" HeightRequest="100" CornerRadius="100" VerticalOptions="EndAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" HorizontalOptions="End" ImageSource="https://img.icons8.com/cotton/64/000000/search--v2.png"></Button>
+                <Button  VerticalOptions="EndAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" BackgroundColor="green"></Button>
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
-                <ListView ItemsSource="{Binding ListadoProductos,Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd" HeightRequest="100">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Padding="10" BackgroundColor="White">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout Grid.Row="0" Grid.Column="1">
-                                        <Label Text="{Binding INVTID, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
-                                        <Label Text="{Binding DESCRIPCION, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackLayout x:Name="lstProductos" IsVisible="true">
+                    <ListView ItemsSource="{Binding ListadoProductos, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd" HeightRequest="300">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" BackgroundColor="White">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Row="0" Grid.Column="1">
+                                            <Label Text="{Binding INVTID, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding DESCRIPCION, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
                 <Entry x:Name="txtCodigo" IsVisible="false"></Entry>
                 <Label Text="Cantidad" TextColor="Black"></Label>

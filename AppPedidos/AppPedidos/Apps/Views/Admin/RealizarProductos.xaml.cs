@@ -21,9 +21,10 @@ namespace AppPedidos.Apps.Views.Admin
     public partial class RealizarProductos : ContentPage
     {
         public int contador = 0;
+        public string ClasePrecio = "";
         public static BDLocal BD;
         public ObservableCollection<Productos> ListaProductos { get; set; }
-        public IList<ProductosAPI> ListadoProductos { get; private set; }
+        public ObservableCollection<ProductosAPI> ListadoProductos { get; private set; }
         public string codigoPrduc { get; set; }
         public int cantidadPrduc { get; set; }
         public int totalPrduc { get; set; }
@@ -42,10 +43,11 @@ namespace AppPedidos.Apps.Views.Admin
         public RealizarProductos()
         {
             InitializeComponent();
+            ClasePrecio = Application.Current.Properties["claseprecio"] as string ;
             ListaProductos = new ObservableCollection<Productos>();
             ListaProductos.Clear();
             modalAgregar.IsVisible = false;
-            ListadoProductos = new List<ProductosAPI>();
+            ListadoProductos = new ObservableCollection<ProductosAPI>();
             cargarProductos();
             BindingContext = this;
         }
@@ -218,13 +220,13 @@ namespace AppPedidos.Apps.Views.Admin
                 throw;
             }
         }
-        public void cargarDatosProductos(string InvtID)
+        public void cargarDatosProductos(string InvtID, string ClasePrecio)
         {
             try
             {
                 contador = 0;
                 MetodosApi api = new MetodosApi();
-                var respuesta = JArray.Parse(api.obtenerdatosProductos(InvtID));
+                var respuesta = JArray.Parse(api.obtenerdatosProductos(InvtID, ClasePrecio));
                 if (respuesta[0].ToString() == "S")
                 {
                     JArray jsonString = JArray.Parse(respuesta[1].ToString());
@@ -232,6 +234,7 @@ namespace AppPedidos.Apps.Views.Admin
                     foreach (JObject item in jsonString.OfType<JObject>())
                     {
                         Productos rm = CompletarInformacionProd(item);
+                        CompletarInformacionProductos(rm);
                     }
                 }
                 else
@@ -253,6 +256,11 @@ namespace AppPedidos.Apps.Views.Admin
             PrecioUnitario = (int)item.GetValue("Precio"),
             Stock = (int)item.GetValue("QtyAvail")
         };
+        private void  CompletarInformacionProductos(Productos p)
+        {
+            txtPrecioUnitario.Text = p.PrecioUnitario.ToString();
+            txtStock.Text = p.Stock.ToString();
+        }
         private void CompletarDatosListas(ProductosAPI pa)
         {
             ListadoProductos.Add(pa);
@@ -269,12 +277,13 @@ namespace AppPedidos.Apps.Views.Admin
 
             var item = (ProductosAPI)e.SelectedItem;
             var invtID = item.INVTID;
-            cargarDatosProductos(invtID);
+            cargarDatosProductos(invtID, ClasePrecio);
         }
 
         private void btnBuscarprod_Clicked(object sender, EventArgs e)
         {
             cargarBoxProductos(bscProducto.Text);
+            lstProductos.IsVisible = true;
         }
     }
 }

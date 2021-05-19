@@ -28,11 +28,11 @@
                 <FlexLayout Direction="Column">
                     <Label Text="" TextColor="Black" FontSize="Medium" x:Name="txt" />
                 </FlexLayout>
-                <StackLayout>
-                    <Label Text="Cliente" TextColor="Black"></Label>
+                <Label Text="Cliente" TextColor="Black"></Label>
                     <Entry x:Name="agregarCliente"></Entry>
                     <Button Text="Buscar" x:Name="bsrCliente" Clicked="bsrCliente_Clicked" BackgroundColor="Green"></Button>
-                    <ListView ItemsSource="{Binding ListadoClientes,Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstCLiente_ItemSelected" x:Name="lstCLiente" HeightRequest="300">
+                <StackLayout x:Name="lstclientes" IsVisible="false">
+                    <ListView ItemsSource="{Binding ListadoClientes, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstCLiente_ItemSelected" x:Name="lstCLiente" HeightRequest="300" BackgroundColor="White">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -45,15 +45,14 @@
                                             <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Row="0" Grid.Column="1">
-                                            <Label Text="{Binding CustID, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
-                                            <Label Text="{Binding Name, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding IDCliente, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding NombreCliente, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <BoxView VerticalOptions="CenterAndExpand" x:Name="cboCliente"></BoxView>
                 </StackLayout>
                 <StackLayout>
                     <Label Text="Clase Precio" TextColor="Black"></Label>
@@ -69,12 +68,31 @@
                 </StackLayout>
                 <StackLayout>
                     <Label  Text="Retiro en Drogueria" VerticalOptions="Center" TextColor="Black" />
-                    <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkRetiroDrogueria" VerticalOptions="CenterAndExpand" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkRetiroDrogueria" CheckedChanged="chkRetiroDrogueria_CheckedChanged" VerticalOptions="CenterAndExpand" />
                 </StackLayout>
-                <StackLayout>
+                <StackLayout x:Name="lstDireccion" IsVisible="false" >
                     <Label Text="Dirección de Despacho" TextColor="Black"></Label>
-                    <Picker x:Name="DirDespacho" Title="Selecciona Direccion Despacho" ></Picker>
-                    <BoxView VerticalOptions="CenterAndExpand" x:Name="cboDirecDespacho"></BoxView>
+                    <ListView ItemsSource="{Binding ListadoDireccion, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstDireccionCliente_ItemSelected" x:Name="lstDireccionCliente" HeightRequest="300" BackgroundColor="White">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" BackgroundColor="Wheat">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Row="0" Grid.Column="1">
+                                            <Label Text="{Binding Local, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding direccionCliente, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
                 <StackLayout>
                     <Label Text="Tipo Pedido" TextColor="Black"></Label>

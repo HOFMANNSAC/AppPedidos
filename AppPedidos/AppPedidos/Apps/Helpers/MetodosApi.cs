@@ -137,12 +137,33 @@ namespace AppPedidos.Apps.Helpers
             }
             return respuestaString;
         }
-        public string obtenerdatosProductos(string InvtID)
+        public string obtenerdatosProductos(string InvtID, string ClasePrecio)
         {
             string respuestaString = string.Empty;
             try
             {
                 Uri uri = new Uri("https://sellout.drogueriahofmann.cl/App/ObtenerdatosProductos");
+                NameValueCollection parametros = new NameValueCollection
+                {
+                    {"ID", InvtID },
+                    {"ClasePrecio",ClasePrecio }
+                };
+                byte[] respuestaByte = new WebClient().UploadValues(uri, "POST", parametros);
+                respuestaString = Encoding.UTF8.GetString(respuestaByte);
+
+            }
+            catch (Exception ex)
+            {
+                respuestaString = "[\"N\",\"Error al Enviar la petición.\"]";
+            }
+            return respuestaString;
+        }
+        public string ObtenerDatosClientes(string InvtID)
+        {
+            string respuestaString = string.Empty;
+            try
+            {
+                Uri uri = new Uri("https://sellout.drogueriahofmann.cl/App/ObtenerDatosClientes");
                 NameValueCollection parametros = new NameValueCollection
                 {
                     {"ID", InvtID }

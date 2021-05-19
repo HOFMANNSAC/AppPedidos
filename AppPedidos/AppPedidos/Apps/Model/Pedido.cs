@@ -10,8 +10,11 @@ namespace AppPedidos.Apps.Model
         public string CustID { get; set; }
         public string  Name { get; set; }
         public string SHipToId { get; set; }
+        public string clasePrecio { get; set; }
         public string CustOrdNbr { get; set; }
         public string UsuarioCrea { get; set; }
+        public string  direccionCliente { get; set; }
+        public string Local { get; set; }
         public string TipoPedido { get; set; }
         public string ObsGeneral { get; set; }
         public bool ReqDescuento { get; set; }

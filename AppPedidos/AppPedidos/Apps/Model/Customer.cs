@@ -6,7 +6,7 @@ namespace AppPedidos.Apps.Model
 {
     public class Customer
     {
-        public string IDCliente { get; set; }
+        public string  IDCliente { get; set; }
         public string NombreCliente { get; set; }
     }
 }

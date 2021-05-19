@@ -22,7 +22,8 @@ namespace AppPedidos.Apps.Views.Admin
     public partial class RealizarPedidos : ContentPage
     {     
         ObservableCollection<MediaModel> Photos = new ObservableCollection<MediaModel>();
-        public IList<Pedido> ListadoClientes { get; private set; }
+        public ObservableCollection<Customer> ListadoClientes { get; private set; }
+        public ObservableCollection<Pedido> ListadoDireccion { get; private set; }
         int contador = 0;
 
         public RealizarPedidos()
@@ -31,7 +32,9 @@ namespace AppPedidos.Apps.Views.Admin
             cmdGuardar.Clicked += CmdGuardar_Clicked;
             cargarBoxquienAprueba();
             cargarBoxTipoPedido();
-            ListadoClientes = new List<Pedido>();
+            ListadoClientes = new ObservableCollection<Customer>();
+            ListadoDireccion = new ObservableCollection<Pedido>();
+            BindingContext = this;
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
         {
@@ -53,7 +56,7 @@ namespace AppPedidos.Apps.Views.Admin
             try
             {
                 pe.CustID = "";
-                pe.SHipToId = cboDirecDespacho.ToString();
+                pe.SHipToId = "";
                 pe.CustOrdNbr = txtNroOC.Text;
                 pe.UsuarioCrea = u.UsuarioSistema;
                 pe.TipoPedido = cboTipoPedido.ToString();
@@ -163,7 +166,7 @@ namespace AppPedidos.Apps.Views.Admin
 
                     foreach (JObject item in jsonString.OfType<JObject>())
                     {
-                        Pedido p = CompletarInformacion(item);
+                        Customer p = CompletarInformacion(item);
                         CompletarDatosListas(p);
                     }
                 }
@@ -175,14 +178,52 @@ namespace AppPedidos.Apps.Views.Admin
                 throw;
             }
         }
-        private Pedido CompletarInformacion(JObject item) => new Pedido
+        public void cargarDatosCliente(string idCliente)
         {
-            CustID = item.GetValue("custid").ToString(),
-            Name = item.GetValue("name").ToString()
+            MetodosApi api = new MetodosApi();
+            var respuesta = JArray.Parse(api.ObtenerDatosClientes(idCliente));
+            if (respuesta[0].ToString()=="S")
+            {
+                JArray jsonString = JArray.Parse(respuesta[1].ToString());
+
+                foreach (JObject item in jsonString.OfType<JObject>())
+                {
+                    Pedido p = CompletarInformacionDatosClientes(item);
+                    Pedido pe = DatoDireccionCliente(item);
+                    CompletarDatoscliente(p);
+                    CompletarDatosDireccion(pe);
+                }
+            }
+        }
+
+        private Customer CompletarInformacion(JObject item) => new Customer
+        {
+            IDCliente = item.GetValue("custid").ToString(),
+            NombreCliente = item.GetValue("name").ToString()
         };
-        private void CompletarDatosListas(Pedido p)
+        private Pedido CompletarInformacionDatosClientes(JObject item) => new Pedido
+        {
+           clasePrecio = item.GetValue("ClasePrecio").ToString()
+        };
+        private Pedido DatoDireccionCliente(JObject item) => new Pedido
+        { 
+            Local = item.GetValue("ShipToID").ToString(),
+            direccionCliente = item.GetValue("Descr").ToString()
+        };
+        private void CompletarDatosDireccion(Pedido pe)
+        {
+            ListadoDireccion.Add(pe);
+
+        }
+        private void CompletarDatosListas(Customer p)
         {
             ListadoClientes.Add(p);
+        }
+        private void CompletarDatoscliente(Pedido p) 
+        {
+            txtClasePrecio.Text = p.clasePrecio.Substring(0,2);
+            Application.Current.Properties["claseprecio"] = p.clasePrecio.Substring(0,2);
+            txtClasePrecio.IsEnabled = true;
         }
         private void agregarProducto_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -194,12 +235,31 @@ namespace AppPedidos.Apps.Views.Admin
         }
         private void lstCLiente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            var item = (Customer)e.SelectedItem;
+            cargarDatosCliente(item.IDCliente);
         }
 
         private void bsrCliente_Clicked(object sender, EventArgs e)
         {
             cargarClientes(agregarCliente.Text);
+            lstclientes.IsVisible = true;
+        }
+
+        private void lstDireccionCliente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+
+        private void chkRetiroDrogueria_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (chkRetiroDrogueria.IsChecked)
+            {
+                lstDireccion.IsVisible = true;
+            }
+            else
+            {
+                lstDireccion.IsVisible = false;
+            }
         }
     }
 }
