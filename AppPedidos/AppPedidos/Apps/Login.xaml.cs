@@ -33,6 +33,7 @@ namespace AppPedidos.Apps
                 Usuario um = new Usuario();
                 um.UsuarioSistema = txtUsuario.Text;
                 um.Password = txtPassword.Text;
+                Application.Current.Properties["usuarioSistema"] = um.UsuarioSistema;
                 if (um.UsuarioSistema != "" && um.Password != "")
                 {
                     if (Metodos.HayConexion())

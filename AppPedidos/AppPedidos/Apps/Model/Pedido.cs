@@ -11,6 +11,9 @@ namespace AppPedidos.Apps.Model
         public string  Name { get; set; }
         public string SHipToId { get; set; }
         public string clasePrecio { get; set; }
+        public string formaPago { get; set; }
+        public string  estadoCliente { get; set; }
+        public string  correElectronico { get; set; }
         public string CustOrdNbr { get; set; }
         public string UsuarioCrea { get; set; }
         public string  direccionCliente { get; set; }

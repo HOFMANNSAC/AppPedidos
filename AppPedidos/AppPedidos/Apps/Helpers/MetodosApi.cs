@@ -34,10 +34,10 @@ namespace AppPedidos.Apps.Helpers
             string respuestaString = "";
             try
             {
-                Uri uri = new Uri("https://localhost:44370/Pedidos/InsertarPedidos");
+                Uri uri = new Uri("https://sellout.drogueriahofmann.cl/Pedidos/InsertarPedidos");
                 NameValueCollection parametros = new NameValueCollection
                     {
-                        { "ID", pe.ID },
+                        { "ID", pe.CustID },
                         { "SHipToId", pe.SHipToId },
                         { "CustOrdNbr", pe.CustOrdNbr },
                         { "UsuarioCrea", pe.UsuarioCrea },
@@ -49,6 +49,33 @@ namespace AppPedidos.Apps.Helpers
                         { "TotalOrden", pe.TotalOrden },
                         { "NroProductos", pe.NroProductos },
                         { "RetiroDrogueria", pe.RetiroDrogueria.ToString()},
+                    };
+                byte[] respuestaByte = new WebClient().UploadValues(uri, "POST", parametros);
+                respuestaString = Encoding.UTF8.GetString(respuestaByte);
+            }
+            catch (Exception)
+            {
+                respuestaString = "[\"N\",\"Error al Enviar la petición.\"]";
+            }
+            return respuestaString;
+        }
+        public string guardarDetallePedido(Productos p, int nroLinea)
+        {
+            string respuestaString = "";
+            try
+            {
+                Uri uri = new Uri("https://sellout.drogueriahofmann.cl/App/guardarDetallePedido");
+                NameValueCollection parametros = new NameValueCollection
+                    {
+                    {"NoLinea", nroLinea.ToString() },
+                    { "NroPedido", ""},
+                    {"InvtID", p.ID },
+                    {"Qty", p.Cantidad.ToString() },
+                    {"SlsPrice", p.PrecioUnitario.ToString() },
+                    {"StockMomento", p.Stock.ToString() },
+                    {"Total", p.Total.ToString() }
+
+
                     };
                 byte[] respuestaByte = new WebClient().UploadValues(uri, "POST", parametros);
                 respuestaString = Encoding.UTF8.GetString(respuestaByte);

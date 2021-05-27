@@ -60,6 +60,7 @@ namespace AppPedidos.Apps.Views.Admin
         {
             try
             {
+                lstProd.IsVisible = true;
                 btnGuardarProd.IsVisible = false;
                 btnSumarProd.IsVisible = true;
                 btnRestarProd.IsVisible = true;
@@ -133,19 +134,24 @@ namespace AppPedidos.Apps.Views.Admin
 
         private void btnGuardarProd_Clicked(object sender, EventArgs e)
         {
-            string codigo = bscProducto.Text;
+            string codigo = txtCodigo.Text;
             int cantidad = Convert.ToInt32(txtCantidad.Text);
             int precioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
             int stock = Convert.ToInt32(txtStock.Text);
             Productos addproductos = new Productos() { ID = codigo, Cantidad = cantidad, Total = precioUnitario * cantidad , PrecioUnitario = precioUnitario,Stock=stock };
             ListaProductos.Add(addproductos);
             BindingContext = this;
-            DisplayAlert("Mensaje", "Agregado", "Aceptar");
+            DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
             modalAgregar.IsVisible = false;
             btnAgregarProducto.IsVisible = true;
             btnBack.IsVisible = true;
-        }
 
+            Application.Current.Properties["InvtID"] = addproductos.ID;
+            Application.Current.Properties["Qty"] = addproductos.Cantidad;
+            Application.Current.Properties["SlsPrice"] = addproductos.PrecioUnitario;
+            Application.Current.Properties["Stock"] = addproductos.Stock;
+            Application.Current.Properties["Total"] = addproductos.Total;
+        }
         private void Eliminar_Tapped(object sender, EventArgs e)
         {
             var imagen = sender as Image;
@@ -166,7 +172,7 @@ namespace AppPedidos.Apps.Views.Admin
                     ListaProductos.Clear();
                     Productos addproductos = new Productos() { ID = codigoPrduc, Cantidad = Convert.ToInt32(txtCantidad.Text), Total = totalPrduc * cantidad };
                     ListaProductos.Add(addproductos);
-                    DisplayAlert("Mensaje", "Edito", "Aceptar");
+                    DisplayAlert("Mensaje", "Producto Modificado (Se ha sumado la suma de '"+cantidad+"' a la cantidad del producto )", "Aceptar");
                     modalAgregar.IsVisible = false;
                     BindingContext = this;
                     btnAgregarProducto.IsVisible = true;
@@ -211,6 +217,8 @@ namespace AppPedidos.Apps.Views.Admin
                         ProductosAPI rm = CompletarInformacion(item);
                         CompletarDatosListas(rm);
                     }
+
+                    lstProd.HeightRequest = 88 * contador;
                 }
                 else
                     DisplayAlert("Error", "No existen productos asociadas", "OK");
@@ -220,7 +228,7 @@ namespace AppPedidos.Apps.Views.Admin
                 throw;
             }
         }
-        public void cargarDatosProductos(string InvtID, string ClasePrecio)
+        public void cargarDatosProductos(string InvtID, string ClasePrecio)                                                                                                                                                                                                                                                                                                     
         {
             try
             {
@@ -253,17 +261,23 @@ namespace AppPedidos.Apps.Views.Admin
         };
         private Productos CompletarInformacionProd(JObject item) => new Productos
         {
+            ID= item.GetValue("InvtId").ToString(),
             PrecioUnitario = (int)item.GetValue("Precio"),
             Stock = (int)item.GetValue("QtyAvail")
         };
         private void  CompletarInformacionProductos(Productos p)
         {
+            lblCodigo.IsVisible = true;
+            txtCodigo.IsVisible = true;
+            txtCodigo.Text = p.ID.ToString();
             txtPrecioUnitario.Text = p.PrecioUnitario.ToString();
             txtStock.Text = p.Stock.ToString();
+            lstProductos.IsVisible = false;
         }
         private void CompletarDatosListas(ProductosAPI pa)
         {
             ListadoProductos.Add(pa);
+            contador++;
         }
         private void PCKproducto_SelectedIndexChanged(object sender, EventArgs e)
         {

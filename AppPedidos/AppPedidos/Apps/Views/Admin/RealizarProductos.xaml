@@ -85,12 +85,11 @@
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
                 <Label Text="AGREGAR PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
-                <Label Text="Codigo" TextColor="Black"></Label>
+                <Label Text="Buscar" TextColor="Black"></Label>
                 <Entry x:Name="bscProducto" ></Entry>
-                <Button  VerticalOptions="EndAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" BackgroundColor="green"></Button>
-                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
-                <StackLayout x:Name="lstProductos" IsVisible="true">
-                    <ListView ItemsSource="{Binding ListadoProductos, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd" HeightRequest="300">
+                <Button  VerticalOptions="EndAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" BackgroundColor="green" Text="Buscar"></Button>
+                <StackLayout x:Name="lstProductos" IsVisible="false">
+                    <ListView ItemsSource="{Binding ListadoProductos, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -113,6 +112,7 @@
                     </ListView>
                 </StackLayout>
                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
+                <Label Text="Codigo" TextColor="Black" x:Name="lblCodigo" IsVisible="false"></Label>
                 <Entry x:Name="txtCodigo" IsVisible="false"></Entry>
                 <Label Text="Cantidad" TextColor="Black"></Label>
                 <Entry x:Name="txtCantidad" ></Entry>
