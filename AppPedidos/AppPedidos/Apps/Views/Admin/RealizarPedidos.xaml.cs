@@ -70,8 +70,17 @@ namespace AppPedidos.Apps.Views.Admin
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
         {
-            AgregarPedido();
-            limpiarPedido();
+            if (txtCliente.Text=="" || txtCliente.Text==null)
+            {
+                DisplayAlert("Error","Debe buscar y seleccionar un cliente","Aceptar");
+            }
+            else
+            {
+                AgregarPedido();
+                limpiarPedido();
+              
+            }
+         
         }
         private void limpiarPedido()
         {
@@ -82,13 +91,14 @@ namespace AppPedidos.Apps.Views.Admin
             chkRetiroDrogueria.IsChecked = false;
             ListadoDireccion.Clear();
             txtDireccion.Text = "";
-            tipoPedido.SelectedIndex = 0;
+            tipoPedido.SelectedIndex= -1;
             txtNroOC.Text = "";
             txtCorreo.Text = "";
             txtObsGeneral.Text = "";
             chkReqDescuento.IsChecked = false;
-            quienAprueba.SelectedIndex = 0;
+            quienAprueba.SelectedIndex = -1;
             txtObsDescuento.Text = "";
+            txtCliente.IsEnabled = true;
         }
         private void LimpiarAgregarProductos()
         {
@@ -126,6 +136,11 @@ namespace AppPedidos.Apps.Views.Admin
             {
                 chekRetiroDrogueria = true;
             }
+            if (chkRetiroDrogueria.IsChecked == false)
+            {
+                txtDireccion.Text = "DEFAULT";
+
+            }
 
             foreach (var item in ListaProductos)
             {
@@ -135,7 +150,7 @@ namespace AppPedidos.Apps.Views.Admin
             try
             {
                 pe.CustID = txtCliente.Text;
-                pe.SHipToId = custOrdNbr;
+                pe.SHipToId = txtDireccion.Text;
                 pe.CustOrdNbr = txtNroOC.Text;
                 pe.UsuarioCrea = (string)usuarioCreacion;
                 pe.TipoPedido = (string)tipoPedido.SelectedItem;
@@ -316,6 +331,7 @@ namespace AppPedidos.Apps.Views.Admin
             cargarDatosCliente(item.IDCliente);
             txtCliente.Text = item.NombreCliente;
             lstclientes.IsVisible = false;
+            txtCliente.IsEnabled = false;
         }
 
         private void bsrCliente_Clicked(object sender, EventArgs e)
@@ -329,6 +345,7 @@ namespace AppPedidos.Apps.Views.Admin
             {
                 cargarClientes(txtCliente.Text.Trim());
                 lstclientes.IsVisible = true;
+                lstclientes.HeightRequest = 150;
             }    
         }
 
@@ -416,7 +433,7 @@ namespace AppPedidos.Apps.Views.Admin
                     int cantidad = item.Cantidad;
                     int precioUnitario = item.PrecioUnitario;
                     int stock = item.Stock;
-                    int noLinea =Convert.ToInt32( txtNrolinea.Text);
+                    int noLinea =item.nroLinea;
                     Productos addproductos = new Productos() { nroLinea = noLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = precioUnitario, Stock = stock, Total = precioUnitario * cantidad };
                     respuesta = "S";
 
@@ -453,7 +470,8 @@ namespace AppPedidos.Apps.Views.Admin
                     int cantidad = Convert.ToInt32(txtCantidad.Text);
                     int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
                     int stock = Convert.ToInt32(txtStock.Text);
-                    Productos addproductos = new Productos() { ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
+                    int nroLinea = Convert.ToInt32(txtNrolinea.Text);
+                    Productos addproductos = new Productos() { nroLinea=nroLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
                     string id = "";
                     foreach (var item in ListaProductos)
                     {
@@ -589,8 +607,15 @@ namespace AppPedidos.Apps.Views.Admin
             }
             else
             {
-                cargarBoxProductos(bscProducto.Text.Trim());
-                lstProductosAPI.IsVisible = true;
+                if (bscProducto.CursorPosition <= 4)
+                {
+                    DisplayAlert("Error", "Debe ingresar al menos 4 letras", "Aceptar");
+                }
+                else
+                {
+                    cargarBoxProductos(bscProducto.Text.Trim());
+                    lstProductosAPI.IsVisible = true;
+                }
             }
         }
         private void btnDesplegarProd_Clicked(object sender, EventArgs e)
@@ -672,6 +697,19 @@ namespace AppPedidos.Apps.Views.Admin
         private void btnBorrarCampos_Clicked(object sender, EventArgs e)
         {
             LimpiarAgregarProductos();
+            mdlVerProductos.IsVisible = false;
+        }
+
+        private void btnLimpiar_Clicked(object sender, EventArgs e)
+        {
+            limpiarPedido();
+        }
+
+        private void btnLimpiarBuscar_Clicked(object sender, EventArgs e)
+        {
+            limpiarPedido();
+            ListadoClientes.Clear();
+            lstclientes.HeightRequest = 0;
         }
     }
     #endregion

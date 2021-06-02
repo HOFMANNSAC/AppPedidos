@@ -138,7 +138,7 @@
                         <Label Text="Stock" TextColor="Black"></Label>
                         <Entry x:Name="txtStock" ></Entry>
                         <Button Margin="100,20" BorderRadius="6" BackgroundColor="Green" Text="Guardar" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" x:Name="btnGuardarProd" Clicked="btnGuardarProd_Clicked"  TextColor="White"/>
-                        <Button Margin="100,20" BorderRadius="6" BackgroundColor="Salmon" Text="Borrar"  x:Name="btnBorrarCampos" Clicked="btnBorrarCampos_Clicked"  TextColor="White"/>
+                        <Button Margin="100,20" BorderRadius="6" BackgroundColor="red" Text="Cancelar"  x:Name="btnCancelar" Clicked="btnBorrarCampos_Clicked"  TextColor="White"/>
                         <Button Margin="100,20" BorderRadius="6" BackgroundColor="green" Text="Editar" ImageSource="https://img.icons8.com/fluent/64/000000/add.png" IsVisible="false" x:Name="btnEditar" Clicked="btnEditar_Clicked" TextColor="White" />
                     <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
 
@@ -154,7 +154,17 @@
                 </FlexLayout>
                 <Label Text="Cliente" TextColor="Black"></Label>
                     <Entry x:Name="txtCliente"></Entry>
-                    <Button Text="Buscar Cliente" x:Name="bsrCliente" Clicked="bsrCliente_Clicked" BackgroundColor="Green" TextColor="White"></Button>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Text="Buscar Cliente" x:Name="bsrCliente" Clicked="bsrCliente_Clicked" BackgroundColor="Green" TextColor="White"  HorizontalOptions="StartAndExpand"></Button>
+                    <Button VerticalOptions="EndAndExpand" x:Name="btnLimpiarBuscar" Clicked="btnLimpiarBuscar_Clicked" BackgroundColor="red" TextColor="white" Text="Limpiar" HorizontalOptions="EndAndExpand"></Button>
+                </Grid>
                 <StackLayout x:Name="lstclientes" IsVisible="false">
                     <ListView ItemsSource="{Binding ListadoClientes, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstCLiente_ItemSelected" x:Name="lstCLiente" HeightRequest="150" BackgroundColor="White">
                         <ListView.ItemTemplate>
@@ -237,7 +247,7 @@
                 </StackLayout>
                 <StackLayout>
                     <Label Text="Obs. General" TextColor="Black"></Label>
-                    <Entry x:Name="txtObsGeneral"></Entry>
+                    <Entry x:Name="txtObsGeneral" ></Entry>
                 </StackLayout>
                 <StackLayout>
                     <Label  Text="Requiere Descuento" VerticalOptions="Center" TextColor="Black" />
@@ -253,7 +263,7 @@
                     <Entry x:Name="txtObsDescuento"></Entry>
                 </StackLayout>
                 <Button Margin="100,20" BorderRadius="6" BackgroundColor="Green" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" Text="Guardar" x:Name="cmdGuardar"  TextColor="White" Grid.Row="0"/>
-                <Button Margin="100,20" BorderRadius="6" BackgroundColor="red" ImageSource="https://img.icons8.com/dusk/64/000000/eraser.png" Text="Borrar"  TextColor="White" Grid.Row="0" Grid.Column="1" />
+                <Button Margin="100,20" BorderRadius="6" BackgroundColor="red" ImageSource="https://img.icons8.com/dusk/64/000000/eraser.png" Text="Limpiar" x:Name="btnLimpiar" Clicked="btnLimpiar_Clicked"  TextColor="White" Grid.Row="0" Grid.Column="1" />
             </StackLayout>
         </StackLayout>
     </ScrollView>
