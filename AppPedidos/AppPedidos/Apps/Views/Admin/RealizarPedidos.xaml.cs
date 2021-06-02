@@ -398,7 +398,6 @@ namespace AppPedidos.Apps.Views.Admin
         {
 
         }
-
         private void btnGuardarProd_Clicked(object sender, EventArgs e)
         {
             agregarTablaProductos();
@@ -411,21 +410,24 @@ namespace AppPedidos.Apps.Views.Admin
                 contador = 0;
             MetodosApi api = new MetodosApi();
             var respuesta = string.Empty;
-
-            string codigo = txtCodigo.Text;
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
-            int precioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
-            int stock = Convert.ToInt32(txtStock.Text);
-            int noLinea = ListaProductos.Count + 1;
-            Productos addproductos = new Productos() {nroLinea=noLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = precioUnitario, Stock = stock, Total = precioUnitario * cantidad };
-                respuesta = "S";
-           
-                if (respuesta == "S")
+                foreach (var item in ListaProductos)
                 {
-                    api.guardarDetallePedido(addproductos, noLinea);
+                    string codigo = item.ID;
+                    int cantidad = item.Cantidad;
+                    int precioUnitario = item.PrecioUnitario;
+                    int stock = item.Stock;
+                    int noLinea =Convert.ToInt32( txtNrolinea.Text);
+                    Productos addproductos = new Productos() { nroLinea = noLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = precioUnitario, Stock = stock, Total = precioUnitario * cantidad };
+                    respuesta = "S";
+
+                    if (respuesta == "S")
+                    {
+                        api.guardarDetallePedido(addproductos, noLinea);
+                    }
+                    else
+                        DisplayAlert("Error", "Ha ocurrido un error", "OK");
                 }
-                else
-                    DisplayAlert("Error", "Ha ocurrido un error", "OK");
+     
             }
             catch (Exception ex)
             {
@@ -434,30 +436,45 @@ namespace AppPedidos.Apps.Views.Admin
         }
         private void agregarTablaProductos()
         {
-            string codigo = txtCodigo.Text;
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
-            int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
-            int stock = Convert.ToInt32(txtStock.Text);
-            Productos addproductos = new Productos() { ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
-            string id = "";
-            foreach (var item in ListaProductos)
+            if (txtCantidad.Text== null || txtCantidad.Text=="")
             {
-             id = item.ID;
-            }
-            if (id == codigo)
-            {
-                DisplayAlert("Error","Producto ya existe","Aceptar");
+                DisplayAlert("Error", "Debe indicar cantidad", "Aceptar");
             }
             else
             {
-                ListaProductos.Add(addproductos);
+                if (txtNrolinea.Text=="" || txtNrolinea.Text==null)
+                {
+                    DisplayAlert("Error", "Debe indicar Nro de linea", "Aceptar");
+                }
+                else
+                {
 
-                BindingContext = this;
-                DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
-                mdlVerProductos.IsVisible = false;
-                btnAgregarProducto.IsVisible = true;
-                mdlVerProductos.IsVisible = false;
-                LimpiarAgregarProductos();
+                    string codigo = txtCodigo.Text;
+                    int cantidad = Convert.ToInt32(txtCantidad.Text);
+                    int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
+                    int stock = Convert.ToInt32(txtStock.Text);
+                    Productos addproductos = new Productos() { ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
+                    string id = "";
+                    foreach (var item in ListaProductos)
+                    {
+                        id = item.ID;
+                    }
+                    if (id == codigo)
+                    {
+                        DisplayAlert("Error", "Producto ya existe", "Aceptar");
+                    }
+                    else
+                    {
+                        ListaProductos.Add(addproductos);
+
+                        BindingContext = this;
+                        DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
+                        mdlVerProductos.IsVisible = false;
+                        btnAgregarProducto.IsVisible = true;
+                        mdlVerProductos.IsVisible = false;
+                        LimpiarAgregarProductos();
+                    }
+                }
             }
         }
         private void Eliminar_Tapped(object sender, EventArgs e)
@@ -555,7 +572,6 @@ namespace AppPedidos.Apps.Views.Admin
         private void lstProd_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             bscProducto.IsEnabled = false;
-            txtNrolinea.IsEnabled = false;
             txtCodigo.IsEnabled = false;
             txtTotal.IsEnabled = false;
             txtPrecioUnitario.IsEnabled = false;
@@ -579,15 +595,15 @@ namespace AppPedidos.Apps.Views.Admin
         }
         private void btnDesplegarProd_Clicked(object sender, EventArgs e)
         {
-            if (txtClasePrecio.Text != null)
+            if (txtClasePrecio.Text == null || txtClasePrecio.Text == "")
+            {
+                DisplayAlert("Alerta", "Debe Buscar y Seleccionar Cliente", "Aceptar");
+            }
+            else
             {
                 gvAgregarProductos.IsVisible = true;
                 gvAgregarPedidos.IsVisible = false;
                 BindingContext = this;
-            }
-            else
-            {
-                DisplayAlert("Alerta", "Debe Buscar y Seleccionar Cliente", "Aceptar");
             }
         }
         private void btnCerrarDesplegar_Clicked(object sender, EventArgs e)
