@@ -28,14 +28,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-
-                <Button WidthRequest="100" HeightRequest ="100" CornerRadius ="100" VerticalOptions ="CenterAndExpand" x:Name="cmdAgregar" Clicked="cmdAgregar_Clicked_1" HorizontalOptions ="StartAndExpand"  ImageSource="https://img.icons8.com/color/480/000000/add--v1.png" />
-                <Button WidthRequest="100" HeightRequest ="100" CornerRadius ="100" VerticalOptions ="Center" x:Name="cmdCerrar" Clicked="cmdCerrar_Clicked" HorizontalOptions ="End"  ImageSource="https://img.icons8.com/fluent/480/000000/close-window.png" />
+                <Button  BackgroundColor="green" Text="Desplegar Productos" TextColor="White" VerticalOptions ="CenterAndExpand" x:Name="btnDesplegarProd" Clicked="btnDesplegarProd_Clicked" HorizontalOptions ="StartAndExpand"  />
+                <Button BackgroundColor="Red" Text=" Cerrar DEsplegar" TextColor="White" VerticalOptions ="Center" x:Name="btnCerrarDesplegar" Clicked="btnCerrarDesplegar_Clicked" HorizontalOptions ="End"  />
             </Grid>
-            <StackLayout x:Name="AgregarProductos" IsVisible="false">
-                <!--///Agregar productos-->
-                <StackLayout Margin="10,10,10,10">
-                    <Label Text="PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
+            <!--///AGREGAR PRODUCTOS-->
+            <StackLayout x:Name="gvAgregarProductos" IsVisible="false" Margin="10,10,10,10">
+                <Label Text="PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
                     <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
                     <Grid WidthRequest="150" >
                         <Grid.RowDefinitions>
@@ -53,7 +51,7 @@
                         <Label Text="Total" Grid.Column="2" Grid.Row="0"></Label>
                         <Label Text="Accion" Grid.Column="3" Grid.Row="0"></Label>
                         <Label Text="Eliminar" Grid.Column="4" Grid.Row="0"></Label>
-                        <ListView ItemsSource="{Binding ListaProductos,Mode=TwoWay}" ItemSelected="Lista_ItemSelected" Grid.Row="1" Grid.ColumnSpan="5"  HasUnevenRows="True" x:Name="Lista" HeightRequest="150" IsPullToRefreshEnabled = "true" >
+                        <ListView ItemsSource="{Binding ListaProductos,Mode=TwoWay}" ItemSelected="lstProductos_ItemSelected" Grid.Row="1" Grid.ColumnSpan="5"  HasUnevenRows="True" x:Name="lstProductos" HeightRequest="150" IsPullToRefreshEnabled = "true" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -94,40 +92,39 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button WidthRequest="100" HeightRequest ="100" CornerRadius ="100" VerticalOptions ="Center" x:Name="btnAgregarProducto" Clicked="btnAgregarProducto_Clicked" HorizontalOptions ="StartAndExpand"  ImageSource="https://img.icons8.com/flat-round/256/000000/plus.png" />
-                        <Button WidthRequest="100" HeightRequest ="100" CornerRadius ="100" VerticalOptions ="Center" x:Name="btnBack" HorizontalOptions ="EndAndExpand" Clicked="Button_Clicked"  ImageSource="https://img.icons8.com/flat-round/256/000000/circled-left.png" />
-                    </Grid>
-                    <StackLayout x:Name="modalAgregar" Margin="5,5,5,5" BackgroundColor="LightGray">
+                    <Button Text="Agregar" BackgroundColor="Green" TextColor="White" x:Name="btnAgregarProducto" Clicked="btnAgregarProducto_Clicked" HorizontalOptions ="StartAndExpand"   />
+                </Grid>
+                    <StackLayout x:Name="mdlVerProductos" Margin="10,10,10,10" BackgroundColor="white" IsVisible="false">
                         <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
                         <Label Text="AGREGAR PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10,10,10,10" />
                         <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
                         <Label Text="Buscar" TextColor="Black"></Label>
                         <Entry x:Name="bscProducto" ></Entry>
                         <Button  VerticalOptions="EndAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" BackgroundColor="green" Text="Buscar"></Button>
-                        <StackLayout x:Name="lstProductos" IsVisible="false">
-                            <ListView ItemsSource="{Binding ListadoProductos, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <ViewCell>
-                                            <Grid Padding="10" BackgroundColor="White">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackLayout Grid.Row="0" Grid.Column="1">
-                                                    <Label Text="{Binding INVTID, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
-                                                    <Label Text="{Binding DESCRIPCION, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
-                                                </StackLayout>
-                                            </Grid>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackLayout>
-                        <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
+                    <StackLayout x:Name="lstProductosAPI" IsVisible="false">
+                        <ListView ItemsSource="{Binding ListadoProductosAPI, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid Padding="10" BackgroundColor="White">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout Grid.Row="0" Grid.Column="1">
+                                                <Label Text="{Binding INVTID, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                                <Label Text="{Binding DESCRIPCION, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                            </StackLayout>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
                         <Label Text="Nro Linea" TextColor="Black" x:Name="lblnroLinea"></Label>
                         <Entry x:Name="txtNrolinea"></Entry>
                         <Label Text="Codigo" TextColor="Black" x:Name="lblCodigo" IsVisible="false"></Label>
@@ -141,24 +138,25 @@
                         <Label Text="Stock" TextColor="Black"></Label>
                         <Entry x:Name="txtStock" ></Entry>
                         <Button Margin="100,20" BorderRadius="6" BackgroundColor="Green" Text="Guardar" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" x:Name="btnGuardarProd" Clicked="btnGuardarProd_Clicked"  TextColor="White"/>
-                        <Button Margin="100,20" BorderRadius="6" BackgroundColor="green" Text="Sumar" ImageSource="https://img.icons8.com/fluent/64/000000/add.png" IsVisible="false" x:Name="btnSumarProd" Clicked="btnSumarProd_Clicked_1" TextColor="White" />
-                        <Button Margin="100,20" BorderRadius="6" BackgroundColor="red"  Text="Restar" ImageSource="https://img.icons8.com/flat-round/64/000000/minus.png" IsVisible="false" x:Name="btnRestarProd" Clicked="btnRestarProd_Clicked" TextColor="White" />
-                        <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
-                    </StackLayout>
+                        <Button Margin="100,20" BorderRadius="6" BackgroundColor="Salmon" Text="Borrar"  x:Name="btnBorrarCampos" Clicked="btnBorrarCampos_Clicked"  TextColor="White"/>
+                        <Button Margin="100,20" BorderRadius="6" BackgroundColor="green" Text="Editar" ImageSource="https://img.icons8.com/fluent/64/000000/add.png" IsVisible="false" x:Name="btnEditar" Clicked="btnEditar_Clicked" TextColor="White" />
+                    <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
+
                 </StackLayout>
-            </StackLayout>
+                </StackLayout>
             
-            <Label Text="INGRESAR PEDIDO" TextColor="Black" Margin="10,10,10,10" FontAttributes="Bold" FontSize="Small" />
-            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
-            <StackLayout Margin="10,5,5,5" x:Name="AgregarPedido" IsVisible="true">
+            <!--AGREGARPEDIDO-->
+            <StackLayout Margin="10,5,5,5" x:Name="gvAgregarPedidos" IsVisible="true">
+                <Label Text="INGRESAR PEDIDO" TextColor="Black" Margin="10,10,10,10" FontAttributes="Bold" FontSize="Small" />
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
                 <FlexLayout Direction="Column">
                     <Label Text="" TextColor="Black" FontSize="Medium" x:Name="txt" />
                 </FlexLayout>
                 <Label Text="Cliente" TextColor="Black"></Label>
                     <Entry x:Name="txtCliente"></Entry>
-                    <Button Text="Buscar" x:Name="bsrCliente" Clicked="bsrCliente_Clicked" BackgroundColor="Green"></Button>
+                    <Button Text="Buscar Cliente" x:Name="bsrCliente" Clicked="bsrCliente_Clicked" BackgroundColor="Green" TextColor="White"></Button>
                 <StackLayout x:Name="lstclientes" IsVisible="false">
-                    <ListView ItemsSource="{Binding ListadoClientes, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstCLiente_ItemSelected" x:Name="lstCLiente" HeightRequest="300" BackgroundColor="White">
+                    <ListView ItemsSource="{Binding ListadoClientes, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstCLiente_ItemSelected" x:Name="lstCLiente" HeightRequest="150" BackgroundColor="White">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>

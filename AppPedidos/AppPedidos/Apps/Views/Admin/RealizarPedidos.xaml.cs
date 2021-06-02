@@ -24,11 +24,12 @@ namespace AppPedidos.Apps.Views.Admin
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RealizarPedidos : ContentPage
-    {     
+    {
         ObservableCollection<MediaModel> Photos = new ObservableCollection<MediaModel>();
         public ObservableCollection<Customer> ListadoClientes { get; private set; }
         public ObservableCollection<Pedido> ListadoDireccion { get; private set; }
 
+        public int IdProducto = 0;
         public int contador = 0;
         public int contadorpedido = 0;
         public string ClasePrecio = "";
@@ -36,7 +37,7 @@ namespace AppPedidos.Apps.Views.Admin
         int nroLinea = 0;
         public static BDLocal BD;
         public ObservableCollection<Productos> ListaProductos { get; set; }
-        public ObservableCollection<ProductosAPI> ListadoProductos { get; private set; }
+        public ObservableCollection<ProductosAPI> ListadoProductosAPI { get; private set; }
         public string codigoPrduc { get; set; }
         public int cantidadPrduc { get; set; }
         public int totalPrduc { get; set; }
@@ -58,9 +59,8 @@ namespace AppPedidos.Apps.Views.Admin
             InitializeComponent();
             ListaProductos = new ObservableCollection<Productos>();
             ListaProductos.Clear();
-            modalAgregar.IsVisible = false;
-            ListadoProductos = new ObservableCollection<ProductosAPI>();
-            cargarProductos();
+            mdlVerProductos.IsVisible = false;
+            ListadoProductosAPI = new ObservableCollection<ProductosAPI>();
             cmdGuardar.Clicked += CmdGuardar_Clicked;
             cargarBoxquienAprueba();
             cargarBoxTipoPedido();
@@ -69,6 +69,46 @@ namespace AppPedidos.Apps.Views.Admin
             BindingContext = this;
         }
         private void CmdGuardar_Clicked(object sender, EventArgs e)
+        {
+            AgregarPedido();
+            limpiarPedido();
+        }
+        private void limpiarPedido()
+        {
+            txtCliente.Text = "";
+            txtClasePrecio.Text = "";
+            txtEstadoCliente.Text = "";
+            txtEstadoCredito.Text = "";
+            chkRetiroDrogueria.IsChecked = false;
+            ListadoDireccion.Clear();
+            txtDireccion.Text = "";
+            tipoPedido.SelectedIndex = 0;
+            txtNroOC.Text = "";
+            txtCorreo.Text = "";
+            txtObsGeneral.Text = "";
+            chkReqDescuento.IsChecked = false;
+            quienAprueba.SelectedIndex = 0;
+            txtObsDescuento.Text = "";
+        }
+        private void LimpiarAgregarProductos()
+        {
+            bscProducto.Text = "";
+            txtNrolinea.Text = "";
+            txtCodigo.Text = "";
+            txtCantidad.Text = "";
+            txtTotal.Text = "";
+            txtPrecioUnitario.Text = "";
+            txtStock.Text = "";
+            bscProducto.IsEnabled = true;
+            txtNrolinea.IsEnabled =true;
+            txtCodigo.IsEnabled=true;
+            txtCantidad.IsEnabled=true;
+            txtTotal.IsEnabled=true;
+            txtPrecioUnitario.IsEnabled = true;
+            txtStock.IsEnabled = true; 
+        }
+
+        private void AgregarPedido()
         {
             string resultado = "";
             Pedido pe = new Pedido();
@@ -86,6 +126,12 @@ namespace AppPedidos.Apps.Views.Admin
             {
                 chekRetiroDrogueria = true;
             }
+
+            foreach (var item in ListaProductos)
+            {
+                totalOrden = +0;
+                totalOrden = item.Total;
+            }
             try
             {
                 pe.CustID = txtCliente.Text;
@@ -97,7 +143,7 @@ namespace AppPedidos.Apps.Views.Admin
                 pe.ReqDescuento = chekReqDescuento;
                 pe.QuienAprueba = (string)quienAprueba.SelectedItem;
                 pe.ObsDescuento = txtObsDescuento.Text;
-                pe.TotalOrden = "";
+                pe.TotalOrden = totalOrden.ToString();
                 pe.NroProductos = contadorpedido.ToString();
                 pe.RetiroDrogueria = chekRetiroDrogueria;
                 resultado = "S";
@@ -109,31 +155,17 @@ namespace AppPedidos.Apps.Views.Admin
                 {
                     resultado = "N";
                 }
-                if (contadorpedido!=0)
+                if (contadorpedido != 0)
                 {
 
                     AgregarProducto();
                 }
+                DisplayAlert("Alerta", "Pedido Ingresado Correctamente", "OK");
             }
             catch (Exception)
             {
                 return;
             }
-        }
-        private  void cmdAgregar_Clicked_1(object sender, EventArgs e)
-        {
-            if (txtClasePrecio.Text!=null)
-            {
-
-                AgregarProductos.IsVisible = true;
-                AgregarPedido.IsVisible = false;
-                BindingContext = this;
-            }
-            else
-            {
-                DisplayAlert("Alerta","Debe Seleccionar Cliente","Aceptar");
-            }
-          
         }
         private void tipoPedido_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -192,6 +224,7 @@ namespace AppPedidos.Apps.Views.Admin
         {
             try
             {
+
                 contador = 0;
                 MetodosApi api = new MetodosApi();
                 var respuesta = JArray.Parse(api.CargarCLientes(name));
@@ -257,6 +290,7 @@ namespace AppPedidos.Apps.Views.Admin
         }
         private void CompletarDatosListas(Customer p)
         {
+            ListadoClientes.Clear();
             ListadoClientes.Add(p);
         }
         private void CompletarDatoscliente(Pedido p) 
@@ -286,8 +320,16 @@ namespace AppPedidos.Apps.Views.Admin
 
         private void bsrCliente_Clicked(object sender, EventArgs e)
         {
-            cargarClientes(txtCliente.Text.Trim());
-            lstclientes.IsVisible = true;
+            if (txtCliente.Text == null || txtCliente.Text == "")
+            {
+
+                DisplayAlert("Error", "Debe ingresar un cliente ", "Aceptar");
+            }
+            else 
+            {
+                cargarClientes(txtCliente.Text.Trim());
+                lstclientes.IsVisible = true;
+            }    
         }
 
         private void lstDireccionCliente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -312,25 +354,25 @@ namespace AppPedidos.Apps.Views.Admin
 
         /// AGREGAR PRODUCTOS
         #region AGREGAR PRODUCTOS
-        private void cargarProductos()
-        {
-            Productos p = new Productos() { nroLinea = 1, ID = "TEXBAB01", Cantidad = 1, Total = 500, PrecioUnitario = 500, Stock = 115 };
-            ListaProductos.Add(p);
-        }
-        private void Lista_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        //private void cargarProductos()
+        //{
+        //    Productos p = new Productos() { nroLinea = 1, ID = "TEXBAB01", Cantidad = 1, Total = 500, PrecioUnitario = 500, Stock = 115 };
+        //    ListaProductos.Add(p);
+        //}
+        private void lstProductos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             try
             {
                 lstProd.IsVisible = true;
                 btnGuardarProd.IsVisible = false;
-                btnSumarProd.IsVisible = true;
-                btnRestarProd.IsVisible = true;
-                modalAgregar.IsVisible = true;
+                btnEditar.IsVisible = true;
+                mdlVerProductos.IsVisible = true;
                 //Datos Tabla LISTA
                 var item = (Productos)e.SelectedItem;
                 codigoPrduc = item.ID.ToString();
                 cantidadPrduc = item.Cantidad;
                 totalPrduc = Convert.ToInt32(item.Total);
+                nroLinea = item.nroLinea;
                 precioUnitario = item.PrecioUnitario;
                 Stock = item.Stock;
 
@@ -345,52 +387,16 @@ namespace AppPedidos.Apps.Views.Admin
                 txtStock.Text = Stock.ToString();
                 txtStock.IsEnabled = false;
                 btnAgregarProducto.IsVisible = false;
-                btnBack.IsVisible = false;
 
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-        private void agregarProducto_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void btnRestarProd_Clicked(object sender, EventArgs e)
-        {
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
-            try
-            {
-                if (cantidad < cantidadPrduc)
-                {
-                    if (cantidad == 0)
-                    {
-                        DisplayAlert("Mensaje", "Solo se puede Eliminar", "Aceptar");
-                    }
-                    else
-                    {
-                        Productos addproductos = new Productos() { ID = codigoPrduc, Cantidad = Convert.ToInt32(txtCantidad.Text), Total = totalPrduc };
-                        ListaProductos.Add(addproductos);
-                        DisplayAlert("Mensaje", "Edito", "Aceptar");
-                        modalAgregar.IsVisible = false;
-                        btnAgregarProducto.IsVisible = true;
-                        btnBack.IsVisible = true;
-                    }
-                }
-                else
-                {
-                    DisplayAlert("Mensaje", "valor debe ser menor al que existe", "Aceptar");
-                    modalAgregar.IsVisible = false;
-                    btnAgregarProducto.IsVisible = true;
-                    btnBack.IsVisible = true;
-                }
             }
             catch (Exception ex)
             {
                 throw;
             }
+        }
+        private void agregarProducto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void btnGuardarProd_Clicked(object sender, EventArgs e)
@@ -430,70 +436,44 @@ namespace AppPedidos.Apps.Views.Admin
         {
             string codigo = txtCodigo.Text;
             int cantidad = Convert.ToInt32(txtCantidad.Text);
-            int precioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
+            int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
             int stock = Convert.ToInt32(txtStock.Text);
-            Productos addproductos = new Productos() { ID = codigo, Cantidad = cantidad, PrecioUnitario = precioUnitario, Stock = stock, Total = precioUnitario * cantidad };
-            ListaProductos.Add(addproductos);
+            Productos addproductos = new Productos() { ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
+            string id = "";
+            foreach (var item in ListaProductos)
+            {
+             id = item.ID;
+            }
+            if (id == codigo)
+            {
+                DisplayAlert("Error","Producto ya existe","Aceptar");
+            }
+            else
+            {
+                ListaProductos.Add(addproductos);
 
-            BindingContext = this;
-            DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
-            modalAgregar.IsVisible = false;
-            btnAgregarProducto.IsVisible = true;
-            btnBack.IsVisible = true;
+                BindingContext = this;
+                DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
+                mdlVerProductos.IsVisible = false;
+                btnAgregarProducto.IsVisible = true;
+                mdlVerProductos.IsVisible = false;
+                LimpiarAgregarProductos();
+            }
         }
         private void Eliminar_Tapped(object sender, EventArgs e)
         {
             var imagen = sender as Image;
             var producto = imagen?.BindingContext as Productos;
-            var vm = BindingContext as RealizarProductos;
+            var vm = BindingContext as RealizarPedidos;
             vm?.RemoveCommand.Execute(producto);
 
         }
 
-        private void btnSumarProd_Clicked_1(object sender, EventArgs e)
-        {
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
-            try
-            {
-                if (cantidad > cantidadPrduc)
-                {
-                    Productos productosSelec = new Productos() { ID = codigoPrduc, Cantidad = cantidadPrduc, Total = totalPrduc };
-                    ListaProductos.Clear();
-                    Productos addproductos = new Productos() { ID = codigoPrduc, Cantidad = Convert.ToInt32(txtCantidad.Text), Total = totalPrduc * cantidad };
-                    ListaProductos.Add(addproductos);
-                    DisplayAlert("Mensaje", "Producto Modificado (Se ha sumado la suma de '" + cantidad + "' a la cantidad del producto )", "Aceptar");
-                    modalAgregar.IsVisible = false;
-                    BindingContext = this;
-                    btnAgregarProducto.IsVisible = true;
-                    btnBack.IsVisible = true;
-                }
-                else
-                {
-                    DisplayAlert("Mensaje", "valor debe ser mayor al que existe", "Aceptar");
-                    modalAgregar.IsVisible = false;
-                    btnAgregarProducto.IsVisible = true;
-                    btnBack.IsVisible = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-        private void btnAgregarProducto_Clicked(object sender, EventArgs e)
-        {
-            modalAgregar.IsVisible = true;
-            btnSumarProd.IsVisible = false;
-            btnRestarProd.IsVisible = false;
-            txtTotal.IsEnabled = false;
-            txtCodigo.IsVisible = false;
-            btnAgregarProducto.IsVisible = false;
-            btnBack.IsVisible = false;
-        }
         public void cargarBoxProductos(string Codigo)
         {
             try
             {
+                ListadoProductosAPI.Clear();
                 contador = 0;
                 MetodosApi api = new MetodosApi();
                 var respuesta = JArray.Parse(api.obtenerProductos(Codigo));
@@ -561,23 +541,25 @@ namespace AppPedidos.Apps.Views.Admin
             txtCodigo.Text = p.ID.ToString();
             txtPrecioUnitario.Text = p.PrecioUnitario.ToString();
             txtStock.Text = p.Stock.ToString();
-            lstProductos.IsVisible = false;
+            lstProductosAPI.IsVisible = false;
         }
         private void CompletarDatosListas(ProductosAPI pa)
         {
-            ListadoProductos.Add(pa);
+            ListadoProductosAPI.Add(pa);
             contador++;
         }
         private void PCKproducto_SelectedIndexChanged(object sender, EventArgs e)
         {
-        }
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            AgregarPedido.IsVisible = true;
-            AgregarProductos.IsVisible = false;
+
         }
         private void lstProd_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            bscProducto.IsEnabled = false;
+            txtNrolinea.IsEnabled = false;
+            txtCodigo.IsEnabled = false;
+            txtTotal.IsEnabled = false;
+            txtPrecioUnitario.IsEnabled = false;
+            txtStock.IsEnabled = false;
                 var item = (ProductosAPI)e.SelectedItem;
                 var invtID = item.INVTID;
                 cargarDatosProductos(invtID, txtClasePrecio.Text);
@@ -585,13 +567,95 @@ namespace AppPedidos.Apps.Views.Admin
 
         private void btnBuscarprod_Clicked(object sender, EventArgs e)
         {
-            cargarBoxProductos(bscProducto.Text.Trim());
-            lstProductos.IsVisible = true;
+            if (bscProducto.Text == "" || bscProducto.Text == null)
+            {
+                DisplayAlert("Error","Debe ingresar un producto para buscar","Aceptar");
+            }
+            else
+            {
+                cargarBoxProductos(bscProducto.Text.Trim());
+                lstProductosAPI.IsVisible = true;
+            }
+        }
+        private void btnDesplegarProd_Clicked(object sender, EventArgs e)
+        {
+            if (txtClasePrecio.Text != null)
+            {
+                gvAgregarProductos.IsVisible = true;
+                gvAgregarPedidos.IsVisible = false;
+                BindingContext = this;
+            }
+            else
+            {
+                DisplayAlert("Alerta", "Debe Buscar y Seleccionar Cliente", "Aceptar");
+            }
+        }
+        private void btnCerrarDesplegar_Clicked(object sender, EventArgs e)
+        {
+            gvAgregarProductos.IsVisible = false;
+            gvAgregarPedidos.IsVisible = true;
         }
 
-        private void cmdCerrar_Clicked(object sender, EventArgs e)
+        private void btnAgregarProducto_Clicked(object sender, EventArgs e)
         {
-            AgregarProductos.IsVisible = false;
+            mdlVerProductos.IsVisible = true;
+            LimpiarAgregarProductos();
+        }
+
+        private void btnEditar_Clicked(object sender, EventArgs e)
+        {
+            int cantidad = Convert.ToInt32(txtCantidad.Text);
+
+            try
+            {
+                if (cantidad == 0)
+                {
+                    DisplayAlert("Mensaje", "Solo se puede Eliminar", "Aceptar");
+                }
+                else
+                {
+                    if (cantidad > cantidadPrduc)
+                    {
+                        Productos prod = new Productos() { nroLinea = nroLinea, ID = codigoPrduc, Cantidad = cantidadPrduc, Total = totalPrduc, PrecioUnitario = precioUnitario, Stock = Stock };
+                        Productos addproductos = new Productos() { nroLinea = nroLinea, ID = codigoPrduc, Cantidad = Convert.ToInt32(txtCantidad.Text), Total = precioUnitario * Convert.ToInt32(txtCantidad.Text) };
+                        if (prod.ID == addproductos.ID)
+                        {
+                            ListaProductos.Clear();
+
+                        }
+                        ListaProductos.Add(addproductos);
+                        DisplayAlert("Mensaje", "Cantidad Editada", "Aceptar");
+                        mdlVerProductos.IsVisible = false;
+                        btnAgregarProducto.IsVisible = true;
+                        mdlVerProductos.IsVisible = false;
+                        LimpiarAgregarProductos();
+                    }
+                    else
+                    {
+                        Productos prod = new Productos() { nroLinea = nroLinea, ID = codigoPrduc, Cantidad = cantidadPrduc, Total = totalPrduc, PrecioUnitario = precioUnitario, Stock = Stock };
+                        Productos addproductos = new Productos() { nroLinea = nroLinea, ID = codigoPrduc, Cantidad = Convert.ToInt32(txtCantidad.Text), Total = precioUnitario * Convert.ToInt32(txtCantidad.Text) };
+                        if (prod.ID == addproductos.ID)
+                        {
+                            ListaProductos.Clear();
+
+                        }
+                        ListaProductos.Add(addproductos);
+                        DisplayAlert("Mensaje", "Cantidad Editada", "Aceptar");
+                        mdlVerProductos.IsVisible = false;
+                        btnAgregarProducto.IsVisible = true;
+                        mdlVerProductos.IsVisible = false;
+                        LimpiarAgregarProductos();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        private void btnBorrarCampos_Clicked(object sender, EventArgs e)
+        {
+            LimpiarAgregarProductos();
         }
     }
     #endregion
