@@ -77,8 +77,7 @@ namespace AppPedidos.Apps.Views.Admin
             else
             {
                 AgregarPedido();
-                limpiarPedido();
-              
+                limpiarPedido();              
             }
          
         }
@@ -104,14 +103,12 @@ namespace AppPedidos.Apps.Views.Admin
         {
             bscProducto.Text = "";
             txtNrolinea.Text = "";
-            txtCodigo.Text = "";
             txtCantidad.Text = "";
             txtTotal.Text = "";
             txtPrecioUnitario.Text = "";
             txtStock.Text = "";
             bscProducto.IsEnabled = true;
             txtNrolinea.IsEnabled =true;
-            txtCodigo.IsEnabled=true;
             txtCantidad.IsEnabled=true;
             txtTotal.IsEnabled=true;
             txtPrecioUnitario.IsEnabled = true;
@@ -393,8 +390,8 @@ namespace AppPedidos.Apps.Views.Admin
                 precioUnitario = item.PrecioUnitario;
                 Stock = item.Stock;
 
-                txtCodigo.Text = codigoPrduc;
-                txtCodigo.IsEnabled = false;
+                bscProducto.Text = codigoPrduc;
+                bscProducto.IsEnabled = false;
                 txtCantidad.Text = cantidadPrduc.ToString();
                 var TotalProductos = totalPrduc * cantidadPrduc;
                 txtTotal.Text = TotalProductos.ToString();
@@ -466,7 +463,7 @@ namespace AppPedidos.Apps.Views.Admin
                 else
                 {
 
-                    string codigo = txtCodigo.Text;
+                    string codigo = bscProducto.Text;
                     int cantidad = Convert.ToInt32(txtCantidad.Text);
                     int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
                     int stock = Convert.ToInt32(txtStock.Text);
@@ -571,9 +568,8 @@ namespace AppPedidos.Apps.Views.Admin
         };
         private void CompletarInformacionProductos(Productos p)
         {
-            lblCodigo.IsVisible = true;
-            txtCodigo.IsVisible = true;
-            txtCodigo.Text = p.ID.ToString();
+        
+            bscProducto.Text = p.ID.ToString();
             txtPrecioUnitario.Text = p.PrecioUnitario.ToString();
             txtStock.Text = p.Stock.ToString();
             lstProductosAPI.IsVisible = false;
@@ -590,7 +586,7 @@ namespace AppPedidos.Apps.Views.Admin
         private void lstProd_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             bscProducto.IsEnabled = false;
-            txtCodigo.IsEnabled = false;
+            bscProducto.IsEnabled = false;
             txtTotal.IsEnabled = false;
             txtPrecioUnitario.IsEnabled = false;
             txtStock.IsEnabled = false;
@@ -710,6 +706,11 @@ namespace AppPedidos.Apps.Views.Admin
             limpiarPedido();
             ListadoClientes.Clear();
             lstclientes.HeightRequest = 0;
+        }
+
+        private void btnLimpiarBuscarProd_Clicked(object sender, EventArgs e)
+        {
+            LimpiarAgregarProductos();
         }
     }
     #endregion

@@ -100,7 +100,16 @@
                         <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
                         <Label Text="Buscar" TextColor="Black"></Label>
                         <Entry x:Name="bscProducto" ></Entry>
-                        <Button  VerticalOptions="EndAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" BackgroundColor="green" Text="Buscar"></Button>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button  VerticalOptions="StartAndExpand" x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" BackgroundColor="green" Text="Buscar" TextColor="White" HorizontalOptions="StartAndExpand"></Button>
+                        <Button VerticalOptions="End" x:Name="btnLimpiarBuscarProd" Clicked="btnLimpiarBuscarProd_Clicked" BackgroundColor="red" Text="Limpiar" TextColor="White" HorizontalOptions="EndAndExpand"></Button>
+                    </Grid>
                     <StackLayout x:Name="lstProductosAPI" IsVisible="false">
                         <ListView ItemsSource="{Binding ListadoProductosAPI, Mode=TwoWay}"  HasUnevenRows="True" ItemSelected="lstProd_ItemSelected" x:Name="lstProd">
                             <ListView.ItemTemplate>
@@ -126,10 +135,8 @@
                     </StackLayout>
                     <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray" />
                         <Label Text="Nro Linea" TextColor="Black" x:Name="lblnroLinea"></Label>
-                        <Entry x:Name="txtNrolinea"></Entry>
-                        <Label Text="Codigo" TextColor="Black" x:Name="lblCodigo" IsVisible="false"></Label>
-                        <Entry x:Name="txtCodigo" IsVisible="false"></Entry>
-                        <Label Text="Cantidad" TextColor="Black"></Label>
+                    <Entry x:Name="txtNrolinea"></Entry>
+                    <Label Text="Cantidad" TextColor="Black"></Label>
                         <Entry x:Name="txtCantidad" ></Entry>
                         <Label Text="Total" TextColor="Black"></Label>
                         <Entry x:Name="txtTotal" ></Entry>
@@ -141,7 +148,6 @@
                         <Button Margin="100,20" BorderRadius="6" BackgroundColor="red" Text="Cancelar"  x:Name="btnCancelar" Clicked="btnBorrarCampos_Clicked"  TextColor="White"/>
                         <Button Margin="100,20" BorderRadius="6" BackgroundColor="green" Text="Editar" ImageSource="https://img.icons8.com/fluent/64/000000/add.png" IsVisible="false" x:Name="btnEditar" Clicked="btnEditar_Clicked" TextColor="White" />
                     <BoxView HorizontalOptions="FillAndExpand" HeightRequest="10" Color="black" />
-
                 </StackLayout>
                 </StackLayout>
             
