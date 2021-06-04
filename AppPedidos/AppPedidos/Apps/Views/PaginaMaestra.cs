@@ -21,6 +21,9 @@ namespace AppPedidos.Apps.Views
                     case "Pedidos":
                         Detail = new NavigationPage(new RealizarPedidos());
                         break;
+                    case "Pedidos2":
+                        Detail = new NavigationPage(new RealizarPedidos2());
+                        break;
                     case "Productos":
                         Detail = new NavigationPage(new RealizarProductos());
                         break;

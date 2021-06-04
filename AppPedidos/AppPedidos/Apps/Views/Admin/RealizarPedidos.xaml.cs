@@ -298,7 +298,6 @@ namespace AppPedidos.Apps.Views.Admin
         private void CompletarDatosDireccion(Pedido pe)
         {
             ListadoDireccion.Add(pe);
-
         }
         private void CompletarDatosListas(Customer p)
         {

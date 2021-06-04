@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppPedidos.Apps.Views.Admin.RealizarPedidos2">
+    <NavigationPage.TitleView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="90" />
+            </Grid.ColumnDefinitions>
+            <Image Source="pedido" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+            <Label x:Name="txtTitulo" Text="Crear Pedido Cobertura" TextColor="White" FontSize="Medium" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
+            <Button BackgroundColor="Green" Text="OK" TextColor="White" x:Name="btnDesplegarProd" HorizontalOptions ="FillAndExpand" Clicked="btnDesplegarProd_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
+            <Button BackgroundColor="Gray" Text="X" TextColor="White" VerticalOptions ="Center" x:Name="btnCerrarDesplegar" HorizontalOptions ="CenterAndExpand" IsVisible="false" Clicked="btnCerrarDesplegar_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
+        </Grid>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <ScrollView VerticalScrollBarVisibility="Always">
+            <StackLayout Margin="15" x:Name="gvPedido" IsVisible="true">
+                <!--  Inicio Informacion Pedido-->
+                <StackLayout x:Name="gvAgregarPedidos" IsVisible="true">
+                    <Label Text="Cliente" TextColor="Black"></Label>
+                    <Entry x:Name="txtCliente"></Entry>
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Buscar Cliente" x:Name="bsrCliente" Clicked="bsrCliente_Clicked" BackgroundColor="Green" TextColor="White" HorizontalOptions="EndAndExpand"></Button>
+                        <Button Text="Limpiar" x:Name="btnLimpiarBuscar" BackgroundColor="Blue" TextColor="white" HorizontalOptions="End"></Button>
+                    </StackLayout>
+                    <!-- Inicio Listado Clientes -->
+                    <ListView ItemsSource="{Binding ListadoClientes, Mode=TwoWay}" x:Name="lstCLiente" ItemSelected="lstCLiente_ItemSelected"  HasUnevenRows="True" BackgroundColor="White" IsVisible="false" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10" BackgroundColor="Wheat">
+                                        <Label Text="{Binding IDCliente, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                        <Label Text="{Binding NombreCliente, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!-- Fin Listado Clientes -->
+                    <Label Text="Clase Precio" TextColor="Black"></Label>
+                    <Entry x:Name="txtClasePrecio"></Entry>
+                    <Label Text="Estado Cliente" TextColor="Black"></Label>
+                    <Entry x:Name="txtEstadoCliente"></Entry>
+                    <Label Text="Estado Credito" TextColor="Black"></Label>
+                    <Entry x:Name="txtEstadoCredito"></Entry>
+                    <Label  Text="Retiro en Drogueria" VerticalOptions="Center" TextColor="Black" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkRetiroDrogueria" VerticalOptions="CenterAndExpand" />
+                    <StackLayout x:Name="lstDireccion" IsVisible="false">
+                        <Label Text="Dirección de Despacho" TextColor="Black"></Label>
+                        <!-- Inicio Listado Direcciones -->
+                        <ListView ItemsSource="{Binding ListadoDireccion, Mode=TwoWay}"  HasUnevenRows="True"  x:Name="lstDireccionCliente" HeightRequest="150" BackgroundColor="White" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Padding="10" BackgroundColor="Wheat">
+                                            <Label Text="{Binding Local, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding direccionCliente, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <!-- Fin Listado Direcciones -->
+                    <Label Text="Direccion" TextColor="Black"></Label>
+                    <Entry x:Name="txtDireccion" ></Entry>
+                    <Label Text="Tipo Pedido" TextColor="Black"></Label>
+                    <Picker x:Name="tipoPedido" Title="Selecciona Tipo Pedido" ></Picker>
+                    <Label Text="Nro OC" TextColor="Black"></Label>
+                    <Entry x:Name="txtNroOC" ></Entry>
+                    <Label Text="Correo Electronico" TextColor="Black"></Label>
+                    <Entry x:Name="txtCorreo"></Entry>
+                    <Label Text="Obs. General" TextColor="Black"></Label>
+                    <Entry x:Name="txtObsGeneral" ></Entry>
+                    <Label  Text="Requiere Descuento" VerticalOptions="Center" TextColor="Black" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkReqDescuento" VerticalOptions="CenterAndExpand" />
+                    <Label Text="¿Quien Aprueba?" TextColor="Black"></Label>
+                    <Picker x:Name="quienAprueba" Title="Selecciona Quien Aprueba"></Picker>
+                    <Label Text="Obs Descuento" TextColor="Black"></Label>
+                    <Entry x:Name="txtObsDescuento"></Entry>
+                </StackLayout>
+                <!--  Fin Informacion Pedido-->
+                <!-- Inicio Agregar Productos -->
+                <StackLayout x:Name="gvAgregarProductos" IsVisible="false">
+                    <Label Text="PRODUCTOS" TextColor="Black" FontAttributes="Bold" FontSize="Small" Margin="10" />
+                    <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
+                    <!-- Inicio Tabla Productos -->
+                    <Grid WidthRequest="100" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="3*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Codigo" Grid.Column="0" Grid.Row="0"></Label>
+                        <Label Text="Cantidad" Grid.Column="1" Grid.Row="0"></Label>
+                        <Label Text="Total" Grid.Column="2" Grid.Row="0"></Label>
+                        <Label Text="Accion" Grid.Column="3" Grid.Row="0"></Label>
+                        <Label Text="Eliminar" Grid.Column="4" Grid.Row="0"></Label>
+                        <ListView ItemsSource="{Binding ListaProductos,Mode=TwoWay}"  Grid.Row="1" Grid.ColumnSpan="5"  HasUnevenRows="True" x:Name="lstProductos" HeightRequest="150" IsPullToRefreshEnabled = "true" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid Padding="10" BackgroundColor="White">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="50" />
+                                                <RowDefinition Height="3*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="{Binding ID,Mode=TwoWay}" Grid.Column="0" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Cantidad,Mode=TwoWay}" Grid.Column="1" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Total,Mode=TwoWay}"  Grid.Column="2" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding PrecioUnitario,Mode=TwoWay}" IsVisible="false" Grid.Column="3" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Stock,Mode=TwoWay}" IsVisible="false" Grid.Column="4" VerticalOptions="CenterAndExpand" Grid.Row="0" TextColor="Black" FontAttributes="Bold"/>
+                                            <Label Text="{Binding nroLinea,Mode=TwoWay}" Grid.Column="4" VerticalOptions="CenterAndExpand" Grid.Row="0" IsVisible="false" TextColor="Black" FontAttributes="Bold"/>
+                                            <Image x:Name="btnQuitar" Source="https://img.icons8.com/dusk/48/000000/edit-link.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="3" Grid.Row="0"  WidthRequest="40">
+                                            </Image>
+                                            <Image x:Name="btnEliminar" Source="https://img.icons8.com/fluent/48/000000/delete-forever.png" BackgroundColor="white" HorizontalOptions="Start" Grid.Column="4" Grid.Row="0"  WidthRequest="40">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" x:Name="Eliminar" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <!-- Fin Tabla Productos -->
+                    <!-- Inicio Agregar/Editar Productos -->
+                    <Frame IsClippedToBounds="True"
+                            HasShadow="True"
+                            Padding="10"
+                            BackgroundColor="White">
+                        <Frame.Margin>
+                            <OnPlatform x:TypeArguments="Thickness"
+                        Android="15"
+                        iOS="10"/>
+                        </Frame.Margin>
+                        <StackLayout>
+                            <Label Text="AGREGAR/EDITAR PRODUCTOS" HorizontalOptions="CenterAndExpand" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="2" Color="Gray" />
+                            <Label Text="Codigo:" TextColor="Black"></Label>
+                            <StackLayout Orientation="Horizontal">
+                                <Entry x:Name="bscProducto" HorizontalOptions="FillAndExpand"></Entry>
+                                <Button x:Name="btnBuscarprod" Clicked="btnBuscarprod_Clicked" BackgroundColor="Green" Text="Buscar" TextColor="White" HorizontalOptions="End"></Button>
+                                <Button x:Name="btnLimpiarBuscarProd" Clicked="btnLimpiarBuscarProd_Clicked" BackgroundColor="Blue" Text="Limpiar" TextColor="White" HorizontalOptions="End"></Button>
+                            </StackLayout>
+                            <!-- Inicio Listado Info Producto -->
+                            <ListView ItemsSource="{Binding ListadoProductosAPI, Mode=TwoWay}" ItemSelected="lstProd_ItemSelected"  HasUnevenRows="True" x:Name="lstProd" IsVisible="false">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout BackgroundColor="White" Padding="10">
+                                                <Label Text="{Binding INVTID, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                                <Label Text="{Binding DESCRIPCION, Mode=TwoWay}" TextColor="Black" FontAttributes="Bold"/>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <!-- Fin Listado Info Producto -->
+                            <Label Text="Nro Linea" TextColor="Black" x:Name="lblnroLinea"></Label>
+                            <Entry x:Name="txtNrolinea"></Entry>
+                            <Label Text="Cantidad" TextColor="Black"></Label>
+                            <Entry x:Name="txtCantidad" ></Entry>
+                            <Label Text="Total" TextColor="Black"></Label>
+                            <Entry x:Name="txtTotal" ></Entry>
+                            <Label Text="Precio Uni." TextColor="Black"></Label>
+                            <Entry x:Name="txtPrecioUnitario" ></Entry>
+                            <Label Text="Stock" TextColor="Black"></Label>
+                            <Entry x:Name="txtStock" ></Entry>
+                            <StackLayout Orientation="Horizontal">
+                                <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Green" Text="Guardar" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" x:Name="btnGuardarProd"  TextColor="White"/>
+                                <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Blue" Text="Limpiar"  x:Name="btnCancelar" TextColor="White"/>
+                                <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Green" Text="Editar" ImageSource="https://img.icons8.com/fluent/64/000000/add.png" IsVisible="false" x:Name="btnEditar" TextColor="White" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    <!-- Fin Agregar/Editar Productos -->
+                </StackLayout>
+                <!-- Fin Agregar Productos -->
+                <StackLayout Orientation="Horizontal" Margin="0,10,0,10">
+                    <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Green" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" Text="Guardar" x:Name="cmdGuardar"  TextColor="White"/>
+                    <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Blue" ImageSource="https://img.icons8.com/dusk/64/000000/eraser.png" Text="Limpiar" x:Name="btnLimpiar"  TextColor="White"  />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

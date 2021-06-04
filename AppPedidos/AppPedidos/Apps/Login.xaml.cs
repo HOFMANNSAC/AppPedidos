@@ -25,6 +25,55 @@ namespace AppPedidos.Apps
             BD = new BDLocal(ruta);
             InitializeComponent();
             cmdIniciarSesion.Clicked += CmdIniciarSesion_Clicked;
+            cmdIniciarSesion2.Clicked += CmdIniciarSesion2_Clicked;
+        }
+        private async void CmdIniciarSesion2_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                Usuario um = new Usuario();
+                um.UsuarioSistema = txtUsuario.Text;
+                um.Password = txtPassword.Text;
+                Application.Current.Properties["usuarioSistema"] = um.UsuarioSistema;
+                if (um.UsuarioSistema != "" && um.Password != "")
+                {
+                    if (Metodos.HayConexion())
+                    {
+                        MetodosApi api = new MetodosApi();
+                        var resultado = JObject.Parse(api.ValidarAcceso(um));
+                        if (resultado["respuesta"].ToString() == "S")
+                        {
+                            um = CompletarInformacion(resultado, um);
+                            if (!BD.ExisteUsuario(um.ID.ToString()))
+                                BD.AgregarUsuario(um);
+                            else
+                                BD.ActualizarUsuario(um);
+
+                            await Navigation.PushModalAsync(new PaginaMaestra("Pedidos2"));
+                        }
+                        else
+                            await DisplayAlert("Alerta", resultado["mensaje"].ToString(), "OK");
+                    }
+                    else
+                    {
+                        um = BD.ValidarUsuario(um.UsuarioSistema, um.Password);
+                        if (um.ID != "")
+                        {
+                            Application.Current.Properties["id_usuario"] = um.ID;
+                            Application.Current.Properties["nombre"] = um.Nombre;
+                            await Navigation.PushModalAsync(new PaginaMaestra("Login"));
+                        }
+                        else
+                            await DisplayAlert("Alerta", "Sin conexion, no se encuentra el usuario en telefono", "OK");
+                    }
+                }
+                else
+                    await DisplayAlert("Alerta", "Ingrese Usuario y Contraseña", "OK");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
         private async void CmdIniciarSesion_Clicked(object sender, EventArgs e)
         {
