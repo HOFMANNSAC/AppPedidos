@@ -205,7 +205,7 @@ namespace AppPedidos.Apps.Views.Admin
             else
             {
                 if (bscProducto.CursorPosition <= 4)
-                    DisplayAlert("Error", "Debe ingresar al menos 4 letras", "Aceptar");
+                    DisplayAlert("Error", "Debe ingresar al menos 5 letras", "Aceptar");
                 else
                 {
                     cargarBoxProductos(bscProducto.Text.Trim());
