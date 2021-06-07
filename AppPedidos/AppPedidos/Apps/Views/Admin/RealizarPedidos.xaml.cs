@@ -339,9 +339,17 @@ namespace AppPedidos.Apps.Views.Admin
             }
             else 
             {
-                cargarClientes(txtCliente.Text.Trim());
-                lstclientes.IsVisible = true;
-                lstclientes.HeightRequest = 150;
+                if (txtCliente.CursorPosition <= 4 )
+                {
+                    DisplayAlert("Error", "Debe ingresar al menos 5 letras ", "Aceptar");
+                }
+                else
+                {
+                    cargarClientes(txtCliente.Text.Trim());
+                    lstclientes.IsVisible = true;
+                    lstclientes.HeightRequest = 150;
+                }
+           
             }    
         }
 
