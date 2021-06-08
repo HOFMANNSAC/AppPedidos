@@ -49,104 +49,7 @@ namespace AppPedidos.Apps.Views.Admin
             ListaProductos = new ObservableCollection<Productos>();
             txtDireccion.Text = "DEFAULT";
             BindingContext = this;
-        }
-        private void bsrCliente_Clicked(object sender, EventArgs e)
-        {
-            if (txtCliente.Text == null || txtCliente.Text == "")
-                DisplayAlert("Error", "Debe ingresar un cliente ", "Aceptar");
-            else {
-                cargarClientes(txtCliente.Text.Trim());
-                lstCLiente.IsVisible = true;
-                lstCLiente.HeightRequest = (contador <=2) ? (88*contador) : 166;
-            }       
-        }
-
-        public void cargarClientes(string name)
-        {
-            try
-            {
-                contador = 0;
-                MetodosApi api = new MetodosApi();
-                var respuesta = JArray.Parse(api.CargarCLientes(name));
-                ListadoClientes.Clear();
-                if (respuesta[0].ToString() == "S")
-                {
-                    JArray jsonString = JArray.Parse(respuesta[1].ToString());
-                    foreach (JObject item in jsonString.OfType<JObject>())
-                    {
-                        Customer p = CompletarInformacionClientes(item);
-                        ListadoClientes.Add(p);
-                        contador++;
-                    }
-
-                }
-                else
-                    DisplayAlert("Error", "No existen productos asociadas", "OK");
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert("Error", ex.Message.ToString(), "OK");
-            }
-        }
-        private Customer CompletarInformacionClientes(JObject item) => new Customer
-        {
-            IDCliente = item.GetValue("custid").ToString(),
-            NombreCliente = item.GetValue("name").ToString()
-        };
-
-        private void lstCLiente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var item = (Customer)e.SelectedItem;
-            cargarDatosCliente(item.IDCliente);
-            txtCliente.Text = item.NombreCliente;
-            lstCLiente.IsVisible = false;
-            txtCliente.IsEnabled = false;
-        }
-        public void cargarDatosCliente(string idCliente)
-        {
-            MetodosApi api = new MetodosApi();
-            ListadoDireccion.Clear();
-            var respuesta = JArray.Parse(api.ObtenerDatosClientes(idCliente));
-            if (respuesta[0].ToString() == "S")
-            {
-                JArray jsonString = JArray.Parse(respuesta[1].ToString());
-                foreach (JObject item in jsonString.OfType<JObject>())
-                {
-                    Pedido p = CompletarInformacionDatosClientes(item);
-                    Pedido pe = DatoDireccionCliente(item);
-                    CompletarDatoscliente(p);
-                    CompletarDatosDireccion(pe);
-                }
-            }
-        }
-        private Pedido CompletarInformacionDatosClientes(JObject item) => new Pedido
-        {
-            clasePrecio = item.GetValue("ClasePrecio").ToString(),
-            estadoCliente = item.GetValue("Status").ToString(),
-            formaPago = item.GetValue("FormaPAgo").ToString(),
-            correElectronico = item.GetValue("EMailAddr").ToString()
-        };
-        private Pedido DatoDireccionCliente(JObject item) => new Pedido
-        {
-            Local = item.GetValue("ShipToID").ToString(),
-            direccionCliente = item.GetValue("Descr").ToString()
-        };
-        private void CompletarDatoscliente(Pedido p)
-        {
-            txtClasePrecio.Text = p.clasePrecio.Substring(0, 2);
-            txtEstadoCliente.Text = p.estadoCliente;
-            txtEstadoCredito.Text = p.formaPago;
-            txtCorreo.Text = p.correElectronico;
-            Application.Current.Properties["claseprecio"] = p.clasePrecio.Substring(0, 2);
-            txtClasePrecio.IsEnabled = false;
-            txtEstadoCliente.IsEnabled = false;
-            txtEstadoCredito.IsEnabled = false;
-            txtCorreo.IsEnabled = false;
-        }
-        private void CompletarDatosDireccion(Pedido pe)
-        {
-            ListadoDireccion.Add(pe);
-        }
+        }     
         public void cargarBoxTipoPedido()
         {
             string resultado = string.Empty;
@@ -218,6 +121,10 @@ namespace AppPedidos.Apps.Views.Admin
             btnDesplegarProd.IsVisible = true;
             btnCerrarDesplegar.IsVisible = false;
         }
+        /// <summary>
+        /// Cargar productos y datos productos
+        /// </summary>
+        #region
         private void btnBuscarprod_Clicked(object sender, EventArgs e)
         {
             if (bscProducto.Text == "" || bscProducto.Text == null)
@@ -323,6 +230,12 @@ namespace AppPedidos.Apps.Views.Admin
             txtStock.Text = p.Stock.ToString();
             lstProd.IsVisible = false;
         }
+        #endregion
+
+        /// <summary>
+        /// Agregar pedido y productos a BD, enviando datos a la API
+        /// </summary>
+        #region
         private void AgregarPedido()
         {
             string resultado = "";
@@ -418,6 +331,168 @@ namespace AppPedidos.Apps.Views.Admin
                 throw;
             }
         }
+        #endregion
+
+        /// <summary>
+        /// Cargar clientes, datos clientes y direccion cliente
+        /// </summary>
+        #region
+        private void bsrCliente_Clicked(object sender, EventArgs e)
+        {
+            if (txtCliente.Text == null || txtCliente.Text == "")
+                DisplayAlert("Error", "Debe ingresar un cliente ", "Aceptar");
+            else
+            {
+                cargarClientes(txtCliente.Text.Trim());
+                lstCLiente.IsVisible = true;
+                lstCLiente.HeightRequest = (contador <= 2) ? (88 * contador) : 166;
+            }
+        }
+
+        public void cargarClientes(string name)
+        {
+            try
+            {
+                contador = 0;
+                MetodosApi api = new MetodosApi();
+                var respuesta = JArray.Parse(api.CargarCLientes(name));
+                ListadoClientes.Clear();
+                if (respuesta[0].ToString() == "S")
+                {
+                    JArray jsonString = JArray.Parse(respuesta[1].ToString());
+                    foreach (JObject item in jsonString.OfType<JObject>())
+                    {
+                        Customer p = CompletarInformacionClientes(item);
+                        ListadoClientes.Add(p);
+                        contador++;
+                    }
+
+                }
+                else
+                    DisplayAlert("Error", "No existen productos asociadas", "OK");
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", ex.Message.ToString(), "OK");
+            }
+        }
+        private Customer CompletarInformacionClientes(JObject item) => new Customer
+        {
+            IDCliente = item.GetValue("custid").ToString(),
+            NombreCliente = item.GetValue("name").ToString()
+        };
+
+        private void lstCLiente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = (Customer)e.SelectedItem;
+            cargarDatosCliente(item.IDCliente);
+            txtCliente.Text = item.NombreCliente;
+            lstCLiente.IsVisible = false;
+            txtCliente.IsEnabled = false;
+        }
+        public void cargarDatosCliente(string idCliente)
+        {
+            MetodosApi api = new MetodosApi();
+            ListadoDireccion.Clear();
+            var respuesta = JArray.Parse(api.ObtenerDatosClientes(idCliente));
+            if (respuesta[0].ToString() == "S")
+            {
+                JArray jsonString = JArray.Parse(respuesta[1].ToString());
+                foreach (JObject item in jsonString.OfType<JObject>())
+                {
+                    Pedido p = CompletarInformacionDatosClientes(item);
+                    Pedido pe = DatoDireccionCliente(item);
+                    CompletarDatoscliente(p);
+                    CompletarDatosDireccion(pe);
+                }
+            }
+        }
+        private Pedido CompletarInformacionDatosClientes(JObject item) => new Pedido
+        {
+            clasePrecio = item.GetValue("ClasePrecio").ToString(),
+            estadoCliente = item.GetValue("Status").ToString(),
+            formaPago = item.GetValue("FormaPAgo").ToString(),
+            correElectronico = item.GetValue("EMailAddr").ToString()
+        };
+        private Pedido DatoDireccionCliente(JObject item) => new Pedido
+        {
+            Local = item.GetValue("ShipToID").ToString(),
+            direccionCliente = item.GetValue("Descr").ToString()
+        };
+        private void CompletarDatoscliente(Pedido p)
+        {
+            txtClasePrecio.Text = p.clasePrecio.Substring(0, 2);
+            txtEstadoCliente.Text = p.estadoCliente;
+            txtEstadoCredito.Text = p.formaPago;
+            txtCorreo.Text = p.correElectronico;
+            Application.Current.Properties["claseprecio"] = p.clasePrecio.Substring(0, 2);
+            txtClasePrecio.IsEnabled = false;
+            txtEstadoCliente.IsEnabled = false;
+            txtEstadoCredito.IsEnabled = false;
+            txtCorreo.IsEnabled = false;
+        }
+        private void CompletarDatosDireccion(Pedido pe)
+        {
+            ListadoDireccion.Add(pe);
+        }
+        #endregion
+        /// <summary>
+        /// Agregar Productos en tabla, (temporal)
+        /// </summary>
+        #region 
+
+        private void agregarTablaProductos()
+        {
+            if (txtCantidad.Text == null || txtCantidad.Text == "")
+            {
+                DisplayAlert("Error", "Debe indicar cantidad", "Aceptar");
+            }
+            else
+            {
+                if (txtNrolinea.Text == "" || txtNrolinea.Text == null)
+                {
+                    DisplayAlert("Error", "Debe indicar Nro de linea", "Aceptar");
+                }
+                else
+                {
+
+                    string codigo = bscProducto.Text;
+                    int cantidad = Convert.ToInt32(txtCantidad.Text);
+                    int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
+                    int stock = Convert.ToInt32(txtStock.Text);
+                    int nroLinea = Convert.ToInt32(txtNrolinea.Text);
+                    Productos addproductos = new Productos() { nroLinea = nroLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
+                    string id = "";
+                    foreach (var item in ListaProductos)
+                    {
+                        id = item.ID;
+                    }
+                    if (id == codigo)
+                    {
+                        DisplayAlert("Error", "Producto ya existe", "Aceptar");
+                    }
+                    else
+                    {
+                        ListaProductos.Add(addproductos);
+
+                        BindingContext = this;
+                        DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
+                        LimpiarAgregarProductos();
+                    }
+                }
+            }
+        }
+        private void btnGuardarProd_Clicked(object sender, EventArgs e)
+        {
+            agregarTablaProductos();
+            contador++;
+        }
+        #endregion
+
+        /// <summary>
+        /// Editar Cantidad Productos
+        /// </summary>
+        #region
         private void EditarProducto()
         {
             int cantidad = Convert.ToInt32(txtCantidad.Text);
@@ -467,6 +542,8 @@ namespace AppPedidos.Apps.Views.Admin
                 throw;
             }
         }
+        #endregion
+
         private void limpiarPedido()
         {
             txtCliente.Text = "";
@@ -548,59 +625,6 @@ namespace AppPedidos.Apps.Views.Admin
             custOrdNbr = item.Local;
             lstDireccion.IsVisible = false;
         }
-
-
-        #region AgregarProductos
-
-        private void agregarTablaProductos()
-        {
-            if (txtCantidad.Text == null || txtCantidad.Text == "")
-            {
-                DisplayAlert("Error", "Debe indicar cantidad", "Aceptar");
-            }
-            else
-            {
-                if (txtNrolinea.Text == "" || txtNrolinea.Text == null)
-                {
-                    DisplayAlert("Error", "Debe indicar Nro de linea", "Aceptar");
-                }
-                else
-                {
-
-                    string codigo = bscProducto.Text;
-                    int cantidad = Convert.ToInt32(txtCantidad.Text);
-                    int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
-                    int stock = Convert.ToInt32(txtStock.Text);
-                    int nroLinea = Convert.ToInt32(txtNrolinea.Text);
-                    Productos addproductos = new Productos() { nroLinea = nroLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
-                    string id = "";
-                    foreach (var item in ListaProductos)
-                    {
-                        id = item.ID;
-                    }
-                    if (id == codigo)
-                    {
-                        DisplayAlert("Error", "Producto ya existe", "Aceptar");
-                    }
-                    else
-                    {
-                        ListaProductos.Add(addproductos);
-
-                        BindingContext = this;
-                        DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
-                        LimpiarAgregarProductos();
-                    }
-                }
-            }
-        }
-        #endregion
-
-        private void btnGuardarProd_Clicked(object sender, EventArgs e)
-        {
-            agregarTablaProductos();
-            contador++;
-        }
-
         private void Eliminar_Tapped(object sender, EventArgs e)
         {
             var imagen = sender as Image;
@@ -608,7 +632,6 @@ namespace AppPedidos.Apps.Views.Admin
             var vm = BindingContext as RealizarPedidos2;
             vm?.RemoveCommand.Execute(producto);
         }
-
         private void lstProductos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             try
@@ -640,20 +663,16 @@ namespace AppPedidos.Apps.Views.Admin
                 txtStock.IsEnabled = false;
                 btnEditar.IsVisible = true;
                 btnGuardarProd.IsVisible = false;
-
-
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-
         private void btnCancelar_Clicked(object sender, EventArgs e)
         {
             LimpiarAgregarProductos();
         }
-
         private void btnEditar_Clicked(object sender, EventArgs e)
         {
             EditarProducto();
