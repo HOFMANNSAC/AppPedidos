@@ -28,6 +28,16 @@ namespace AppPedidos.Apps.Views.Admin
         public int precioUnitario { get; set; }
         public int Stock { get; set; }
         int nroLinea = 0;
+        public Command<Productos> RemoveCommand
+        {
+            get
+            {
+                return new Command<Productos>((productos) =>
+                {
+                    ListaProductos.Remove(productos);
+                });
+            }
+        }
         public RealizarPedidos2()
         {
             InitializeComponent();
@@ -595,7 +605,7 @@ namespace AppPedidos.Apps.Views.Admin
         {
             var imagen = sender as Image;
             var producto = imagen?.BindingContext as Productos;
-            var vm = BindingContext as RealizarPedidos;
+            var vm = BindingContext as RealizarPedidos2;
             vm?.RemoveCommand.Execute(producto);
         }
 
