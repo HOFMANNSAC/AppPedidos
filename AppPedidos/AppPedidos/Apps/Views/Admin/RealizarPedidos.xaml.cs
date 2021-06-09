@@ -514,6 +514,7 @@ namespace AppPedidos.Apps.Views.Admin
             {
                 ListadoProductosAPI.Clear();
                 contador = 0;
+                /*
                 MetodosApi api = new MetodosApi();
                 var respuesta = JArray.Parse(api.obtenerProductos(Codigo));
                 if (respuesta[0].ToString() == "S")
@@ -527,9 +528,11 @@ namespace AppPedidos.Apps.Views.Admin
                     }
 
                     lstProd.HeightRequest = 88 * contador;
+                
                 }
                 else
                     DisplayAlert("Error", "No existen productos asociadas", "OK");
+                */
             }
             catch (Exception ex)
             {

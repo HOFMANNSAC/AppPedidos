@@ -38,13 +38,16 @@ namespace AppPedidos.Apps
                 if (um.UsuarioSistema != "" && um.Password != "")
                 {
                     um = BD.ValidarUsuario(um.UsuarioSistema, um.Password);
-                    if (um.ID != "")
+                    if (um != null && um.ID != "")
                     {
                         Application.Current.Properties["id_usuario"] = um.ID;
                         Application.Current.Properties["nombre"] = um.Nombre;
                         await Navigation.PushModalAsync(new PaginaMaestra("Pedidos2"));
                     }
                     else {
+                        um = new Usuario();
+                        um.UsuarioSistema = txtUsuario.Text;
+                        um.Password = txtPassword.Text;
                         if (Metodos.HayConexion())
                         {
                             MetodosApi api = new MetodosApi();

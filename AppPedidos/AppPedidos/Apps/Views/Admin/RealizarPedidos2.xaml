@@ -14,7 +14,7 @@
             </Grid.ColumnDefinitions>
             <Image Source="pedido" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
             <Label x:Name="txtTitulo" Text="Crear Pedido Cobertura" TextColor="White" FontSize="Medium" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
-            <Button    WidthRequest="40" HeightRequest="40" CornerRadius="40" BackgroundColor="#33d684"  Text="" ImageSource="carrito" TextColor="White" x:Name="btnDesplegarProd" HorizontalOptions ="FillAndExpand" Clicked="btnDesplegarProd_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
+            <Button WidthRequest="40" HeightRequest="40" CornerRadius="40" BackgroundColor="#33d684"  Text="" ImageSource="carrito" TextColor="White" x:Name="btnDesplegarProd" HorizontalOptions ="FillAndExpand" Clicked="btnDesplegarProd_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
             <Button BackgroundColor="Gray" Text="X" TextColor="White" VerticalOptions ="Center" x:Name="btnCerrarDesplegar" HorizontalOptions ="CenterAndExpand" IsVisible="false" Clicked="btnCerrarDesplegar_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
         </Grid>
     </NavigationPage.TitleView>

@@ -207,6 +207,7 @@ namespace AppPedidos.Apps.Views.Admin
             {
                 contador = 0;
                 MetodosApi api = new MetodosApi();
+                /*
                 var respuesta = JArray.Parse( api.obtenerProductos(Codigo));
                 if (respuesta[0].ToString() == "S")
                 {
@@ -222,6 +223,7 @@ namespace AppPedidos.Apps.Views.Admin
                 }
                 else
                     DisplayAlert("Error", "No existen productos asociadas", "OK");
+                */
             }
             catch (Exception ex)
             {

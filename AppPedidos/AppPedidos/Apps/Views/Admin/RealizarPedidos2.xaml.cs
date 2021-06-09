@@ -135,20 +135,20 @@ namespace AppPedidos.Apps.Views.Admin
                     DisplayAlert("Error", "Debe ingresar al menos 5 letras", "Aceptar");
                 else
                 {
-                    cargarBoxProductos(bscProducto.Text.Trim());
+                    cargarBoxProductos(bscProducto.Text.Trim(), txtClasePrecio.Text);
                     lstProd.IsVisible = true;
                     lstProd.HeightRequest = (contador <= 2) ? (88 * contador) : 166;
                 }
             }
         }
-        public void cargarBoxProductos(string Codigo)
+        public void cargarBoxProductos(string Codigo,string ClasePrecio)
         {
             try
             {
                 ListadoProductosAPI.Clear();
                 contador = 0;
                 MetodosApi api = new MetodosApi();
-                var respuesta = JArray.Parse(api.obtenerProductos(Codigo));
+                var respuesta = JArray.Parse(api.obtenerProductos(Codigo,ClasePrecio));
                 if (respuesta[0].ToString() == "S")
                 {
                     JArray jsonString = JArray.Parse(respuesta[1].ToString());

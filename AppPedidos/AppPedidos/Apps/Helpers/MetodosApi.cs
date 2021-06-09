@@ -23,7 +23,7 @@ namespace AppPedidos.Apps.Helpers
                 byte[] respuestaByte = new WebClient().UploadValues(uri, "POST", parametros);
                 respuestaString = Encoding.UTF8.GetString(respuestaByte);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 respuestaString = "[\"N\",\"Error al Enviar la petición.\"]";
             }
@@ -144,7 +144,7 @@ namespace AppPedidos.Apps.Helpers
             }
             return respuestaString;
         }
-        public string obtenerProductos(string bsrProducto)
+        public string obtenerProductos(string bsrProducto,string clase_precio)
         {
             string respuestaString = string.Empty;
             try
@@ -152,7 +152,8 @@ namespace AppPedidos.Apps.Helpers
                 Uri uri = new Uri("https://sellout.drogueriahofmann.cl/App/ObtenerProducto");
                 NameValueCollection parametros = new NameValueCollection
                 {
-                    {"ID", bsrProducto }
+                    {"ID", bsrProducto },
+                    {"ClasePrecio", clase_precio }
                 };
                 byte[] respuestaByte = new WebClient().UploadValues(uri, "POST",parametros);
                 respuestaString = Encoding.UTF8.GetString(respuestaByte);
