@@ -14,7 +14,7 @@
             </Grid.ColumnDefinitions>
             <Image Source="pedido" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
             <Label x:Name="txtTitulo" Text="Crear Pedido Cobertura" TextColor="White" FontSize="Medium" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" />
-            <Button    WidthRequest="40" HeightRequest="40" CornerRadius="40" BackgroundColor="#33d684"  Text="" ImageSource="https://img.icons8.com/fluent/96/000000/fast-cart.png" TextColor="White" x:Name="btnDesplegarProd" HorizontalOptions ="FillAndExpand" Clicked="btnDesplegarProd_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
+            <Button    WidthRequest="40" HeightRequest="40" CornerRadius="40" BackgroundColor="#33d684"  Text="" ImageSource="carrito" TextColor="White" x:Name="btnDesplegarProd" HorizontalOptions ="FillAndExpand" Clicked="btnDesplegarProd_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
             <Button BackgroundColor="Gray" Text="X" TextColor="White" VerticalOptions ="Center" x:Name="btnCerrarDesplegar" HorizontalOptions ="CenterAndExpand" IsVisible="false" Clicked="btnCerrarDesplegar_Clicked" Grid.Row="0" Grid.Column="2" Margin="0,0,10,0" />
         </Grid>
     </NavigationPage.TitleView>
@@ -44,11 +44,11 @@
                     </ListView>
                     <!-- Fin Listado Clientes -->
                     <Label Text="Clase Precio" TextColor="Black"></Label>
-                    <Entry x:Name="txtClasePrecio"></Entry>
+                    <Entry x:Name="txtClasePrecio" IsEnabled="False"></Entry>
                     <Label Text="Estado Cliente" TextColor="Black"></Label>
-                    <Entry x:Name="txtEstadoCliente"></Entry>
+                    <Entry x:Name="txtEstadoCliente" IsEnabled="False"></Entry>
                     <Label Text="Estado Credito" TextColor="Black"></Label>
-                    <Entry x:Name="txtEstadoCredito"></Entry>
+                    <Entry x:Name="txtEstadoCredito" IsEnabled="False"></Entry>
                     <Label  Text="Retiro en Drogueria" VerticalOptions="Center" TextColor="Black" />
                     <CheckBox Grid.Row="1" Grid.Column="1" x:Name="chkRetiroDrogueria" IsChecked="True" CheckedChanged="chkRetiroDrogueria_CheckedChanged" VerticalOptions="CenterAndExpand" />
                     <StackLayout x:Name="lstDireccion" IsVisible="false">
@@ -176,13 +176,13 @@
                             </ListView>
                             <!-- Fin Listado Info Producto -->
                             <Label Text="Nro Linea" TextColor="Black" x:Name="lblnroLinea"></Label>
-                            <Entry x:Name="txtNrolinea"></Entry>
+                            <Entry x:Name="txtNrolinea" Keyboard="Numeric"></Entry>
                             <Label Text="Cantidad" TextColor="Black"></Label>
-                            <Entry x:Name="txtCantidad" ></Entry>
+                            <Entry x:Name="txtCantidad" Keyboard="Numeric" TextChanged="txtCantidad_TextChanged"></Entry>
+                            <Label Text="Precio Unitario." TextColor="Black"></Label>
+                            <Entry x:Name="txtPrecioUnitario" ></Entry>
                             <Label Text="Total" TextColor="Black"></Label>
                             <Entry x:Name="txtTotal" ></Entry>
-                            <Label Text="Precio Uni." TextColor="Black"></Label>
-                            <Entry x:Name="txtPrecioUnitario" ></Entry>
                             <Label Text="Stock" TextColor="Black"></Label>
                             <Entry x:Name="txtStock" ></Entry>
                             <StackLayout Orientation="Horizontal">

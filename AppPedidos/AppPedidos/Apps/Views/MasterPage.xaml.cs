@@ -23,9 +23,9 @@ namespace AppPedidos.Apps.Views
 
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "VerPedidos",
+                Title = "Realizar Pedidos",
                 IconSource = "",
-                TargetType = typeof(RealizarPedidos)
+                TargetType = typeof(RealizarPedidos2)
             });
             Listado.ItemTemplate = new DataTemplate(() =>
             {

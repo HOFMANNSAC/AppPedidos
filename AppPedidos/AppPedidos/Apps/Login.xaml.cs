@@ -24,7 +24,7 @@ namespace AppPedidos.Apps
             string ruta = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), db);
             BD = new BDLocal(ruta);
             InitializeComponent();
-            cmdIniciarSesion.Clicked += CmdIniciarSesion_Clicked;
+            //cmdIniciarSesion.Clicked += CmdIniciarSesion_Clicked;
             cmdIniciarSesion2.Clicked += CmdIniciarSesion2_Clicked;
         }
         private async void CmdIniciarSesion2_Clicked(object sender, EventArgs e)
@@ -37,35 +37,45 @@ namespace AppPedidos.Apps
                 Application.Current.Properties["usuarioSistema"] = um.UsuarioSistema;
                 if (um.UsuarioSistema != "" && um.Password != "")
                 {
-                    if (Metodos.HayConexion())
+                    um = BD.ValidarUsuario(um.UsuarioSistema, um.Password);
+                    if (um.ID != "")
                     {
-                        MetodosApi api = new MetodosApi();
-                        var resultado = JObject.Parse(api.ValidarAcceso(um));
-                        if (resultado["respuesta"].ToString() == "S")
+                        Application.Current.Properties["id_usuario"] = um.ID;
+                        Application.Current.Properties["nombre"] = um.Nombre;
+                        await Navigation.PushModalAsync(new PaginaMaestra("Pedidos2"));
+                    }
+                    else {
+                        if (Metodos.HayConexion())
                         {
-                            um = CompletarInformacion(resultado, um);
-                            if (!BD.ExisteUsuario(um.ID.ToString()))
-                                BD.AgregarUsuario(um);
-                            else
-                                BD.ActualizarUsuario(um);
+                            MetodosApi api = new MetodosApi();
+                            var resultado = JObject.Parse(api.ValidarAcceso(um));
+                            if (resultado["respuesta"].ToString() == "S")
+                            {
+                                um = CompletarInformacion(resultado, um);
+                                if (!BD.ExisteUsuario(um.ID.ToString()))
+                                    BD.AgregarUsuario(um);
+                                else
+                                    BD.ActualizarUsuario(um);
 
-                            await Navigation.PushModalAsync(new PaginaMaestra("Pedidos2"));
+                                await Navigation.PushModalAsync(new PaginaMaestra("Pedidos2"));
+                            }
+                            else
+                                await DisplayAlert("Alerta", resultado["mensaje"].ToString(), "OK");
                         }
                         else
-                            await DisplayAlert("Alerta", resultado["mensaje"].ToString(), "OK");
-                    }
-                    else
-                    {
-                        um = BD.ValidarUsuario(um.UsuarioSistema, um.Password);
-                        if (um.ID != "")
                         {
-                            Application.Current.Properties["id_usuario"] = um.ID;
-                            Application.Current.Properties["nombre"] = um.Nombre;
-                            await Navigation.PushModalAsync(new PaginaMaestra("Login"));
+                            um = BD.ValidarUsuario(um.UsuarioSistema, um.Password);
+                            if (um.ID != "")
+                            {
+                                Application.Current.Properties["id_usuario"] = um.ID;
+                                Application.Current.Properties["nombre"] = um.Nombre;
+                                await Navigation.PushModalAsync(new PaginaMaestra("Login"));
+                            }
+                            else
+                                await DisplayAlert("Alerta", "Sin conexion, no se encuentra el usuario en telefono", "OK");
                         }
-                        else
-                            await DisplayAlert("Alerta", "Sin conexion, no se encuentra el usuario en telefono", "OK");
                     }
+                    
                 }
                 else
                     await DisplayAlert("Alerta", "Ingrese Usuario y Contraseña", "OK");

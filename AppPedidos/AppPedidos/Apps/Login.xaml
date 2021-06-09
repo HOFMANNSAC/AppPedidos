@@ -40,8 +40,8 @@
                 <Frame Style="{StaticResource FrameStyle}">
                     <controls:CustomEntry IsPassword="True" x:Name="txtPassword" Style="{StaticResource EntryStyle}" Text="tacataca123"></controls:CustomEntry>
                 </Frame>
-                <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdIniciarSesion" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Iniciar"></Button>
-                <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdIniciarSesion2" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Iniciar v2"></Button>
+                <!--<Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdIniciarSesion" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Iniciar"></Button>-->
+                <Button Margin="100,20" BorderRadius="6" WidthRequest="200" x:Name="cmdIniciarSesion2" TextColor="White" BackgroundColor="{StaticResource LightGreenColor}" Text="Iniciar"></Button>
             </StackLayout>
         </Frame>
     </StackLayout>

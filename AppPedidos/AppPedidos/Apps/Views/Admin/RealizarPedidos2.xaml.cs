@@ -677,5 +677,20 @@ namespace AppPedidos.Apps.Views.Admin
         {
             EditarProducto();
         }
+
+        private void txtCantidad_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                int cantidad = Convert.ToInt32(txtCantidad.Text);
+                int precio = Convert.ToInt32(txtPrecioUnitario.Text);
+                int total = cantidad * precio;
+                txtTotal.Text = total.ToString();
+            }
+            catch (Exception ex)
+            {
+                txtTotal.Text = "0";
+            }
+        }
     }
 }
