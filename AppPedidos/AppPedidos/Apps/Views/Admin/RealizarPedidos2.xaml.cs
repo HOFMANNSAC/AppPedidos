@@ -128,11 +128,11 @@ namespace AppPedidos.Apps.Views.Admin
         private void btnBuscarprod_Clicked(object sender, EventArgs e)
         {
             if (bscProducto.Text == "" || bscProducto.Text == null)
-                DisplayAlert("Error", "Debe ingresar un producto para buscar", "Aceptar");
+                DisplayAlert("Alerta", "Debe ingresar un producto para buscar", "Aceptar");
             else
             {
                 if (bscProducto.CursorPosition <= 4)
-                    DisplayAlert("Error", "Debe ingresar al menos 5 letras", "Aceptar");
+                    DisplayAlert("Alerta", "Debe ingresar al menos 5 letras", "Aceptar");
                 else
                 {
                     cargarBoxProductos(bscProducto.Text.Trim(), txtClasePrecio.Text);
@@ -163,7 +163,7 @@ namespace AppPedidos.Apps.Views.Admin
                     lstProd.HeightRequest = 88 * contador;
                 }
                 else
-                    DisplayAlert("Error", "No existen productos asociadas", "OK");
+                    DisplayAlert("Alerta", "No existen productos asociadas", "OK");
             }
             catch (Exception ex)
             {
@@ -208,7 +208,7 @@ namespace AppPedidos.Apps.Views.Admin
                     }
                 }
                 else
-                    DisplayAlert("Error", "No existen productos asociadas", "OK");
+                    DisplayAlert("Alerta", "No existen productos asociadas", "OK");
             }
             catch (Exception ex)
             {
@@ -231,7 +231,6 @@ namespace AppPedidos.Apps.Views.Admin
             lstProd.IsVisible = false;
         }
         #endregion
-
         /// <summary>
         /// Agregar pedido y productos a BD, enviando datos a la API
         /// </summary>
@@ -322,7 +321,7 @@ namespace AppPedidos.Apps.Views.Admin
                         api.guardarDetallePedido(addproductos, noLinea);
                     }
                     else
-                        DisplayAlert("Error", "Ha ocurrido un error", "OK");
+                        DisplayAlert("Alerta", "Ha ocurrido un error", "OK");
                 }
 
             }
@@ -332,7 +331,6 @@ namespace AppPedidos.Apps.Views.Admin
             }
         }
         #endregion
-
         /// <summary>
         /// Cargar clientes, datos clientes y direccion cliente
         /// </summary>
@@ -340,7 +338,7 @@ namespace AppPedidos.Apps.Views.Admin
         private void bsrCliente_Clicked(object sender, EventArgs e)
         {
             if (txtCliente.Text == null || txtCliente.Text == "")
-                DisplayAlert("Error", "Debe ingresar un cliente ", "Aceptar");
+                DisplayAlert("Alerta", "Debe ingresar un cliente ", "Aceptar");
             else
             {
                 cargarClientes(txtCliente.Text.Trim());
@@ -369,11 +367,11 @@ namespace AppPedidos.Apps.Views.Admin
 
                 }
                 else
-                    DisplayAlert("Error", "No existen productos asociadas", "OK");
+                    DisplayAlert("Alerta", "No existen clientes asociadas", "OK");
             }
             catch (Exception ex)
             {
-                DisplayAlert("Error", ex.Message.ToString(), "OK");
+                DisplayAlert("Alerta", "Cliente no existe", "OK");
             }
         }
         private Customer CompletarInformacionClientes(JObject item) => new Customer
@@ -443,44 +441,52 @@ namespace AppPedidos.Apps.Views.Admin
 
         private void agregarTablaProductos()
         {
-            if (txtCantidad.Text == null || txtCantidad.Text == "")
+            if (bscProducto.Text == null || bscProducto.Text=="")
             {
-                DisplayAlert("Error", "Debe indicar cantidad", "Aceptar");
+                DisplayAlert("Alerta", "Debe buscar producto", "Aceptar");
             }
             else
             {
-                if (txtNrolinea.Text == "" || txtNrolinea.Text == null)
+                if (txtCantidad.Text == null || txtCantidad.Text == "")
                 {
-                    DisplayAlert("Error", "Debe indicar Nro de linea", "Aceptar");
+                    DisplayAlert("Alerta", "Debe indicar cantidad", "Aceptar");
                 }
                 else
                 {
-
-                    string codigo = bscProducto.Text;
-                    int cantidad = Convert.ToInt32(txtCantidad.Text);
-                    int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
-                    int stock = Convert.ToInt32(txtStock.Text);
-                    int nroLinea = Convert.ToInt32(txtNrolinea.Text);
-                    Productos addproductos = new Productos() { nroLinea = nroLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
-                    string id = "";
-                    foreach (var item in ListaProductos)
+                    if (txtNrolinea.Text == "" || txtNrolinea.Text == null)
                     {
-                        id = item.ID;
-                    }
-                    if (id == codigo)
-                    {
-                        DisplayAlert("Error", "Producto ya existe", "Aceptar");
+                        DisplayAlert("Alerta", "Debe indicar Nro de linea", "Aceptar");
                     }
                     else
                     {
-                        ListaProductos.Add(addproductos);
 
-                        BindingContext = this;
-                        DisplayAlert("Mensaje", "Producto Agregado", "Aceptar");
-                        LimpiarAgregarProductos();
+                        string codigo = bscProducto.Text;
+                        int cantidad = Convert.ToInt32(txtCantidad.Text);
+                        int PrecioUnitario = Convert.ToInt32(txtPrecioUnitario.Text);
+                        int stock = Convert.ToInt32(txtStock.Text);
+                        int nroLinea = Convert.ToInt32(txtNrolinea.Text);
+                        Productos addproductos = new Productos() { nroLinea = nroLinea, ID = codigo, Cantidad = cantidad, PrecioUnitario = PrecioUnitario, Stock = stock, Total = PrecioUnitario * cantidad };
+                        string id = "";
+                        foreach (var item in ListaProductos)
+                        {
+                            id = item.ID;
+                        }
+                        if (id == codigo)
+                        {
+                            DisplayAlert("Alerta", "Producto ya existe", "Aceptar");
+                        }
+                        else
+                        {
+                            ListaProductos.Add(addproductos);
+
+                            BindingContext = this;
+                            DisplayAlert("Alerta", "Producto Agregado", "Aceptar");
+                            LimpiarAgregarProductos();
+                        }
                     }
                 }
             }
+       
         }
         private void btnGuardarProd_Clicked(object sender, EventArgs e)
         {
@@ -488,7 +494,6 @@ namespace AppPedidos.Apps.Views.Admin
             contador++;
         }
         #endregion
-
         /// <summary>
         /// Editar Cantidad Productos
         /// </summary>
@@ -543,7 +548,6 @@ namespace AppPedidos.Apps.Views.Admin
             }
         }
         #endregion
-
         private void limpiarPedido()
         {
             txtCliente.Text = "";
@@ -551,7 +555,6 @@ namespace AppPedidos.Apps.Views.Admin
             txtEstadoCliente.Text = "";
             txtEstadoCredito.Text = "";
             ListadoDireccion.Clear();
-            txtDireccion.Text = "";
             tipoPedido.SelectedIndex = -1;
             txtNroOC.Text = "";
             txtCorreo.Text = "";
@@ -580,12 +583,13 @@ namespace AppPedidos.Apps.Views.Admin
         {
             if (txtCliente.Text == "" || txtCliente.Text == null)
             {
-                DisplayAlert("Error", "Debe buscar y seleccionar un cliente", "Aceptar");
+                DisplayAlert("Alerta", "Debe buscar y seleccionar un cliente", "Aceptar");
             }
             else
             {
                 AgregarPedido();
                 limpiarPedido();
+                ListaProductos.Clear();
             }
         }
 
@@ -627,10 +631,13 @@ namespace AppPedidos.Apps.Views.Admin
         }
         private void Eliminar_Tapped(object sender, EventArgs e)
         {
+            
             var imagen = sender as Image;
             var producto = imagen?.BindingContext as Productos;
             var vm = BindingContext as RealizarPedidos2;
             vm?.RemoveCommand.Execute(producto);
+
+            DisplayAlert("Alerta","Producto eliminado ","Aceptar");
         }
         private void lstProductos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -691,6 +698,11 @@ namespace AppPedidos.Apps.Views.Admin
             {
                 txtTotal.Text = "0";
             }
+        }
+
+        private void btnLimpiar_Clicked(object sender, EventArgs e)
+        {
+            limpiarPedido();
         }
     }
 }

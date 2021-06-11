@@ -197,7 +197,7 @@
                 <!-- Fin Agregar Productos -->
                 <StackLayout Orientation="Horizontal" Margin="0,10,0,10">
                     <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Green" ImageSource="https://img.icons8.com/color/64/000000/save-close--v1.png" Text="Guardar" Clicked="cmdGuardar_Clicked" x:Name="cmdGuardar"  TextColor="White"/>
-                    <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Blue" ImageSource="https://img.icons8.com/dusk/64/000000/eraser.png" Text="Limpiar" x:Name="btnLimpiar"  TextColor="White"  />
+                    <Button HorizontalOptions="CenterAndExpand" BorderRadius="6" BackgroundColor="Blue" ImageSource="https://img.icons8.com/dusk/64/000000/eraser.png" Text="Limpiar" x:Name="btnLimpiar" Clicked="btnLimpiar_Clicked"  TextColor="White"  />
                 </StackLayout>
             </StackLayout>
         </ScrollView>
