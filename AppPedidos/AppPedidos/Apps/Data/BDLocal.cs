@@ -74,6 +74,33 @@ namespace AppPedidos.Apps.Data
         {
             this.Update(productos);
         }
-
+        public Boolean ExisteAlgunUsuario()
+        {
+            try
+            {
+                Usuario um = Table<Usuario>().FirstOrDefault();
+                return um != null;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public void EliminarDatosTablaUsuario()
+        {
+            this.Table<Usuario>().Where(t => t.Nombre != "asdasd").Delete();
+        }
+        public Usuario ObtenerUnUsuario()
+        {
+            try
+            {
+                Usuario um = Table<Usuario>().FirstOrDefault();
+                return um;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

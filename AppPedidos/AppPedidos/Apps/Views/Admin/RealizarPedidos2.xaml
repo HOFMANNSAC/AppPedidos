@@ -176,7 +176,7 @@
                             </ListView>
                             <!-- Fin Listado Info Producto -->
                             <Label Text="Nro Linea" TextColor="Black" x:Name="lblnroLinea"></Label>
-                            <Entry x:Name="txtNrolinea" Keyboard="Numeric"></Entry>
+                            <Entry x:Name="txtNrolinea" Keyboard="Numeric" IsEnabled="False"></Entry>
                             <Label Text="Cantidad" TextColor="Black"></Label>
                             <Entry x:Name="txtCantidad" Keyboard="Numeric" TextChanged="txtCantidad_TextChanged"></Entry>
                             <Label Text="Precio Unitario." TextColor="Black"></Label>

@@ -26,6 +26,14 @@ namespace AppPedidos.Apps
             InitializeComponent();
             //cmdIniciarSesion.Clicked += CmdIniciarSesion_Clicked;
             cmdIniciarSesion2.Clicked += CmdIniciarSesion2_Clicked;
+            Usuario um = new Usuario();
+            if (BD.ExisteAlgunUsuario()) {
+                um = BD.ObtenerUnUsuario();
+                if (um != null) {
+                    txtUsuario.Text = um.UsuarioSistema;
+                    txtPassword.Text = um.Password;
+                }
+            }
         }
         private async void CmdIniciarSesion2_Clicked(object sender, EventArgs e)
         {
@@ -55,11 +63,9 @@ namespace AppPedidos.Apps
                             if (resultado["respuesta"].ToString() == "S")
                             {
                                 um = CompletarInformacion(resultado, um);
-                                if (!BD.ExisteUsuario(um.ID.ToString()))
-                                    BD.AgregarUsuario(um);
-                                else
-                                    BD.ActualizarUsuario(um);
-
+                                // Limpiamos la tabla para que solo exista uno en nuestro registro y hacer login automatico
+                                BD.EliminarDatosTablaUsuario();
+                                BD.AgregarUsuario(um);
                                 await Navigation.PushModalAsync(new PaginaMaestra("Pedidos2"));
                             }
                             else
@@ -78,7 +84,6 @@ namespace AppPedidos.Apps
                                 await DisplayAlert("Alerta", "Sin conexion, no se encuentra el usuario en telefono", "OK");
                         }
                     }
-                    
                 }
                 else
                     await DisplayAlert("Alerta", "Ingrese Usuario y Contraseña", "OK");

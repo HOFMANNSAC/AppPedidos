@@ -28,6 +28,7 @@ namespace AppPedidos.Apps.Views.Admin
         public int precioUnitario { get; set; }
         public int Stock { get; set; }
         int nroLinea = 0;
+        int contador_nroLinea = 1;
         public Command<Productos> RemoveCommand
         {
             get
@@ -189,6 +190,7 @@ namespace AppPedidos.Apps.Views.Admin
             var item = (ProductosAPI)e.SelectedItem;
             var invtID = item.INVTID;
             cargarDatosProductos(invtID, txtClasePrecio.Text);
+            txtNrolinea.Text = contador_nroLinea.ToString();
         }
         public void cargarDatosProductos(string InvtID, string ClasePrecio)
         {
@@ -491,6 +493,7 @@ namespace AppPedidos.Apps.Views.Admin
         private void btnGuardarProd_Clicked(object sender, EventArgs e)
         {
             agregarTablaProductos();
+            contador_nroLinea = contador_nroLinea + 1;
             contador++;
         }
         #endregion
@@ -590,6 +593,7 @@ namespace AppPedidos.Apps.Views.Admin
                 AgregarPedido();
                 limpiarPedido();
                 ListaProductos.Clear();
+                contador_nroLinea = 1;
             }
         }
 
@@ -636,7 +640,7 @@ namespace AppPedidos.Apps.Views.Admin
             var producto = imagen?.BindingContext as Productos;
             var vm = BindingContext as RealizarPedidos2;
             vm?.RemoveCommand.Execute(producto);
-
+            contador_nroLinea = contador_nroLinea - 1;
             DisplayAlert("Alerta","Producto eliminado ","Aceptar");
         }
         private void lstProductos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
