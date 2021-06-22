@@ -179,6 +179,10 @@
                             <Entry x:Name="txtNrolinea" Keyboard="Numeric" IsEnabled="False"></Entry>
                             <Label Text="Cantidad" TextColor="Black"></Label>
                             <Entry x:Name="txtCantidad" Keyboard="Numeric" TextChanged="txtCantidad_TextChanged"></Entry>
+                            <Label Text="Presentacion." TextColor="Black"></Label>
+                            <Entry x:Name="txtPresentacion" ></Entry>
+                            <Label Text="Rest. Venta" TextColor="Black"></Label>
+                            <Entry x:Name="txtRestriccionVenta" ></Entry>
                             <Label Text="Precio Unitario." TextColor="Black"></Label>
                             <Entry x:Name="txtPrecioUnitario" ></Entry>
                             <Label Text="Total" TextColor="Black"></Label>

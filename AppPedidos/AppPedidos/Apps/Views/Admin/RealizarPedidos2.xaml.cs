@@ -222,6 +222,8 @@ namespace AppPedidos.Apps.Views.Admin
         {
             ID = item.GetValue("InvtId").ToString(),
             PrecioUnitario = (int)item.GetValue("Precio"),
+            Presentacion = (int)item.GetValue("Presentacion"),
+            RestriccionVenta = (int)item.GetValue("RestriccionVenta"),
             Stock = (int)item.GetValue("QtyAvail")
         };
         private void CompletarInformacionProductos(Productos p)
@@ -229,6 +231,8 @@ namespace AppPedidos.Apps.Views.Admin
 
             bscProducto.Text = p.ID.ToString();
             txtPrecioUnitario.Text = p.PrecioUnitario.ToString();
+            txtPresentacion.Text = p.Presentacion.ToString();
+            txtRestriccionVenta.Text = p.RestriccionVenta.ToString();
             txtStock.Text = p.Stock.ToString();
             lstProd.IsVisible = false;
         }

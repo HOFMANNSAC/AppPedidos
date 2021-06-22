@@ -11,6 +11,8 @@ namespace AppPedidos.Apps.Model
         public string nroPedido { get; set; }
         public int Cantidad { get; set; }
         public int PrecioUnitario { get; set; }
+        public int RestriccionVenta { get; set; }
+        public int Presentacion { get; set; }
         public int Stock { get; set; }
         public int Total { get; set; }
     }
