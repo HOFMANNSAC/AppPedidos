@@ -186,6 +186,8 @@ namespace AppPedidos.Apps.Views.Admin
             bscProducto.IsEnabled = false;
             txtTotal.IsEnabled = false;
             txtPrecioUnitario.IsEnabled = false;
+            txtPresentacion.IsEnabled = false;
+            txtRestriccionVenta.IsEnabled = false;
             txtStock.IsEnabled = false;
             var item = (ProductosAPI)e.SelectedItem;
             var invtID = item.INVTID;
